@@ -1,3 +1,8 @@
+#OSX Specific
+.DS_Store
+
+#ODT loc files
+.~lock*
 
 # Godot-specific ignores
 .import/
