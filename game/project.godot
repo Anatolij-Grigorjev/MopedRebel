@@ -13,6 +13,12 @@ config_version=3
 config/name="MopedRebel"
 config/icon="res://icon.png"
 
+[autoload]
+
+C="*res://globals/global_constants.gd"
+F="*res://globals/global_functions.gd"
+G="*res://globals/global_state.gd"
+
 [rendering]
 
 environment/default_environment="res://default_env.tres"
