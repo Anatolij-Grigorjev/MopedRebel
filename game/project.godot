@@ -19,6 +19,29 @@ C="*res://globals/global_constants.gd"
 F="*res://globals/global_functions.gd"
 G="*res://globals/global_state.gd"
 
+[input]
+
+change_road=[  ]
+accelerate=[  ]
+brake=[  ]
+handbrake=[  ]
+swerve_down=[  ]
+swerve_up=[  ]
+walk_left=[  ]
+walk_right=[  ]
+walk_up=[  ]
+walk_down=[  ]
+mount_moped=[  ]
+flip_bird=[  ]
+spawn_moped=[ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"unicode":0,"echo":false,"script":null)
+ ]
+
+[layer_names]
+
+2d_physics/layer_1="sidewalk"
+2d_physics/layer_2="curb"
+2d_physics/layer_3="road"
+
 [rendering]
 
 environment/default_environment="res://default_env.tres"

@@ -35,6 +35,13 @@ func swap_collision_layer_bit(node, from_layer, to_layer):
 	node.set_collision_layer_bit(from_layer, node.get_collision_layer_bit(to_layer))
 	node.set_collision_layer_bit(to_layer, temp_layer_bit)
 	
+#move specific physics collision mask bit for node 
+# from from_layer to to_layer
+func swap_collision_mask_bit(node, from_layer, to_layer):
+	var temp_mask_bit = node.get_collision_mask_bit(from_layer)
+	node.set_collision_mask_bit(from_layer, node.get_collision_mask_bit(to_layer))
+	node.set_collision_mask_bit(to_layer, temp_mask_bit)
+	
 	
 #log formatted with timestamp
 func logf(format, args_list):
