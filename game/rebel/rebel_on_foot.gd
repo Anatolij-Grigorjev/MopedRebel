@@ -1,17 +1,22 @@
 extends KinematicBody2D
 
-
-var velocity = Vector2(25, 25)
+var walk_speed = 200
+var velocity = Vector2()
 
 func _ready():
-	# Called when the node is added to the scene for the first time.
-	# Initialization here
 	pass
 	
 func _physics_process(delta):
+	
+	velocity = Vector2()
+	if Input.is_action_pressed('walk_right'):
+		velocity.x += 1
+	if Input.is_action_pressed('walk_left'):
+		velocity.x -= 1
+	if Input.is_action_pressed('walk_down'):
+		velocity.y += 1
+	if Input.is_action_pressed('walk_up'):
+		velocity.y -= 1
+	velocity = velocity.normalized() * walk_speed
+	
 	move_and_slide(velocity)
-	F.logf("on floor: %s | on wall: %s | on ceiling: %s", [
-		is_on_floor(),
-		is_on_wall(),
-		is_on_ceiling()
-	])
