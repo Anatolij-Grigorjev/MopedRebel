@@ -19,6 +19,12 @@ C="*res://globals/global_constants.gd"
 F="*res://globals/global_functions.gd"
 G="*res://globals/global_state.gd"
 
+[display]
+
+window/size/height=768
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
+
 [input]
 
 change_road=[  ]

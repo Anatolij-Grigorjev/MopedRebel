@@ -1,13 +1,16 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://stages/stage_road1.gd" type="Script" id=1]
 [ext_resource path="res://stages/tilesets/sidewalk.tres" type="TileSet" id=2]
 [ext_resource path="res://stages/tilesets/curb.tres" type="TileSet" id=3]
 [ext_resource path="res://stages/tilesets/road.tres" type="TileSet" id=4]
+[ext_resource path="res://rebel/rebel_on_foot.tscn" type="PackedScene" id=5]
+[ext_resource path="res://rebel/rebel_on_moped.tscn" type="PackedScene" id=6]
 
 [node name="stage_road1" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="sidewalk_tileset" type="TileMap" parent="." index="0"]
 
@@ -72,14 +75,14 @@ format = 1
 tile_data = PoolIntArray( 196608, 0, 0, 196609, 0, 0, 196610, 0, 0, 196611, 0, 0, 196612, 0, 0, 196613, 0, 0, 196614, 0, 0, 196615, 0, 0, 196616, 0, 0, 196617, 0, 0, 196618, 0, 0, 196619, 0, 0, 196620, 0, 0, 262144, 0, 0, 262145, 0, 0, 262146, 0, 0, 262147, 0, 0, 262148, 0, 0, 262149, 0, 0, 262150, 0, 0, 262151, 0, 0, 262152, 0, 0, 262153, 0, 0, 262154, 0, 0, 262155, 0, 0, 262156, 0, 0, 327680, 0, 0, 327681, 0, 0, 327682, 0, 0, 327683, 0, 0, 327684, 0, 0, 327685, 0, 0, 327686, 0, 0, 327687, 0, 0, 327688, 0, 0, 327689, 0, 0, 327690, 0, 0, 327691, 0, 0, 327692, 0, 0, 393216, 0, 0, 393217, 0, 0, 393218, 0, 0, 393219, 0, 0, 393220, 0, 0, 393221, 0, 0, 393222, 0, 0, 393223, 0, 0, 393224, 0, 0, 393225, 0, 0, 393226, 0, 0, 393227, 0, 0, 393228, 0, 0 )
 _sections_unfolded = [ "Collision" ]
 
-[node name="spwn_moped" type="Position2D" parent="." index="3"]
+[node name="rebel_on_foot" parent="." index="3" instance=ExtResource( 5 )]
 
-position = Vector2( 25, 500 )
-_sections_unfolded = [ "Transform" ]
+position = Vector2( 100, 100 )
+_sections_unfolded = [ "Collision", "Transform" ]
 
-[node name="spwn_foot" type="Position2D" parent="." index="4"]
+[node name="rebel_on_moped" parent="." index="4" instance=ExtResource( 6 )]
 
-position = Vector2( 100, 50 )
-_sections_unfolded = [ "Transform" ]
+position = Vector2( 100, 500 )
+_sections_unfolded = [ "Collision", "Transform" ]
 
 
