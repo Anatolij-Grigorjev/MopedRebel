@@ -11,3 +11,11 @@ func _ready():
 func _physics_process(delta):
 
 	move_and_slide(velocity)
+	
+func disable():
+	set_physics_process(false)
+	visible = false
+	
+func enable():
+	set_physics_process(true)
+	visible = true
