@@ -6,8 +6,8 @@ var rebel_on_moped_node
 func _ready():
 	rebel_on_foot_node = $rebel_on_foot
 	rebel_on_moped_node = $rebel_on_moped
+	S.connect_signal_to(S.SIGNAL_REBEL_MOUNT_MOPED, self, "move_foot_rebel_to_road")
 	
-	rebel_on_foot_node.connect("mounting_moped", self, "move_foot_rebel_to_road")
 	init_rebel_on_foot()
 	
 	

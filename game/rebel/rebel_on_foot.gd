@@ -3,8 +3,6 @@ extends KinematicBody2D
 var walk_speed = 200
 var velocity = Vector2()
 
-signal mounting_moped
-
 func disable():
 	set_physics_process(false)
 	visible = false
@@ -30,6 +28,6 @@ func _physics_process(delta):
 	velocity = velocity.normalized() * walk_speed
 	
 	if Input.is_action_just_released('spawn_moped'):
-		emit_signal('mounting_moped')
+		S.emit_signal0(S.SIGNAL_REBEL_MOUNT_MOPED)
 	
 	move_and_slide(velocity)

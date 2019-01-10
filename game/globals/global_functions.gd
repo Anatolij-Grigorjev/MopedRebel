@@ -44,7 +44,7 @@ func swap_collision_mask_bit(node, from_layer, to_layer):
 	
 	
 #log formatted with timestamp
-func logf(format, args_list):
+func logf(format, args_list = []):
 	var log_statement = format % args_list
 	#print log date in utc
 	print("[%s UTC]: %s" % [format_date(OS.get_datetime(true)), log_statement])
@@ -59,12 +59,15 @@ func format_date(datetime_dict):
 		datetime_dict.minute,
 		datetime_dict.second
 	]
+	
+func log_error(format, args_list = [], error_text_prefix = "!!!ERROR!!!"):
+	logf(error_text_prefix + " " + format, args_list)
+	breakpoint
 
 #check passed dict contains all required props and error if not
 func assert_dict_props(dict = {}, props_names = []):
 	if (not dict.has_all(props_names)):
-		logf("!!!ERROR!!! %s doesnt contain all props names of %s" % [dict, props_names])
-		breakpoint
+		log_error("%s doesnt contain all props names of %s", [dict, props_names])
 
 func _ready():
 	print("Loaded global functions node F!")
