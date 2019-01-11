@@ -3,20 +3,21 @@ extends Node2D
 var rebel_on_foot_node
 var rebel_on_moped_node
 
+
 func _ready():
 	rebel_on_foot_node = $rebel_on_foot
 	rebel_on_moped_node = $rebel_on_moped
 	S.connect_signal_to(S.SIGNAL_REBEL_MOUNT_MOPED, self, "move_foot_rebel_to_road")
 	
 	init_rebel_on_foot()
-	
-	
+
+
 func init_rebel_on_foot():
 	switch_rebel_node(rebel_on_moped_node, rebel_on_foot_node)
 	
 func init_rebel_on_moped():
 	switch_rebel_node(rebel_on_foot_node, rebel_on_moped_node)
-	
+
 	
 func move_foot_rebel_to_road():
 	#find closest curb tile below and get global position of that

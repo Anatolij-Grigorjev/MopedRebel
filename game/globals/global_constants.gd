@@ -12,6 +12,11 @@ const LAYERS_ROAD = 2
 
 const DATETIME_FORMAT = "%s.%s.%s %s:%s:%s"
 
+const MIN_MOPED_SPEED = 100
+const MAX_MOPED_SPEED = 550
+const MOPED_ACCELERATION_RATE = 35
+const MOPED_Z_SPEED = 20
+
 
 func _ready():
 	print("Loaded global constants node C!")
