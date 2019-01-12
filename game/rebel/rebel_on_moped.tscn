@@ -9,7 +9,7 @@
 custom_solver_bias = 0.0
 extents = Vector2( 64, 64 )
 
-[node name="rebel_on_moped" type="KinematicBody2D"]
+[node name="rebel_on_moped" type="KinematicBody2D" index="0"]
 
 input_pickable = false
 collision_layer = 4

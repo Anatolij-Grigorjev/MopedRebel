@@ -12,6 +12,7 @@ func enable():
 	visible = true
 
 func _ready():
+	G.node_rebel_on_foot = self
 	pass
 	
 func _physics_process(delta):
