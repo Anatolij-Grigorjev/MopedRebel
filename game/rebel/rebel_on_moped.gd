@@ -8,6 +8,10 @@ var swerve_hold_time = 0
 var swerve_release_time = 0
 var is_swerve_pressed = false
 
+var accelleration_hold_time = 0
+var acceleration_release_time = 0
+var is_acceleration_pressed = false
+
 func _ready():
 	G.node_rebel_on_moped = self
 	current_speed = G.moped_config_min_speed
@@ -30,6 +34,8 @@ func _adjust_swerve_speed_by_time(swerve_direction):
 func _physics_process(delta):
 	
 	_handle_swerve_control(delta)
+	
+	
 	if Input.is_action_pressed('accelerate'):
 		current_speed += 0
 	if Input.is_action_pressed('brake'):
@@ -57,6 +63,19 @@ func _adjust_current_speed_to_swerve():
 	#if swerving full speed forward movement will slow down 
 	#a bit more to accomodate manuever
 	current_speed -= (max_fwd_to_swerve_speed_diff * swerve_intensity_coef)
+
+func _handle_forward_acceleration(delta):
+	if (is_acceleration_pressed):
+		accelleration_hold_time += delta
+	else:
+		acceleration_release_time += delta
+	
+	if (Input.is_action_just_pressed('accelerate')):
+		is_acceleration_pressed = true
+		accelleration_hold_time = 0
+	if (Input.is_action_just_released('brake')):
+		is_acceleration_pressed = false
+		acceleration_release_time = 0
 	
 	
 func _handle_swerve_control(delta):
