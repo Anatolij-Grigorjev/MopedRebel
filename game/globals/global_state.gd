@@ -7,9 +7,11 @@ var node_rebel_on_foot = {
 var node_rebel_on_moped = {
 	"global_position": Vector2()
 }
-var moped_config_max_speed = 150
+var moped_config_max_speed = 200
 var moped_config_min_speed = 50
-var moped_config_acceleration_rate = 5
+var moped_config_max_acceleration_reach_time = 3.5
+var moped_config_max_acceleration_rate = 23
+var moped_config_brake_intensity = 37
 var moped_config_swerve_speed = F.y2z(moped_config_max_speed)
 var moped_config_swerve_acceleration_rate = 15
 var moped_config_swerve_neutral_threshold = (moped_config_swerve_acceleration_rate / 2)
