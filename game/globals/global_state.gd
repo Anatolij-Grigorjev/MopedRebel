@@ -4,11 +4,12 @@ extends Node
 var node_rebel_on_foot = {
 	"global_position": Vector2()
 }
+var foot_config_walk_speed = 50
 var node_rebel_on_moped = {
 	"global_position": Vector2()
 }
 var moped_config_max_speed = 200
-var moped_config_min_speed = 50
+var moped_config_min_speed = 100
 var moped_config_max_acceleration_reach_time = 3.5
 var moped_config_max_acceleration_rate = 23
 var moped_config_brake_intensity = 37

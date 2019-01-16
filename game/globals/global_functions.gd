@@ -7,6 +7,10 @@ func y2z(y):
 #approximate
 func z2y(z):
 	return round(z / C.Z_COEF)
+
+#square
+func sqr(a):
+	return a * a
 	
 #check if value is in radius of target with a short circuit if equal
 func val_in_target_radius(val, target, radius):

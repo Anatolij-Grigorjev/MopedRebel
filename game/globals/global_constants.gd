@@ -15,5 +15,4 @@ const DATETIME_FORMAT = "%s.%s.%s %s:%s:%s"
 
 func _ready():
 	print("Loaded global constants node C!")
-	print("%s" % OS.get_unix_time())
 	pass

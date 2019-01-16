@@ -1,11 +1,14 @@
 extends Node
 
 signal mounting_moped
+signal unmounting_moped
 
 const SIGNAL_REBEL_MOUNT_MOPED = "mounting_moped"
+const SIGNAL_REBEL_UNMOUNT_MOPED = "unmounting_moped"
 
 const known_singals = [
 	SIGNAL_REBEL_MOUNT_MOPED,
+	SIGNAL_REBEL_UNMOUNT_MOPED
 ]
 
 

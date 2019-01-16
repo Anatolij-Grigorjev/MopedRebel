@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 var current_speed
-var current_swerve
+var current_swerve = 0
 var velocity = Vector2()
 
 var swerve_hold_time = 0
@@ -15,10 +15,11 @@ var is_acceleration_pressed = false
 var break_hold_time = 0
 var is_brake_pressed = false
 
+var is_unmounting_moped = false
+
 func _ready():
 	G.node_rebel_on_moped = self
 	current_speed = G.moped_config_min_speed
-	current_swerve = 0
 	
 func disable():
 	set_physics_process(false)
@@ -30,24 +31,37 @@ func enable():
 	
 func _physics_process(delta):
 	
-	_handle_swerve_control(delta)
-	_handle_forward_acceleration(delta)
-	current_speed = clamp(
-		current_speed, 
-		G.moped_config_min_speed, 
-		G.moped_config_max_speed
-	)
-	_handle_breaking(delta)
-	
-	if (current_swerve != 0 and current_speed > 0):
-		#reduce forward pseed by coef based on swerve intensity
-		_adjust_current_speed_to_swerve()
+	if (is_unmounting_moped):
+		if (current_speed > 0):
+			current_speed -= (delta * G.moped_config_brake_intensity * 3.5)
+		else:
+			current_speed = 0
+			is_unmounting_moped = false
+			S.emit_signal0(S.SIGNAL_REBEL_UNMOUNT_MOPED)
+	else:
+		_handle_unmounting_moped()
+		_handle_swerve_control(delta)
+		_handle_forward_acceleration(delta)
+		_handle_breaking(delta)
+		current_speed = clamp(
+			current_speed, 
+			G.moped_config_min_speed, 
+			G.moped_config_max_speed
+		)	
+		if (current_swerve != 0 and current_speed > 0):
+			#reduce forward pseed by coef based on swerve intensity
+			_adjust_current_speed_to_swerve()
 	
 	velocity = Vector2(current_speed, current_swerve)
 	
 	move_and_slide(velocity)
 	
-	
+
+func _handle_unmounting_moped():
+	if (not is_unmounting_moped):
+		if (Input.is_action_pressed('unmount_moped')):
+			is_unmounting_moped = true
+
 
 func _handle_swerve_control(delta):
 	if (is_swerve_pressed):
