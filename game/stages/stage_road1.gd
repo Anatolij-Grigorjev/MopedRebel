@@ -29,7 +29,7 @@ func move_foot_rebel_to_road():
 	var increment = $sidewalk_tileset.cell_size.y
 	var curb_cell_idx = -1
 	var below_position = rebel_on_foot_node.global_position
-	while(curb_cell_idx < 0):
+	while(curb_cell_idx < 0 and below_position.y < C.MAX_WORLD_Y):
 		below_position += Vector2(0, increment)
 		curb_cell_idx = $curb_tileset.get_cellv($curb_tileset.world_to_map(below_position))
 	
@@ -42,7 +42,7 @@ func move_moped_rebel_to_sidewalk():
 	var increment = $road_tileset.cell_size.y
 	var curb_cell_idx = -1
 	var above_position = rebel_on_moped_node.global_position
-	while(curb_cell_idx < 0):
+	while(curb_cell_idx < 0 and above_position.y > 0):
 		above_position -= Vector2(0, increment)
 		curb_cell_idx = $curb_tileset.get_cellv($curb_tileset.world_to_map(above_position))
 	
