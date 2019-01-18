@@ -7,7 +7,7 @@
 [ext_resource path="res://rebel/rebel_on_foot.tscn" type="PackedScene" id=5]
 [ext_resource path="res://rebel/rebel_on_moped.tscn" type="PackedScene" id=6]
 
-[node name="stage_road1" type="Node2D" index="0"]
+[node name="stage_road1" type="Node2D"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
