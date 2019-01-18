@@ -29,10 +29,10 @@ _sections_unfolded = [ "Animation", "Offset", "Region", "Transform" ]
 
 shape = SubResource( 1 )
 
-[node name="when_visible" type="VisibilityNotifier2D" parent="." index="2"]
+[node name="leaves_screen" type="VisibilityNotifier2D" parent="." index="2"]
 
 rect = Rect2( -195, -64, 10, 128 )
 
-[connection signal="screen_exited" from="when_visible" to="." method="_screen_exited"]
+[connection signal="screen_exited" from="leaves_screen" to="." method="_screen_exited"]
 
 
