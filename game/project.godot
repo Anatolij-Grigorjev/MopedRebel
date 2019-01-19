@@ -57,6 +57,9 @@ unmount_moped=[ Object(InputEventKey,"resource_local_to_scene":false,"resource_n
 2d_physics/layer_1="sidewalk"
 2d_physics/layer_2="curb"
 2d_physics/layer_3="road"
+2d_physics/layer_4="rebel_sidewalk"
+2d_physics/layer_5="rebel_road"
+2d_physics/layer_6="transport_road"
 
 [rendering]
 

@@ -12,7 +12,7 @@ extents = Vector2( 64, 64 )
 [node name="rebel_on_foot" type="KinematicBody2D"]
 
 input_pickable = false
-collision_layer = 1
+collision_layer = 8
 collision_mask = 6
 collision/safe_margin = 0.08
 script = ExtResource( 1 )

@@ -4,6 +4,7 @@ export(float) var maintains_speed = 100
 var start_position = Vector2(0, 0)
 
 func _ready():
+	start_position = global_position
 	reset_position()
 
 func _physics_process(delta):
