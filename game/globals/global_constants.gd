@@ -6,6 +6,8 @@ const GRAVITY = 98.5
 #lowest in-game point
 const MAX_WORLD_Y = 100000
 
+const GUI_SELECTED_OPT_MARKER = "->"
+
 ## LAYERS
 const LAYERS_SIDEWALK = 0
 const LAYERS_CURB = 1
