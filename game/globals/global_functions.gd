@@ -73,6 +73,10 @@ func assert_dict_props(dict = {}, props_names = []):
 	if (not dict.has_all(props_names)):
 		log_error("%s doesnt contain all props names of %s", [dict, props_names])
 
+func assert_arr_not_empty(arr = []):
+	if (arr == null or arr.size() < 1):
+		log_error("Array %s was null or empty!", [arr])
+
 func _ready():
 	print("Loaded global functions node F!")
 	pass
