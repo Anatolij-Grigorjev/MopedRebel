@@ -19,6 +19,7 @@ C="*res://globals/global_constants.gd"
 F="*res://globals/global_functions.gd"
 S="*res://globals/global_signals_emitter.gd"
 G="*res://globals/global_state.gd"
+IO="*res://globals/bg_input_scanner.gd"
 
 [display]
 

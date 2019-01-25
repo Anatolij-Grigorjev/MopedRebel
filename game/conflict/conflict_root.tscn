@@ -398,6 +398,4 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[connection signal="gui_input" from="outer_container/selection_bg/selection_options" to="outer_container/selection_bg/selection_options" method="_on_gui_input"]
-
 

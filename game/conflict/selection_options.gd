@@ -15,6 +15,7 @@ var curr_selection_idx = 0
 
 func _ready():
 	init_options_containers_data()
+	init_conflict_with_details(0, 0, 'DUMMY')
 	
 func init_options_containers_data():
 	option_containers = [
@@ -59,5 +60,13 @@ func clear_selection():
 		container_node.get_node('text_label').text = option_normal_text[idx]
 
 
-func _on_gui_input(ev):
-	accept_event()
+func _physics_process(delta):
+
+	var prev_selection_idx = curr_selection_idx
+	if (Input.is_action_just_released('walk_up')):
+		curr_selection_idx -= 1
+	if (Input.is_action_just_released('walk_down')):
+		curr_selection_idx += 1
+	
+	if (prev_selection_idx != curr_selection_idx):
+		mark_selected_option()
