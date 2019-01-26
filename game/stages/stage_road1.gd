@@ -10,6 +10,7 @@ func _ready():
 	conflict_node = $conflict_root
 	conflict_options_node = conflict_node.get_node('outer_container/selection_bg/selection_options')
 	conflict_node.hide()
+	conflict_options_node.set_physics_process(false)
 	rebel_on_foot_node = $rebel_on_foot
 	rebel_on_moped_node = $rebel_on_moped
 	S.connect_signal_to(S.SIGNAL_REBEL_MOUNT_MOPED, self, "move_foot_rebel_to_road")
@@ -64,6 +65,7 @@ func _physics_process(delta):
 
 func init_rebel_other_conflict(bribe_money, diss_min_sc, fight_toughness):
 	conflict_options_node.init_conflict_with_details(bribe_money, diss_min_sc, fight_toughness)
+	conflict_options_node.set_physics_process(true)
 	conflict_node.show()
 	get_tree().paused = true
 	

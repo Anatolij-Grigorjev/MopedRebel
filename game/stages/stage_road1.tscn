@@ -9,7 +9,7 @@
 [ext_resource path="res://transport/car_blue/car_blue1.tscn" type="PackedScene" id=7]
 [ext_resource path="res://conflict/conflict_root.tscn" type="PackedScene" id=8]
 
-[node name="stage_road1" type="Node2D"]
+[node name="stage_road1" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]

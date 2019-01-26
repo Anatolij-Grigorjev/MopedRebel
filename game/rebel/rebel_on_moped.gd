@@ -53,8 +53,20 @@ func _physics_process(delta):
 			_adjust_current_speed_to_swerve()
 	
 	velocity = Vector2(current_speed, current_swerve)
-	
-	move_and_slide(velocity)
+	var collision = move_and_collide(velocity * delta)
+	if (collision):
+		## bounce for remainder of motion from hitting a car
+		F.logf("vel_remain: %s | col_normal: %s | collider: %s | is car: %s | bounce: %s",
+			[
+				collision.remainder,
+				collision.normal,
+				collision.collider,
+				collision.collider.is_in_group(C.GROUP_CARS),
+				collision.remainder.bounce(collision.normal)
+			]
+		)
+		if (collision.collider.is_in_group(C.GROUP_CARS)):
+			velocity = collision.remainder.bounce(collision.normal)
 	
 
 func _handle_unmounting_moped():

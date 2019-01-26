@@ -30,4 +30,4 @@ func _physics_process(delta):
 	if Input.is_action_just_released('mount_moped'):
 		S.emit_signal0(S.SIGNAL_REBEL_MOUNT_MOPED)
 	
-	move_and_slide(velocity)
+	velocity = move_and_slide(velocity)

@@ -13,6 +13,9 @@ const LAYERS_SIDEWALK = 0
 const LAYERS_CURB = 1
 const LAYERS_ROAD = 2
 
+## GROUPS
+const GROUP_CARS = "road_cars"
+
 
 const DATETIME_FORMAT = "%s.%s.%s %s:%s:%s"
 
