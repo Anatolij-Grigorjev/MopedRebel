@@ -176,7 +176,7 @@ texture = ExtResource( 2 )
 stretch_mode = 4
 _sections_unfolded = [ "Size Flags" ]
 
-[node name="selection_bg" type="MarginContainer" parent="outer_container" index="2"]
+[node name="selection_bgcolor" type="ColorRect" parent="outer_container" index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -191,18 +191,37 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+color = Color( 0, 0, 0, 0.54498 )
+_sections_unfolded = [ "Size Flags", "Theme" ]
+
+[node name="selection_bg" type="MarginContainer" parent="outer_container/selection_bgcolor" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 4.0
+margin_right = 1024.0
+margin_bottom = 325.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_constants/margin_left = 50
-_sections_unfolded = [ "Size Flags", "Theme", "custom_constants" ]
+_sections_unfolded = [ "Size Flags", "Theme", "Visibility", "custom_constants" ]
 
-[node name="selection_options" type="VBoxContainer" parent="outer_container/selection_bg" index="0"]
+[node name="selection_options" type="VBoxContainer" parent="outer_container/selection_bgcolor/selection_bg" index="0"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 50.0
 margin_right = 1024.0
-margin_bottom = 325.0
+margin_bottom = 321.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -213,14 +232,14 @@ alignment = 1
 script = ExtResource( 3 )
 _sections_unfolded = [ "Grow Direction", "Margin", "Size Flags" ]
 
-[node name="option_bribe" type="HBoxContainer" parent="outer_container/selection_bg/selection_options" index="0"]
+[node name="option_bribe" type="HBoxContainer" parent="outer_container/selection_bgcolor/selection_bg/selection_options" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 974.0
-margin_bottom = 105.0
+margin_bottom = 104.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -230,7 +249,7 @@ size_flags_vertical = 3
 alignment = 0
 _sections_unfolded = [ "Size Flags" ]
 
-[node name="selection_arrow" type="Label" parent="outer_container/selection_bg/selection_options/option_bribe" index="0"]
+[node name="selection_arrow" type="Label" parent="outer_container/selection_bgcolor/selection_bg/selection_options/option_bribe" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -251,7 +270,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="text_label" type="Label" parent="outer_container/selection_bg/selection_options/option_bribe" index="1"]
+[node name="text_label" type="Label" parent="outer_container/selection_bgcolor/selection_bg/selection_options/option_bribe" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -274,15 +293,15 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="option_diss" type="HBoxContainer" parent="outer_container/selection_bg/selection_options" index="1"]
+[node name="option_diss" type="HBoxContainer" parent="outer_container/selection_bgcolor/selection_bg/selection_options" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 109.0
+margin_top = 108.0
 margin_right = 974.0
-margin_bottom = 214.0
+margin_bottom = 212.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -292,7 +311,7 @@ size_flags_vertical = 3
 alignment = 0
 _sections_unfolded = [ "Size Flags" ]
 
-[node name="selection_arrow" type="Label" parent="outer_container/selection_bg/selection_options/option_diss" index="0"]
+[node name="selection_arrow" type="Label" parent="outer_container/selection_bgcolor/selection_bg/selection_options/option_diss" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -313,7 +332,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="text_label" type="Label" parent="outer_container/selection_bg/selection_options/option_diss" index="1"]
+[node name="text_label" type="Label" parent="outer_container/selection_bgcolor/selection_bg/selection_options/option_diss" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -336,15 +355,15 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="option_fight" type="HBoxContainer" parent="outer_container/selection_bg/selection_options" index="2"]
+[node name="option_fight" type="HBoxContainer" parent="outer_container/selection_bgcolor/selection_bg/selection_options" index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 218.0
+margin_top = 216.0
 margin_right = 974.0
-margin_bottom = 325.0
+margin_bottom = 321.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -354,14 +373,14 @@ size_flags_vertical = 3
 alignment = 0
 _sections_unfolded = [ "Size Flags" ]
 
-[node name="selection_arrow" type="Label" parent="outer_container/selection_bg/selection_options/option_fight" index="0"]
+[node name="selection_arrow" type="Label" parent="outer_container/selection_bgcolor/selection_bg/selection_options/option_fight" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 46.0
-margin_bottom = 60.0
+margin_top = 45.0
+margin_bottom = 59.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -375,16 +394,16 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="text_label" type="Label" parent="outer_container/selection_bg/selection_options/option_fight" index="1"]
+[node name="text_label" type="Label" parent="outer_container/selection_bgcolor/selection_bg/selection_options/option_fight" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 4.0
-margin_top = 46.0
+margin_top = 45.0
 margin_right = 43.0
-margin_bottom = 60.0
+margin_bottom = 59.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2

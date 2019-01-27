@@ -8,7 +8,7 @@ var conflict_options_node
 
 func _ready():
 	conflict_node = $conflict_root
-	conflict_options_node = conflict_node.get_node('outer_container/selection_bg/selection_options')
+	conflict_options_node = conflict_node.get_node('outer_container/selection_bgcolor/selection_bg/selection_options')
 	conflict_node.hide()
 	conflict_options_node.set_physics_process(false)
 	rebel_on_foot_node = $rebel_on_foot

@@ -66,7 +66,7 @@ func _physics_process(delta):
 			]
 		)
 		if (collision.collider.is_in_group(C.GROUP_CARS)):
-			velocity = collision.remainder.bounce(collision.normal)
+			velocity = velocity.bounce(collision.normal)
 	
 
 func _handle_unmounting_moped():
