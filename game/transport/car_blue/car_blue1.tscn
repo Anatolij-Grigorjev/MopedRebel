@@ -17,6 +17,9 @@ collision/safe_margin = 0.08
 script = ExtResource( 1 )
 _sections_unfolded = [ "Collision", "Transform", "collision" ]
 maintains_speed = 100
+bribe_money = 100
+required_sc = 150
+driver_toughness = "WHIMP"
 
 [node name="sprite" type="Sprite" parent="." index="0"]
 

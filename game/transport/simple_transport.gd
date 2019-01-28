@@ -1,6 +1,10 @@
 extends KinematicBody2D
 
 export(float) var maintains_speed = 100
+export(float) var bribe_money = 100
+export(float) var required_sc = 150
+export(String) var driver_toughness = 'WHIMP'
+ 
 var start_position = Vector2(0, 0)
 var velocity = Vector2()
 

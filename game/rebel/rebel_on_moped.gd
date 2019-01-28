@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+const MOPED_SUDDEN_STOP_COEF = 3.75
+
 var current_speed
 var current_swerve = 0
 var velocity = Vector2()
@@ -16,10 +18,17 @@ var break_hold_time = 0
 var is_brake_pressed = false
 
 var is_unmounting_moped = false
+var remaining_collision_recovery = 0
+
+var latest_conflict_collision = null
 
 func _ready():
 	G.node_rebel_on_moped = self
+	_reset_velocity()
+	
+func _reset_velocity():
 	current_speed = G.moped_config_min_speed
+	current_swerve = 0
 	
 func disable():
 	set_physics_process(false)
@@ -31,9 +40,45 @@ func enable():
 	
 func _physics_process(delta):
 	
+	if (remaining_collision_recovery > 0):
+		remaining_collision_recovery = max(
+			remaining_collision_recovery - delta, 0)
+		_perform_sudden_stop(delta)
+		if (remaining_collision_recovery <= 0):
+			_reset_velocity()
+			if (latest_conflict_collision != null):
+				_init_collision_conflict()
+	else:
+		_process_no_collision(delta)
+	
+	
+	velocity = Vector2(current_speed, current_swerve)
+	var collision = move_and_collide(velocity * delta)
+	if (collision):
+		if (collision.collider.is_in_group(C.GROUP_CARS)):
+			velocity = velocity.bounce(collision.normal)
+			remaining_collision_recovery = G.moped_config_crash_recovery_time
+			current_speed = velocity.x
+			current_swerve = velocity.y
+			latest_conflict_collision = collision.collider
+
+func _perform_sudden_stop(delta):
+	var reduce_speed_by = (delta * G.moped_config_brake_intensity * MOPED_SUDDEN_STOP_COEF)
+	current_speed = current_speed + (-sign(current_speed) * reduce_speed_by)
+	
+func _init_collision_conflict():
+	S.emit_signal3(
+		S.SIGNAL_REBEL_START_CONFLICT,
+		latest_conflict_collision.bribe_money,
+		latest_conflict_collision.required_sc,
+		latest_conflict_collision.driver_toughness
+	)
+	latest_conflict_collision = null
+
+func _process_no_collision(delta):
 	if (is_unmounting_moped):
 		if (current_speed > 0):
-			current_speed -= (delta * G.moped_config_brake_intensity * 3.5)
+			_perform_sudden_stop(delta)
 		else:
 			current_speed = 0
 			is_unmounting_moped = false
@@ -51,23 +96,7 @@ func _physics_process(delta):
 		if (current_swerve != 0 and current_speed > 0):
 			#reduce forward pseed by coef based on swerve intensity
 			_adjust_current_speed_to_swerve()
-	
-	velocity = Vector2(current_speed, current_swerve)
-	var collision = move_and_collide(velocity * delta)
-	if (collision):
-		## bounce for remainder of motion from hitting a car
-		F.logf("vel_remain: %s | col_normal: %s | collider: %s | is car: %s | bounce: %s",
-			[
-				collision.remainder,
-				collision.normal,
-				collision.collider,
-				collision.collider.is_in_group(C.GROUP_CARS),
-				collision.remainder.bounce(collision.normal)
-			]
-		)
-		if (collision.collider.is_in_group(C.GROUP_CARS)):
-			velocity = velocity.bounce(collision.normal)
-	
+
 
 func _handle_unmounting_moped():
 	if (not is_unmounting_moped):

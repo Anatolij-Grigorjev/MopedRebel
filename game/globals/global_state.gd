@@ -17,6 +17,7 @@ var moped_config_brake_intensity = 50
 var moped_config_swerve_speed = F.y2z(moped_config_max_speed)
 var moped_config_swerve_acceleration_rate = 15
 var moped_config_swerve_neutral_threshold = (moped_config_swerve_acceleration_rate / 2)
+var moped_config_crash_recovery_time = 0.9
 
 func _ready():
 	print("Loaded global game state node G!")
