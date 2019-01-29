@@ -5,8 +5,10 @@ var rebel_on_moped_node
 
 var conflict_node
 var conflict_options_node
+var screen_extents
 
 func _ready():
+	screen_extents = get_viewport_rect().size / 2
 	conflict_node = $conflict_root
 	conflict_options_node = conflict_node.get_node('outer_container/selection_bgcolor/selection_bg/selection_options')
 	conflict_node.hide()
@@ -67,6 +69,20 @@ func init_rebel_other_conflict(bribe_money, diss_min_sc, fight_toughness):
 	conflict_options_node.init_conflict_with_details(bribe_money, diss_min_sc, fight_toughness)
 	conflict_options_node.set_physics_process(true)
 	conflict_node.show()
+	#prepare conflict camera
+	$conflict_root/camera.current = true
+	var rebel_camera_pos = G.node_active_rebel.get_node('camera').get_camera_position()
+	var screen_pos = Vector2(
+		max(rebel_camera_pos.x - screen_extents.x, 0),
+		max(rebel_camera_pos.y - screen_extents.y, 0)
+	)
+	print(screen_extents)
+	print(G.node_active_rebel.global_position)
+	print($rebel_on_moped/camera.get_camera_position())
+	print($rebel_on_moped/camera.global_position)
+	print(screen_pos)
+	print($conflict_root.rect_size)
+	$conflict_root.rect_global_position = screen_pos
 	get_tree().paused = true
 	
 	
