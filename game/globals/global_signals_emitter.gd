@@ -2,16 +2,19 @@ extends Node
 
 signal mounting_moped
 signal unmounting_moped
-signal cause_conflict(bribe_money, diss_min_sc, enemy_toughness)
+signal rebel_cause_conflict
+signal transport_cause_conflict(transport_node)
 
 const SIGNAL_REBEL_MOUNT_MOPED = "mounting_moped"
 const SIGNAL_REBEL_UNMOUNT_MOPED = "unmounting_moped"
-const SIGNAL_REBEL_START_CONFLICT = "cause_conflict"
+const SIGNAL_REBEL_START_CONFLICT = "rebel_cause_conflict"
+const SIGNAL_TRANSPORT_START_CONFLICT = "transport_cause_conflict"
 
 const known_singals = [
 	SIGNAL_REBEL_MOUNT_MOPED,
 	SIGNAL_REBEL_UNMOUNT_MOPED,
-	SIGNAL_REBEL_START_CONFLICT
+	SIGNAL_REBEL_START_CONFLICT,
+	SIGNAL_TRANSPORT_START_CONFLICT
 ]
 
 

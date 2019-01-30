@@ -36,6 +36,17 @@ shape = SubResource( 1 )
 
 rect = Rect2( -195, -64, 10, 128 )
 
+[node name="post_leave_wait" type="Timer" parent="." index="3"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = true
+autostart = false
+
+[connection signal="screen_entered" from="leaves_screen" to="." method="_screen_entered"]
+
 [connection signal="screen_exited" from="leaves_screen" to="." method="_screen_exited"]
+
+[connection signal="timeout" from="post_leave_wait" to="." method="_offscreen_grace_timeout"]
 
 

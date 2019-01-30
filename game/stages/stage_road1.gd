@@ -3,21 +3,13 @@ extends Node2D
 var rebel_on_foot_node
 var rebel_on_moped_node
 
-var conflict_node
-var conflict_options_node
-var screen_extents
-
 func _ready():
-	screen_extents = get_viewport_rect().size / 2
-	conflict_node = $conflict_root
-	conflict_options_node = conflict_node.get_node('outer_container/selection_bgcolor/selection_bg/selection_options')
-	conflict_node.hide()
-	conflict_options_node.set_physics_process(false)
+	G.node_current_stage_root = self
 	rebel_on_foot_node = $rebel_on_foot
 	rebel_on_moped_node = $rebel_on_moped
 	S.connect_signal_to(S.SIGNAL_REBEL_MOUNT_MOPED, self, "move_foot_rebel_to_road")
 	S.connect_signal_to(S.SIGNAL_REBEL_UNMOUNT_MOPED, self, "move_moped_rebel_to_sidewalk")
-	S.connect_signal_to(S.SIGNAL_REBEL_START_CONFLICT, self, "init_rebel_other_conflict")
+
 	init_rebel_on_foot()
 
 
@@ -61,29 +53,7 @@ func move_moped_rebel_to_sidewalk():
 	init_rebel_on_foot()
 	
 func _physics_process(delta):
-	if Input.is_action_just_released('flip_bird'):
-		init_rebel_other_conflict(rand_range(0, 10), rand_range(0, 10), 'meh')
-	
-
-func init_rebel_other_conflict(bribe_money, diss_min_sc, fight_toughness):
-	conflict_options_node.init_conflict_with_details(bribe_money, diss_min_sc, fight_toughness)
-	conflict_options_node.set_physics_process(true)
-	conflict_node.show()
-	#prepare conflict camera
-	$conflict_root/camera.current = true
-	var rebel_camera_pos = G.node_active_rebel.get_node('camera').get_camera_position()
-	var screen_pos = Vector2(
-		max(rebel_camera_pos.x - screen_extents.x, 0),
-		max(rebel_camera_pos.y - screen_extents.y, 0)
-	)
-	print(screen_extents)
-	print(G.node_active_rebel.global_position)
-	print($rebel_on_moped/camera.get_camera_position())
-	print($rebel_on_moped/camera.global_position)
-	print(screen_pos)
-	print($conflict_root.rect_size)
-	$conflict_root.rect_global_position = screen_pos
-	get_tree().paused = true
+	pass
 	
 	
 	

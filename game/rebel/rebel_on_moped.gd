@@ -67,11 +67,9 @@ func _perform_sudden_stop(delta):
 	current_speed = current_speed + (-sign(current_speed) * reduce_speed_by)
 	
 func _init_collision_conflict():
-	S.emit_signal3(
-		S.SIGNAL_REBEL_START_CONFLICT,
-		latest_conflict_collision.bribe_money,
-		latest_conflict_collision.required_sc,
-		latest_conflict_collision.driver_toughness
+	#initiate rebel part of conflict signal
+	S.emit_signal0(
+		S.SIGNAL_REBEL_START_CONFLICT
 	)
 	latest_conflict_collision = null
 

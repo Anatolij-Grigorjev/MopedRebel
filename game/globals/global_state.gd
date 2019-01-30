@@ -9,6 +9,7 @@ var node_rebel_on_moped = {
 	"global_position": Vector2()
 }
 var node_active_rebel = {}
+var node_current_stage_root = {}
 var moped_config_max_speed = 200
 var moped_config_min_speed = 10
 var moped_config_max_acceleration_reach_time = 3.5

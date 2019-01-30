@@ -419,7 +419,7 @@ max_lines_visible = -1
 
 [node name="camera" type="Camera2D" parent="." index="2"]
 
-anchor_mode = 1
+anchor_mode = 0
 rotating = false
 current = false
 zoom = Vector2( 1, 1 )
@@ -441,6 +441,5 @@ drag_margin_bottom = 0.2
 editor_draw_screen = true
 editor_draw_limits = false
 editor_draw_drag_margin = false
-_sections_unfolded = [ "Limit" ]
 
 
