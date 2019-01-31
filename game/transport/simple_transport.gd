@@ -17,22 +17,20 @@ func _ready():
 
 func _physics_process(delta):
 	if (collided):
-		velocity = lerp(velocity, 0, delta * 5)
-		if (velocity > 0):
+		velocity.x = lerp(velocity.x, 0, delta*2)
+		if (velocity.x > 0):
 			move_and_slide(velocity)
 		else:
-			_initiate_conflict_signal()
+			pass
 	else:
-		var collision = move_and_collide(delta * velocity)
-		if (collision):
-			velocity = velocity.bounce(collision.normal)
-			collided = true
+		move_and_collide(delta * velocity)
 
 func reset_position():
 	global_position = start_position
 	
-func _initiate_conflict_signal():
-	S.emit_signal1(S.SIGNAL_TRANSPORT_START_CONFLICT, self)
+func react_collision(collision):
+	collided = true
+
 
 func _screen_exited():
 	$post_leave_wait.stop()

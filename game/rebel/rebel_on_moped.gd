@@ -47,7 +47,7 @@ func _physics_process(delta):
 		if (remaining_collision_recovery <= 0):
 			_reset_velocity()
 			if (latest_conflict_collision != null):
-				_init_collision_conflict()
+				_emit_collision_conflict_screen()
 	else:
 		_process_no_collision(delta)
 	
@@ -61,17 +61,22 @@ func _physics_process(delta):
 			current_speed = velocity.x
 			current_swerve = velocity.y
 			latest_conflict_collision = collision.collider
+			latest_conflict_collision.react_collision(collision)
 
 func _perform_sudden_stop(delta):
 	var reduce_speed_by = (delta * G.moped_config_brake_intensity * MOPED_SUDDEN_STOP_COEF)
 	current_speed = current_speed + (-sign(current_speed) * reduce_speed_by)
 	
-func _init_collision_conflict():
-	#initiate rebel part of conflict signal
-	S.emit_signal0(
-		S.SIGNAL_REBEL_START_CONFLICT
+func _emit_collision_conflict_screen():
+	#initiate conflict screen
+	S.emit_signal3(
+		S.SIGNAL_REBEL_START_CONFLICT,
+		latest_conflict_collision.bribe_money,
+		latest_conflict_collision.required_sc,
+		latest_conflict_collision.driver_toughness
 	)
 	latest_conflict_collision = null
+
 
 func _process_no_collision(delta):
 	if (is_unmounting_moped):

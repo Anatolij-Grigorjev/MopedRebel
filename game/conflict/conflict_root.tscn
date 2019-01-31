@@ -17,7 +17,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 custom_constants/margin_left = 0
-_sections_unfolded = [ "Anchor", "Focus", "Grow Direction", "Hint", "Margin", "Rect", "Visibility", "custom_constants" ]
+_sections_unfolded = [ "Anchor", "Focus", "Grow Direction", "Hint", "Margin", "Pause", "Rect", "Visibility", "custom_constants" ]
 
 [node name="bg_color" type="ColorRect" parent="." index="0"]
 
@@ -214,6 +214,7 @@ _sections_unfolded = [ "Size Flags", "Theme", "Visibility", "custom_constants" ]
 
 [node name="selection_options" type="VBoxContainer" parent="outer_container/selection_bgcolor/selection_bg" index="0"]
 
+pause_mode = 2
 editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
@@ -230,7 +231,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 script = ExtResource( 3 )
-_sections_unfolded = [ "Grow Direction", "Margin", "Size Flags" ]
+_sections_unfolded = [ "Grow Direction", "Margin", "Pause", "Size Flags" ]
 
 [node name="option_bribe" type="HBoxContainer" parent="outer_container/selection_bgcolor/selection_bg/selection_options" index="0"]
 
@@ -441,5 +442,6 @@ drag_margin_bottom = 0.2
 editor_draw_screen = true
 editor_draw_limits = false
 editor_draw_drag_margin = false
+_sections_unfolded = [ "Limit" ]
 
 
