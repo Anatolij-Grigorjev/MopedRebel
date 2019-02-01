@@ -4,12 +4,18 @@ var conflict_node_scene = preload("res://conflict/conflict_root.tscn")
 
 var conflict_rebel = null
 var conflict_other = null
+var active_conflict_node = null
 
 func _ready():
 	S.connect_signal_to(
 		S.SIGNAL_REBEL_START_CONFLICT, 
 		self, 
 		"_init_rebel_other_conflict_screen"
+	)
+	S.connect_signal_to(
+		S.SIGNAL_CONFLICT_RESOLVED,
+		self,
+		"_finish_conflict_state"
 	)
 	print("Loaded gloal conflict tracker node VS!")
 
@@ -28,4 +34,13 @@ func _attach_conflict_to_stage():
 	var conflict_node = conflict_node_scene.instance()
 	var stage = G.node_current_stage_root
 	stage.add_child(conflict_node)
+	active_conflict_node = conflict_node
 	return conflict_node
+	
+func _finish_conflict_state():
+	active_conflict_node.queue_free()
+	G.node_active_rebel.get_node('camera').current = true
+	if (G.node_active_rebel == G.node_rebel_on_moped):
+		G.node_active_rebel.reset_velocity()
+	get_tree().paused = false
+	active_conflict_node = null

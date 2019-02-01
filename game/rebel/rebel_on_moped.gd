@@ -24,9 +24,9 @@ var latest_conflict_collision = null
 
 func _ready():
 	G.node_rebel_on_moped = self
-	_reset_velocity()
+	reset_velocity()
 	
-func _reset_velocity():
+func reset_velocity():
 	current_speed = G.moped_config_min_speed
 	current_swerve = 0
 	
@@ -45,7 +45,7 @@ func _physics_process(delta):
 			remaining_collision_recovery - delta, 0)
 		_perform_sudden_stop(delta)
 		if (remaining_collision_recovery <= 0):
-			_reset_velocity()
+			reset_velocity()
 			if (latest_conflict_collision != null):
 				_emit_collision_conflict_screen()
 	else:

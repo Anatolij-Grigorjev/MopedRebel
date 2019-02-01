@@ -34,6 +34,8 @@ shape = SubResource( 1 )
 
 [node name="leaves_screen" type="VisibilityNotifier2D" parent="." index="2"]
 
+position = Vector2( 7390.12, 0 )
+scale = Vector2( 38.898, 1 )
 rect = Rect2( -195, -64, 10, 128 )
 
 [node name="post_leave_wait" type="Timer" parent="." index="3"]

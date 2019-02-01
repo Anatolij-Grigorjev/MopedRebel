@@ -4,17 +4,20 @@ signal mounting_moped
 signal unmounting_moped
 signal rebel_cause_conflict(bribe_money, min_req_sc, enemy_toughness)
 signal rebel_moped_collided
+signal conflict_resolved
 
 const SIGNAL_REBEL_MOUNT_MOPED = "mounting_moped"
 const SIGNAL_REBEL_UNMOUNT_MOPED = "unmounting_moped"
 const SIGNAL_REBEL_START_CONFLICT = "rebel_cause_conflict"
 const SIGNAL_REBEL_MOPED_COLLISION = "rebel_moped_collided"
+const SIGNAL_CONFLICT_RESOLVED = "conflict_resolved"
 
 const known_singals = [
 	SIGNAL_REBEL_MOUNT_MOPED,
 	SIGNAL_REBEL_UNMOUNT_MOPED,
 	SIGNAL_REBEL_START_CONFLICT,
-	SIGNAL_REBEL_MOPED_COLLISION
+	SIGNAL_REBEL_MOPED_COLLISION,
+	SIGNAL_CONFLICT_RESOLVED
 ]
 
 
