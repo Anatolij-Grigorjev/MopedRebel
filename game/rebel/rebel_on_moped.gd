@@ -22,13 +22,34 @@ var remaining_collision_recovery = 0
 
 var latest_conflict_collision = null
 
+var facing_direction
+
 func _ready():
+	facing_direction = C.FACING.RIGHT
 	G.node_rebel_on_moped = self
 	reset_velocity()
 	
 func reset_velocity():
 	current_speed = G.moped_config_min_speed
+	_reset_swerve()
+	_reset_acceleration()
+	_reset_braking()
+	
+func _reset_swerve():
 	current_swerve = 0
+	swerve_hold_time = 0
+	swerve_release_time = 0
+	is_swerve_pressed = false
+	
+func _reset_acceleration():
+	accelleration_hold_time = 0
+	acceleration_release_time = 0
+	is_acceleration_pressed = false
+	
+func _reset_braking():
+	break_hold_time = 0
+	is_brake_pressed = false
+
 	
 func disable():
 	set_physics_process(false)
@@ -52,7 +73,10 @@ func _physics_process(delta):
 		_process_no_collision(delta)
 	
 	
-	velocity = Vector2(current_speed, current_swerve)
+	velocity = Vector2(
+		facing_direction * current_speed, 
+		current_swerve
+	)
 	var collision = move_and_collide(velocity * delta)
 	if (collision):
 		if (collision.collider.is_in_group(C.GROUP_CARS)):
@@ -60,8 +84,10 @@ func _physics_process(delta):
 			remaining_collision_recovery = G.moped_config_crash_recovery_time
 			current_speed = velocity.x
 			current_swerve = velocity.y
-			latest_conflict_collision = collision.collider
-			latest_conflict_collision.react_collision(collision)
+			#only setup new conflict if one didnt happen yet
+			if (not collision.collider.collided):
+				latest_conflict_collision = collision.collider
+				latest_conflict_collision.react_collision(collision)
 
 func _perform_sudden_stop(delta):
 	var reduce_speed_by = (delta * G.moped_config_brake_intensity * MOPED_SUDDEN_STOP_COEF)
@@ -88,6 +114,7 @@ func _process_no_collision(delta):
 			S.emit_signal0(S.SIGNAL_REBEL_UNMOUNT_MOPED)
 	else:
 		_handle_unmounting_moped()
+		_handle_facing_direction(delta)
 		_handle_swerve_control(delta)
 		_handle_forward_acceleration(delta)
 		_handle_breaking(delta)
@@ -106,6 +133,11 @@ func _handle_unmounting_moped():
 		if (Input.is_action_pressed('unmount_moped')):
 			is_unmounting_moped = true
 
+func _handle_facing_direction(delta):
+	if (Input.is_action_just_released('turn_around')):
+		facing_direction = F.flip_facing(facing_direction)
+		$sprite_on_moped.flip_h = sign(facing_direction) < 0
+		reset_velocity()
 
 func _handle_swerve_control(delta):
 	if (is_swerve_pressed):
@@ -162,16 +194,20 @@ func _handle_forward_acceleration(delta):
 		accelleration_hold_time += delta
 	else:
 		acceleration_release_time += delta
+		
+	var accelerate_action = _accelerate_action_for_facing()
 	
-	if (Input.is_action_just_pressed('accelerate')):
+	if (Input.is_action_just_pressed(accelerate_action)):
 		is_acceleration_pressed = true
 		accelleration_hold_time = 0
-	if (Input.is_action_just_released('accelerate')):
+	if (Input.is_action_just_released(accelerate_action)):
 		is_acceleration_pressed = false
 		acceleration_release_time = 0
 		
 	_increase_acceleration_by_time()
-	
+
+func _accelerate_action_for_facing():
+	return 'accelerate_right' if facing_direction == C.FACING.RIGHT else 'accelerate_left'
 	
 func _increase_acceleration_by_time():
 	if (is_acceleration_pressed and current_speed < G.moped_config_max_speed):
@@ -191,13 +227,18 @@ func _handle_breaking(delta):
 	if (is_brake_pressed):
 		break_hold_time += delta
 		
-	if (Input.is_action_just_pressed('brake')):
+	var brake_action = _brake_action_for_facing()
+		
+	if (Input.is_action_just_pressed(brake_action)):
 		is_brake_pressed = true
 		break_hold_time = 0
-	if (Input.is_action_just_released('brake')):
+	if (Input.is_action_just_released(brake_action)):
 		is_brake_pressed = false
 		
 	_increase_brake_by_time(delta)
+	
+func _brake_action_for_facing():
+	return 'brake_right' if facing_direction == C.FACING.RIGHT else 'brake_left'
 	
 
 func _increase_brake_by_time(delta):

@@ -40,7 +40,5 @@ func _attach_conflict_to_stage():
 func _finish_conflict_state():
 	active_conflict_node.queue_free()
 	G.node_active_rebel.get_node('camera').current = true
-	if (G.node_active_rebel == G.node_rebel_on_moped):
-		G.node_active_rebel.reset_velocity()
 	get_tree().paused = false
 	active_conflict_node = null

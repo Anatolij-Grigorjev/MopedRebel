@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://transport/simple_transport.gd" type="Script" id=1]
-[ext_resource path="res://transport/car_blue/car_blue.png" type="Texture" id=2]
+[ext_resource path="res://conflict/conflict_car_portrait.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -23,8 +23,10 @@ driver_toughness = "WHIMP"
 
 [node name="sprite" type="Sprite" parent="." index="0"]
 
+position = Vector2( 0.438905, -1.12792 )
+scale = Vector2( 0.813072, 0.399109 )
 texture = ExtResource( 2 )
-region_enabled = true
+flip_h = true
 region_rect = Rect2( 0, 0, 384, 128 )
 _sections_unfolded = [ "Animation", "Offset", "Region", "Transform" ]
 

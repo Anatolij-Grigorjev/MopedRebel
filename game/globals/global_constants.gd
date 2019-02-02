@@ -1,6 +1,10 @@
 extends Node
 
 ## GAME
+enum FACING {
+	RIGHT = 1,
+	LEFT = -1
+}
 const Z_COEF = sin(deg2rad(45))
 const GRAVITY = 98.5
 #lowest in-game point

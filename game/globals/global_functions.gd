@@ -46,6 +46,9 @@ func swap_collision_mask_bit(node, from_layer, to_layer):
 	node.set_collision_mask_bit(from_layer, node.get_collision_mask_bit(to_layer))
 	node.set_collision_mask_bit(to_layer, temp_mask_bit)
 	
+func flip_facing(facing_direction):
+	return C.FACING.LEFT if facing_direction == C.FACING.RIGHT else C.FACING.RIGHT
+	
 	
 #log formatted with timestamp
 func logf(format, args_list = []):

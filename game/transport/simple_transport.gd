@@ -12,8 +12,7 @@ var collided = false
 func _ready():
 	start_position = global_position
 	add_to_group(C.GROUP_CARS)
-	reset_position()
-	velocity = Vector2(maintains_speed, 0)
+	reset_transport()
 
 func _physics_process(delta):
 	if (collided):
@@ -25,8 +24,11 @@ func _physics_process(delta):
 	else:
 		move_and_collide(delta * velocity)
 
-func reset_position():
+func reset_transport():
 	global_position = start_position
+	velocity = Vector2(maintains_speed, 0)
+	collided = false
+	$sprite.flip_h = sign(maintains_speed) >= 0
 	
 func react_collision(collision):
 	collided = true
@@ -43,4 +45,4 @@ func _screen_entered():
 		$post_leave_wait.stop()
 	
 func _offscreen_grace_timeout():
-	reset_position()
+	reset_transport()
