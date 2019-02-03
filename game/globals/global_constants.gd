@@ -11,6 +11,7 @@ const GRAVITY = 98.5
 const MAX_WORLD_Y = 100000
 
 const GUI_SELECTED_OPT_MARKER = "->"
+const DISS_JSON_LOCATION = "res://conflict/diss_engine/disses.json"
 
 ## LAYERS
 const LAYERS_SIDEWALK = 0
