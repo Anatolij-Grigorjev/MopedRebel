@@ -8,9 +8,8 @@ var KEY_SPECIFIC_DISSES = "specific"
 
 func _ready():
 	
-	F.load_json_file_into_dict(
-		C.DISS_JSON_LOCATION, 
-		all_disses_model
+	all_disses_model = F.parse_json_file_as_var(
+		C.DISS_JSON_LOCATION
 	)
 	if (not all_disses_model.has(KEY_SPECIFIC_DISSES)):
 		all_disses_model[KEY_SPECIFIC_DISSES] = []
@@ -34,7 +33,7 @@ func get_random_enemy_diss(enemy_node_name):
 	var all_suitable_disses = Array(all_disses_model[KEY_COMMON_DISSES])
 	#iterating keys
 	for name_part in specific_disses:
-		if (specific_disses.findn(name_part) > -1):
+		if (enemy_node_name.findn(name_part) > -1):
 			F.add_base_array_all_elems(
 				all_suitable_disses, 
 				specific_disses[name_part]

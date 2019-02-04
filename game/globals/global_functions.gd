@@ -19,12 +19,12 @@ func add_base_array_all_elems(base_array = [], new_elements = []):
 func get_rand_array_elem(array = []):
 	if (array == null or array.empty()):
 		return null
-	return array[rand_range(0, array.size())]
+	return array[round(rand_range(0, array.size()))]
 	
 #check if value is in radius of target with a short circuit if equal
 func is_val_in_target_radius(val, target, radius):
 	return (
-		val == target or 
+		val == target or
 		(target - radius <= val and val <= target + radius)
 	)
 	
@@ -35,7 +35,7 @@ func get_char_actual_z(char_node):
 	#take current y if character is on the ground
 	#if they jump y depends on where they jumped from
 	var z = y2z(
-		char_position.y if not char_node.is_in_air 
+		char_position.y if not char_node.is_in_air
 		else char_node.last_preair_y
 	)
 	return z
@@ -58,17 +58,32 @@ func swap_collision_mask_bit(node, from_layer, to_layer):
 func flip_facing(facing_direction):
 	return C.FACING.LEFT if facing_direction == C.FACING.RIGHT else C.FACING.RIGHT
 	
-func load_json_file_into_dict(filepath, out_dict):
-	#check if dict is non-null
-	assert_dict_props(out_dict)
+func parse_json_file_as_var(filepath):
 	#also sanity-checks string internally
 	assert_file_exists(filepath)
 	
 	var file_handle = File.new()
 	file_handle.open(filepath, file_handle.READ)
-	out_dict.parse_json(file_handle.get_as_text())
+	var json_text = file_handle.get_as_text()
+	var parse_result = JSON.parse(json_text)
 	file_handle.close()
 	
+	if (parse_result.error == OK):
+		return parse_result.result
+	else:
+		log_error("""
+		JSON parse error!
+		json: %s
+		error code: %s
+		error line: %s
+		error message: %s""",
+			[
+				json_text,
+				parse_result.error,
+				parse_result.error_line,
+				parse_result.error_string
+			]
+		)
 	
 #log formatted with timestamp
 func logf(format, args_list = []):

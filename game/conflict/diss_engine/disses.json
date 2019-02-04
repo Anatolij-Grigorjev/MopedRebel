@@ -1,0 +1,15 @@
+{
+    "common": [
+        "Hey, watch it!",
+        "The fuck you think you lookin at, punk?!",
+        "Get outta here!"
+    ],
+    "specific": {
+        "blue": [
+            "I'll give ya something to be blue about!"
+        ],
+        "car": [
+            "I'll make ya an auto-immobile for that!"
+        ]
+    }
+}

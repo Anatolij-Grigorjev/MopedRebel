@@ -95,8 +95,9 @@ func _perform_sudden_stop(delta):
 	
 func _emit_collision_conflict_screen():
 	#initiate conflict screen
-	S.emit_signal3(
+	S.emit_signal4(
 		S.SIGNAL_REBEL_START_CONFLICT,
+		latest_conflict_collision,
 		latest_conflict_collision.bribe_money,
 		latest_conflict_collision.required_sc,
 		latest_conflict_collision.driver_toughness

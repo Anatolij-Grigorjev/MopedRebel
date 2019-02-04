@@ -2,7 +2,7 @@ extends Node
 
 signal mounting_moped
 signal unmounting_moped
-signal rebel_cause_conflict(bribe_money, min_req_sc, enemy_toughness)
+signal rebel_cause_conflict(enemy_node, bribe_money, min_req_sc, enemy_toughness)
 signal rebel_moped_collided
 signal conflict_resolved
 
@@ -55,6 +55,9 @@ func emit_signal2(signal_name, arg1, arg2):
 func emit_signal3(signal_name, arg1, arg2, arg3):
 	_emit_signal_variadic(signal_name, [arg1, arg2, arg3])
 
+func emit_signal4(signal_name, arg1, arg2, arg3, arg4):
+	_emit_signal_variadic(signal_name, [arg1, arg2, arg3, arg4])
+
 func _emit_signal_variadic(signal_name, args_list = []):
 	_assert_known_signal(signal_name)
 	if (args_list == null):
@@ -69,6 +72,8 @@ func _emit_signal_variadic(signal_name, args_list = []):
 			emit_signal(signal_name, args_list[0], args_list[1])
 		3:
 			emit_signal(signal_name, args_list[0], args_list[1], args_list[2])
+		4:
+			emit_signal(signal_name, args_list[0], args_list[1], args_list[2], args_list[3])
 		#if quantity more than largest qualifier above, just pass all array as a single value
 		_:
 			emit_signal(signal_name, args_list)

@@ -95,6 +95,13 @@ func _process_picked_bribe():
 	_finish_return_to_stage()
 	pass
 func _process_picked_diss():
+	
+	var chosen_diss = (
+		DE.get_random_enemy_diss(VS.conflict_with_node.name) 
+		if VS.conflict_with_node != null 
+		else DE.get_random_common_diss()
+	)
+	F.logf("MR: %s", [chosen_diss])
 	_finish_return_to_stage()
 	pass
 func _process_picked_fight():
