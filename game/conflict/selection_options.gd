@@ -102,6 +102,10 @@ func _process_picked_diss():
 		else DE.get_random_common_diss()
 	)
 	F.logf("MR: %s", [chosen_diss])
+	S.emit_signal1(
+		S.SIGNAL_CONFLICT_CHOSE_DISS,
+		chosen_diss
+	)
 	_finish_return_to_stage()
 	pass
 func _process_picked_fight():

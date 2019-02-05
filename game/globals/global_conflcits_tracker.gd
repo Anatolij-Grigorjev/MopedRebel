@@ -1,6 +1,7 @@
 extends Node2D
 
 var conflict_node_scene = preload("res://conflict/conflict_root.tscn")
+var diss_popup_node_scene = preload("res://conflict/dissing/diss_popup.tscn")
 
 var conflict_rebel_node = null
 var conflict_with_node = null
@@ -12,6 +13,11 @@ func _ready():
 		S.SIGNAL_REBEL_START_CONFLICT, 
 		self, 
 		"_init_rebel_other_conflict_screen"
+	)
+	S.connect_signal_to(
+		S.SIGNAL_CONFLICT_CHOSE_DISS,
+		self,
+		"_init_diss_popup"
 	)
 	S.connect_signal_to(
 		S.SIGNAL_CONFLICT_RESOLVED,
@@ -39,6 +45,11 @@ func _attach_conflict_to_stage():
 	stage.add_child(conflict_node)
 	active_conflict_screen_node = conflict_node
 	return conflict_node
+
+func _init_diss_popup(diss_text):
+	var new_diss_dialog = diss_popup_node_scene.instance()
+	G.node_current_stage_root.add_child(new_diss_dialog)
+	new_diss_dialog.show_popup(diss_text)
 	
 func _finish_conflict_state():
 	active_conflict_screen_node.queue_free()

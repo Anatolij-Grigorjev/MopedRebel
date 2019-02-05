@@ -20,7 +20,7 @@ F="*res://globals/global_functions.gd"
 S="*res://globals/global_signals_emitter.gd"
 G="*res://globals/global_state.gd"
 VS="*res://globals/global_conflcits_tracker.gd"
-DE="*res://conflict/diss_engine/diss_engine.gd"
+DE="*res://conflict/dissing/diss_engine.gd"
 
 [display]
 

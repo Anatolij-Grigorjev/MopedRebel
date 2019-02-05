@@ -7,9 +7,9 @@
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
-extents = Vector2( 64, 64 )
+extents = Vector2( 62, 30 )
 
-[node name="rebel_on_moped" type="KinematicBody2D"]
+[node name="rebel_on_moped" type="KinematicBody2D" index="0"]
 
 input_pickable = false
 collision_layer = 16
@@ -20,7 +20,9 @@ _sections_unfolded = [ "Collision" ]
 
 [node name="collider" type="CollisionShape2D" parent="." index="0"]
 
+position = Vector2( 3, 30 )
 shape = SubResource( 1 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="sprite_on_moped" type="Sprite" parent="." index="1"]
 
@@ -36,6 +38,7 @@ texture = ExtResource( 3 )
 
 [node name="camera" type="Camera2D" parent="." index="3"]
 
+visible = false
 anchor_mode = 1
 rotating = false
 current = false

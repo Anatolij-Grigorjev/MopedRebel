@@ -19,7 +19,7 @@ func add_base_array_all_elems(base_array = [], new_elements = []):
 func get_rand_array_elem(array = []):
 	if (array == null or array.empty()):
 		return null
-	return array[round(rand_range(0, array.size()))]
+	return array[randi() % array.size()]
 	
 #check if value is in radius of target with a short circuit if equal
 func is_val_in_target_radius(val, target, radius):
@@ -125,5 +125,6 @@ func assert_file_exists(filepath):
 		log_error("Provided file path %s doesnt exist!", [filepath])
 	
 func _ready():
+	randomize()
 	print("Loaded global functions node F!")
 	pass
