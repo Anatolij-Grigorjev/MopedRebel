@@ -92,7 +92,6 @@ func _process_pick_option():
 				)
 				
 func _process_picked_bribe():
-	_finish_return_to_stage()
 	pass
 func _process_picked_diss():
 	
@@ -106,11 +105,6 @@ func _process_picked_diss():
 		S.SIGNAL_CONFLICT_CHOSE_DISS,
 		chosen_diss
 	)
-	_finish_return_to_stage()
 	pass
 func _process_picked_fight():
-	pass
-	
-func _finish_return_to_stage():
-	S.emit_signal0(S.SIGNAL_CONFLICT_RESOLVED)
 	pass

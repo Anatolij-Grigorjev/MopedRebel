@@ -18,4 +18,8 @@ func show_popup(diss_text):
 	pass
 
 func _ok_button_pressed():
+	S.emit_signal0(
+		S.SIGNAL_DISS_POPUP_CLOSED
+	)
+	queue_free()
 	hide()

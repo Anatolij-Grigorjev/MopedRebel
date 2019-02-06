@@ -20,7 +20,7 @@ func _ready():
 		"_init_diss_popup"
 	)
 	S.connect_signal_to(
-		S.SIGNAL_CONFLICT_RESOLVED,
+		S.SIGNAL_DISS_POPUP_CLOSED,
 		self,
 		"_finish_conflict_state"
 	)
