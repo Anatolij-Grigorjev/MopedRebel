@@ -14,7 +14,8 @@ var accelleration_hold_time = 0
 var acceleration_release_time = 0
 var is_acceleration_pressed = false
 
-var break_hold_time = 0
+var brake_hold_time = 0
+var brake_release_time = 0
 var is_brake_pressed = false
 
 var is_unmounting_moped = false
@@ -47,7 +48,7 @@ func _reset_acceleration():
 	is_acceleration_pressed = false
 	
 func _reset_braking():
-	break_hold_time = 0
+	brake_hold_time = 0
 	is_brake_pressed = false
 
 	
@@ -118,7 +119,7 @@ func _process_no_collision(delta):
 		_handle_facing_direction(delta)
 		_handle_swerve_control(delta)
 		_handle_forward_acceleration(delta)
-		_handle_breaking(delta)
+		_handle_brakeing(delta)
 		current_speed = clamp(
 			current_speed, 
 			G.moped_config_min_speed, 
@@ -135,7 +136,14 @@ func _handle_unmounting_moped():
 			is_unmounting_moped = true
 
 func _handle_facing_direction(delta):
-	if (Input.is_action_just_released('turn_around')):
+	
+	var brake_action = _brake_action_for_facing()
+	var double_tap_direction = (Input.is_action_pressed(brake_action) 
+		and brake_release_time < C.DOUBLE_TAP_LIMIT)
+	
+	if (double_tap_direction 
+		or Input.is_action_just_released('turn_around')
+	):
 		facing_direction = F.flip_facing(facing_direction)
 		$sprite_on_moped.flip_h = sign(facing_direction) < 0
 		reset_velocity()
@@ -223,18 +231,21 @@ func _increase_acceleration_by_time():
 			* accelleration_hold_time
 		)
 
-func _handle_breaking(delta):
+func _handle_brakeing(delta):
 	
 	if (is_brake_pressed):
-		break_hold_time += delta
+		brake_hold_time += delta
+	else:
+		brake_release_time += delta
 		
 	var brake_action = _brake_action_for_facing()
 		
 	if (Input.is_action_just_pressed(brake_action)):
 		is_brake_pressed = true
-		break_hold_time = 0
+		brake_hold_time = 0
 	if (Input.is_action_just_released(brake_action)):
 		is_brake_pressed = false
+		brake_release_time = 0
 		
 	_increase_brake_by_time(delta)
 	
@@ -245,7 +256,7 @@ func _brake_action_for_facing():
 func _increase_brake_by_time(delta):
 	if (is_brake_pressed and current_speed > G.moped_config_min_speed):
 		current_speed -= (
-			G.moped_config_brake_intensity * break_hold_time
+			G.moped_config_brake_intensity * brake_hold_time
 		)
 
 

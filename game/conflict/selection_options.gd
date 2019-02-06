@@ -11,7 +11,7 @@ var option_selected_detail_templates = [
 ]
 
 var curr_selection_idx = 0
-
+var option_picked = false
 
 func _ready():
 	init_options_containers_data()
@@ -64,8 +64,9 @@ func clear_selection():
 
 
 func _physics_process(delta):
-	_process_browse_options()
-	_process_pick_option()
+	if (not option_picked):
+		_process_browse_options()
+		_process_pick_option()
 
 func _process_browse_options():
 	var prev_selection_idx = curr_selection_idx
@@ -78,6 +79,7 @@ func _process_browse_options():
 		
 func _process_pick_option():
 	if (Input.is_action_just_released('unmount_moped')):
+		option_picked = true
 		match curr_selection_idx:
 			0:
 				_process_picked_bribe()
