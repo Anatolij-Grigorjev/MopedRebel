@@ -68,8 +68,6 @@ func _physics_process(delta):
 		_perform_sudden_stop(delta)
 		if (remaining_collision_recovery <= 0):
 			reset_velocity()
-			if (latest_conflict_collision != null):
-				_emit_collision_conflict_screen()
 	else:
 		_process_no_collision(delta)
 	
@@ -89,6 +87,7 @@ func _physics_process(delta):
 			if (not collision.collider.collided):
 				latest_conflict_collision = collision.collider
 				latest_conflict_collision.react_collision(collision)
+				_emit_collision_conflict_screen()
 
 func _perform_sudden_stop(delta):
 	var reduce_speed_by = (delta * G.moped_config_brake_intensity * MOPED_SUDDEN_STOP_COEF)
