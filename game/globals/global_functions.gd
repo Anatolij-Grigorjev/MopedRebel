@@ -58,6 +58,9 @@ func swap_collision_mask_bit(node, from_layer, to_layer):
 func flip_facing(facing_direction):
 	return C.FACING.LEFT if facing_direction == C.FACING.RIGHT else C.FACING.RIGHT
 	
+func get_facing_for_velocity(velocity):
+	return sign(velocity)
+	
 func parse_json_file_as_var(filepath):
 	#also sanity-checks string internally
 	assert_file_exists(filepath)

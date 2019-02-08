@@ -144,7 +144,7 @@ func _handle_facing_direction(delta):
 		or Input.is_action_just_released('turn_around')
 	):
 		facing_direction = F.flip_facing(facing_direction)
-		$sprite_on_moped.flip_h = sign(facing_direction) < 0
+		$sprite_on_moped.scale.x = abs($sprite_on_moped.scale.x) * facing_direction
 		reset_velocity()
 
 func _handle_swerve_control(delta):

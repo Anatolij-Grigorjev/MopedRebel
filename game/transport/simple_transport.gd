@@ -1,5 +1,6 @@
 extends KinematicBody2D
 
+
 export(float) var maintains_speed = 100
 export(float) var bribe_money = 100
 export(float) var required_sc = 150
@@ -8,6 +9,7 @@ export(String) var driver_toughness = 'WHIMP'
 var start_position = Vector2(0, 0)
 var velocity = Vector2()
 var collided = false
+var maintains_direction = C.FACING.RIGHT
 
 func _ready():
 	start_position = global_position
@@ -26,9 +28,10 @@ func _physics_process(delta):
 
 func reset_transport():
 	global_position = start_position
-	velocity = Vector2(maintains_speed, 0)
+	maintains_direction = F.get_facing_for_velocity(maintains_speed)
+	velocity = Vector2(abs(maintains_speed) * maintains_direction, 0)
 	collided = false
-	$sprite.flip_h = sign(maintains_speed) >= 0
+	$sprite.scale.x = abs($sprite.scale.x) * maintains_direction
 	
 func react_collision(collision):
 	collided = true

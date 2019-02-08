@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://stages/stage_road1.gd" type="Script" id=1]
 [ext_resource path="res://stages/tilesets/sidewalk.tres" type="TileSet" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://rebel/rebel_on_foot.tscn" type="PackedScene" id=5]
 [ext_resource path="res://rebel/rebel_on_moped.tscn" type="PackedScene" id=6]
 [ext_resource path="res://transport/car_blue/car_blue1.tscn" type="PackedScene" id=7]
+[ext_resource path="res://citizens/white_worker/white_worker1.tscn" type="PackedScene" id=8]
 
 [node name="stage_road1" type="Node2D" index="0"]
 
@@ -95,5 +96,9 @@ maintains_speed = 90.0
 
 position = Vector2( 1455.12, 809.238 )
 maintains_speed = -90.0
+
+[node name="white_worker1" parent="." index="7" instance=ExtResource( 8 )]
+
+position = Vector2( 629.362, 102.059 )
 
 
