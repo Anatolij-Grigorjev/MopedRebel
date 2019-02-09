@@ -1,10 +1,18 @@
 extends Node
 
 #global state node, stubbed props for testing individual scenes
+
+########
+##FOOT##
+########
 var node_rebel_on_foot = {
 	"global_position": Vector2()
 }
 var foot_config_walk_speed = 50
+
+#########
+##MOPED##
+#########
 var node_rebel_on_moped = {
 	"global_position": Vector2()
 }

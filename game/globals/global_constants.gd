@@ -25,7 +25,10 @@ const LAYERS_TRANSPORT_ROAD = 5
 ## GROUPS
 const GROUP_CARS = "road_cars"
 const GROUP_CITIZENS = "sidewalk_citizens"
-
+const SC_GAIN_FOR_GROUP = {
+	GROUP_CARS: 154,
+	GROUP_CITIZENS: 57
+}
 
 const DATETIME_FORMAT = "%s.%s.%s %s:%s:%s"
 

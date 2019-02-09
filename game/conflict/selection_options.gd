@@ -12,8 +12,10 @@ var option_selected_detail_templates = [
 
 var curr_selection_idx = 0
 var option_picked = false
+var enemy_sprite_node
 
 func _ready():
+	enemy_sprite_node = get_parent().get_node('chars_outer_container/pictures_container/enemy_tex')
 	init_options_containers_data()
 	init_conflict_with_details(0, 0, 'DUMMY')
 	
@@ -29,13 +31,14 @@ func init_options_containers_data():
 		option_normal_text.append(normal_text)
 
 
-func init_conflict_with_details(req_money, req_sc, enemy_rating):
+func init_conflict_with_details(enemy_texture, req_money, req_sc, enemy_rating):
 	var detail_param = [req_money, req_sc, enemy_rating]
 	option_selected_detail_text.clear()
 	for idx in range(0, option_selected_detail_templates.size()):
 		var detail_template = option_selected_detail_templates[idx]
 		var detail_text = detail_template % detail_param[idx]
 		option_selected_detail_text.append(detail_text)
+	enemy_sprite_node.texture = enemy_texture
 	mark_selected_option()
 
 	

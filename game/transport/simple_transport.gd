@@ -10,9 +10,11 @@ var start_position = Vector2(0, 0)
 var velocity = Vector2()
 var collided = false
 var maintains_direction = C.FACING.RIGHT
+var sprite
 
 func _ready():
 	start_position = global_position
+	sprite = $sprite
 	add_to_group(C.GROUP_CARS)
 	reset_transport()
 
@@ -31,7 +33,7 @@ func reset_transport():
 	maintains_direction = F.get_facing_for_velocity(maintains_speed)
 	velocity = Vector2(abs(maintains_speed) * maintains_direction, 0)
 	collided = false
-	$sprite.scale.x = abs($sprite.scale.x) * maintains_direction
+	sprite.scale.x = abs(sprite.scale.x) * maintains_direction
 	
 func react_collision(collision):
 	collided = true

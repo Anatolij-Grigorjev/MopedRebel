@@ -31,7 +31,8 @@ func _init_rebel_other_conflict_screen(enemy_node, bribe_money, diss_min_sc, fig
 	conflict_with_node = enemy_node
 	var conflict_root = _attach_conflict_to_stage()
 	var conflict_options_node = conflict_root.get_node('outer_container/selection_bgcolor/selection_bg/selection_options')
-	conflict_options_node.init_conflict_with_details(bribe_money, diss_min_sc, fight_toughness)
+	var enemy_texture = enemy_node.sprite.texture
+	conflict_options_node.init_conflict_with_details(enemy_texture, bribe_money, diss_min_sc, fight_toughness)
 	#prepare conflict camera
 	var conflict_camera = conflict_root.get_node('camera')
 	conflict_root.rect_size = get_viewport_rect().size

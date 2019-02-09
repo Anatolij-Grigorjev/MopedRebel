@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://rebel/dissing_zone.gd" type="Script" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 64, 64 )
+
+[node name="dissing_zone" type="Area2D" index="0"]
+
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+collision_layer = 39
+collision_mask = 39
+audio_bus_override = false
+audio_bus_name = "Master"
+script = ExtResource( 1 )
+_sections_unfolded = [ "Collision" ]
+
+[node name="shape" type="CollisionShape2D" parent="." index="0"]
+
+shape = SubResource( 1 )
+
+[node name="dissing_tally_timer" type="Timer" parent="." index="1"]
+
+process_mode = 1
+wait_time = 0.9
+one_shot = false
+autostart = false
+
+[connection signal="body_entered" from="." to="." method="_on_dissing_zone_body_entered"]
+
+[connection signal="body_exited" from="." to="." method="_on_dissing_zone_body_exited"]
+
+[connection signal="timeout" from="dissing_tally_timer" to="." method="_count_dissing_tally"]
+
+
