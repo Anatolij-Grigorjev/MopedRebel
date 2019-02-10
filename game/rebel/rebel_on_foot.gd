@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 var velocity = Vector2()
+var dissing_zone_node
 
 func disable():
 	set_physics_process(false)
@@ -12,6 +13,8 @@ func enable():
 
 func _ready():
 	G.node_rebel_on_foot = self
+	dissing_zone_node = $dissing_zone
+	dissing_zone_node.hide()
 	pass
 	
 func _physics_process(delta):
@@ -29,5 +32,14 @@ func _physics_process(delta):
 	
 	if Input.is_action_just_released('mount_moped'):
 		S.emit_signal0(S.SIGNAL_REBEL_MOUNT_MOPED)
+		
+	if Input.is_action_pressed('flip_bird'):
+		if (not dissing_zone_node.is_visible_in_tree()):
+			dissing_zone_node.show()
+	else :
+		if (dissing_zone_node.is_visible_in_tree()):
+			dissing_zone_node.hide()
 	
-	velocity = move_and_slide(velocity)
+	var collision = move_and_collide(velocity * delta)
+	if (collision):
+		print("rebel got collision!")
