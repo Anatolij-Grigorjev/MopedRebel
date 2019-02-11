@@ -41,5 +41,3 @@ func _physics_process(delta):
 			dissing_zone_node.hide()
 	
 	var collision = move_and_collide(velocity * delta)
-	if (collision):
-		print("rebel got collision!")

@@ -15,9 +15,9 @@ var option_picked = false
 var enemy_sprite_node
 
 func _ready():
-	enemy_sprite_node = get_parent().get_node('chars_outer_container/pictures_container/enemy_tex')
+	enemy_sprite_node = owner.get_node('outer_container/chars_outer_container/pictures_container/enemy_tex')
 	init_options_containers_data()
-	init_conflict_with_details(0, 0, 'DUMMY')
+	init_conflict_with_details(null, 0, 0, 'DUMMY')
 	
 func init_options_containers_data():
 	option_containers = [
@@ -38,7 +38,8 @@ func init_conflict_with_details(enemy_texture, req_money, req_sc, enemy_rating):
 		var detail_template = option_selected_detail_templates[idx]
 		var detail_text = detail_template % detail_param[idx]
 		option_selected_detail_text.append(detail_text)
-	enemy_sprite_node.texture = enemy_texture
+	if (enemy_texture != null):
+		enemy_sprite_node.texture = enemy_texture
 	mark_selected_option()
 
 	

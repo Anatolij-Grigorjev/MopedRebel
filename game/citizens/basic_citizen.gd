@@ -5,6 +5,8 @@ var should_move = false
 var velocity = Vector2()
 var walk_speed = 25
 
+
+
 func _ready():
 	add_to_group(C.GROUP_CITIZENS)
 	sprite = $sprite
@@ -14,7 +16,14 @@ func _process(delta):
 	if (should_move):
 		var collision = move_and_collide(velocity * delta)
 		if (collision):
-			print("citizen got collision!")
+			_stop_response()
+			S.emit_signal4(
+				S.SIGNAL_REBEL_START_CONFLICT,
+				self,
+				145,
+				98,
+				"22-34BB"
+			)
 	pass
 
 func enter_diss_zone():
@@ -29,4 +38,9 @@ func _prepare_aggressive_response(rebel_direction):
 	velocity = walk_speed * rebel_direction
 	should_move = true
 	set_collision_mask_bit(C.LAYERS_REBEL_SIDEWALK, true)
+	
+func _stop_response():
+	velocity = Vector2(0, 0)
+	should_move = false
+	set_collision_mask_bit(C.LAYERS_REBEL_SIDEWALK, false)
 	
