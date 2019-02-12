@@ -127,6 +127,6 @@ text = "OK"
 flat = false
 align = 1
 
-[connection signal="pressed" from="margins/text_container/ok_button" to="." method="_ok_button_pressed"]
+[connection signal="button_up" from="margins/text_container/ok_button" to="." method="_ok_button_pressed"]
 
 

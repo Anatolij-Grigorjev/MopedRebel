@@ -1,7 +1,17 @@
 extends KinematicBody2D
 
 var velocity = Vector2()
-var dissing_zone_node
+var dissing_zone_node_scene = preload("res://rebel/dissing_zone.tscn")
+var active_dissing_zone
+
+var diss_right_pos_node
+var diss_left_pos_node
+
+func _ready():
+	G.node_rebel_on_foot = self
+	diss_right_pos_node = $diss_right_position
+	diss_left_pos_node = $diss_left_position
+	pass
 
 func disable():
 	set_physics_process(false)
@@ -10,12 +20,6 @@ func disable():
 func enable():
 	set_physics_process(true)
 	visible = true
-
-func _ready():
-	G.node_rebel_on_foot = self
-	dissing_zone_node = $dissing_zone
-	dissing_zone_node.hide()
-	pass
 	
 func _physics_process(delta):
 	
@@ -34,10 +38,19 @@ func _physics_process(delta):
 		S.emit_signal0(S.SIGNAL_REBEL_MOUNT_MOPED)
 		
 	if Input.is_action_pressed('flip_bird'):
-		if (not dissing_zone_node.is_visible_in_tree()):
-			dissing_zone_node.show()
-	else :
-		if (dissing_zone_node.is_visible_in_tree()):
-			dissing_zone_node.hide()
+		if (active_dissing_zone == null):
+			active_dissing_zone = dissing_zone_node_scene.instance()
+			add_child(active_dissing_zone)
+		_set_dissing_zone_position(sign(velocity.x))
+	else:
+		if (active_dissing_zone != null):
+			active_dissing_zone.queue_free()
+			active_dissing_zone = null
 	
 	var collision = move_and_collide(velocity * delta)
+	
+func _set_dissing_zone_position(facing):
+	if (facing == C.FACING.RIGHT):
+		active_dissing_zone.global_position = diss_right_pos_node.global_position
+	if (facing == C.FACING.LEFT):
+		active_dissing_zone.global_position = diss_left_pos_node.global_position
