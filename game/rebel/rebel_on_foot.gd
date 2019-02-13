@@ -44,6 +44,7 @@ func _physics_process(delta):
 		_set_dissing_zone_position(sign(velocity.x))
 	else:
 		if (active_dissing_zone != null):
+			active_dissing_zone.clear_present_nodes()
 			active_dissing_zone.queue_free()
 			active_dissing_zone = null
 	

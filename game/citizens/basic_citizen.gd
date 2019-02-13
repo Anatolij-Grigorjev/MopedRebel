@@ -32,6 +32,9 @@ func enter_diss_zone():
 	
 	_prepare_aggressive_response(rebel_direction)
 	pass
+	
+func exit_diss_zone():
+	_stop_response()
 
 
 func _prepare_aggressive_response(rebel_direction):

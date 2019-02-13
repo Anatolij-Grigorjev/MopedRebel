@@ -9,10 +9,13 @@ func _ready():
 		exclude_collision_node = get_parent()
 	tally_timer = $dissing_tally_timer
 	tally_timer.one_shot = false
-	_clear_present_nodes()
+	clear_present_nodes()
 	pass
 
-func _clear_present_nodes():
+func clear_present_nodes():
+	for body in present_nodes:
+		_run_body_post_remove(body)
+	_check_stop_timer()
 	present_nodes.clear()
 
 
@@ -32,10 +35,18 @@ func _on_dissing_zone_body_exited(body):
 	var body_idx = present_nodes.find(body)
 	if (body_idx >= 0):
 		present_nodes.remove(body_idx)
-		if (body.has_method('exit_diss_zone')):
-			body.exit_diss_zone()
-		if (present_nodes.empty()):
-			tally_timer.stop()
+		_run_body_post_remove(body)
+		_check_stop_timer()
+			
+func _check_stop_timer():
+	if (present_nodes.empty()):
+		tally_timer.stop()
+		
+func _run_body_post_remove(body):
+	if (body == null):
+		pass
+	if (body.has_method('exit_diss_zone')):
+		body.exit_diss_zone()
 
 
 func _count_dissing_tally():
