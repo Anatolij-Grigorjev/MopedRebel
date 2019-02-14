@@ -22,7 +22,7 @@ func _ready():
 	S.connect_signal_to(
 		S.SIGNAL_DISS_POPUP_CLOSED,
 		self,
-		"_finish_conflict_state"
+		"_init_finish_conflict_state"
 	)
 	print("Loaded gloal conflict tracker node VS!")
 
@@ -52,6 +52,13 @@ func _init_diss_popup(diss_text):
 	G.node_current_stage_root.add_child(new_diss_dialog)
 	new_diss_dialog.show_popup(diss_text)
 	
+func _init_finish_conflict_state():
+	F.invoke_later(
+		self,
+		"_finish_conflict_state",
+		1.5
+	)
+
 func _finish_conflict_state():
 	active_conflict_screen_node.queue_free()
 	G.node_active_rebel.get_node('camera').current = true

@@ -40,6 +40,31 @@ func get_char_actual_z(char_node):
 	)
 	return z
 	
+func call0_if_present(node, action_name):
+	if (node != null):
+		if (node.has_method(action_name)):
+			node.call(action_name)
+	
+func invoke_later(callback_owner, callback_name, seconds_delay = 1):
+	if (seconds_delay <= 0):
+		call0_if_present(callback_owner, callback_name)
+	else: 
+		var timer = Timer.new()
+		timer.wait_time = seconds_delay
+		timer.one_shot = true
+		timer.connect(
+			"timeout",  
+			self, 
+			"_call_later_remove_timer",
+			[callback_owner, callback_name, timer]
+		)
+		add_child(timer)
+		timer.start()
+	
+func _call_later_remove_timer(action_owner_node, action_name, timer_node):
+	call0_if_present(action_owner_node, action_name)
+	remove_child(timer_node)
+	timer_node.queue_free()
 
 #move specific physics collision layer bit for node 
 # from from_layer to to_layer
