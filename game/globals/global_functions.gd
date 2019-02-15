@@ -41,27 +41,38 @@ func get_char_actual_z(char_node):
 	return z
 	
 func call0_if_present(node, action_name):
+	logf("invoking action %s on node %s", [
+		action_name,
+		node
+	])
 	if (node != null):
 		if (node.has_method(action_name)):
 			node.call(action_name)
 	
-func invoke_later(callback_owner, callback_name, seconds_delay = 1):
+func invoke_later(node_owner, action_name, seconds_delay = 1):
 	if (seconds_delay <= 0):
-		call0_if_present(callback_owner, callback_name)
+		call0_if_present(node_owner, action_name)
 	else: 
+		logf("requested to call %s on %s in %s seconds...", [
+			action_name, 
+			node_owner, 
+			seconds_delay
+		])
 		var timer = Timer.new()
 		timer.wait_time = seconds_delay
 		timer.one_shot = true
+		#ensure the timer processes even during conflict pause
+		timer.pause_mode = PAUSE_MODE_PROCESS
 		timer.connect(
 			"timeout",  
 			self, 
-			"_call_later_remove_timer",
-			[callback_owner, callback_name, timer]
+			"_call_action_and_remove_timer",
+			[node_owner, action_name, timer]
 		)
-		add_child(timer)
 		timer.start()
+		add_child(timer)
 	
-func _call_later_remove_timer(action_owner_node, action_name, timer_node):
+func _call_action_and_remove_timer(action_owner_node, action_name, timer_node):
 	call0_if_present(action_owner_node, action_name)
 	remove_child(timer_node)
 	timer_node.queue_free()

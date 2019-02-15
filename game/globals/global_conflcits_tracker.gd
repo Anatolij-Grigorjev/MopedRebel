@@ -56,7 +56,7 @@ func _init_finish_conflict_state():
 	F.invoke_later(
 		self,
 		"_finish_conflict_state",
-		1.5
+		0.4
 	)
 
 func _finish_conflict_state():
