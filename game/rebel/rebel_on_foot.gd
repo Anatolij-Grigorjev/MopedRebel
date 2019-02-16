@@ -6,9 +6,11 @@ var active_dissing_zone
 
 var diss_right_pos_node
 var diss_left_pos_node
+var active_sprite
 
 func _ready():
 	G.node_rebel_on_foot = self
+	active_sprite = $sprite_on_foot
 	diss_right_pos_node = $diss_right_position
 	diss_left_pos_node = $diss_left_position
 	pass

@@ -25,9 +25,12 @@ var latest_conflict_collision = null
 
 var facing_direction
 
+var active_sprite
+
 func _ready():
 	facing_direction = C.FACING.RIGHT
 	G.node_rebel_on_moped = self
+	active_sprite = $sprite_on_moped
 	reset_velocity()
 	
 func reset_velocity():

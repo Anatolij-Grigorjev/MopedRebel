@@ -13,9 +13,11 @@ var option_selected_detail_templates = [
 var curr_selection_idx = 0
 var option_picked = false
 var enemy_sprite_node
+var rebel_sprite_node
 
 func _ready():
 	enemy_sprite_node = owner.get_node('outer_container/chars_outer_container/pictures_container/enemy_tex')
+	rebel_sprite_node = owner.get_node('outer_container/chars_outer_container/pictures_container/rebel_tex')
 	init_options_containers_data()
 	init_conflict_with_details(null, 0, 0, 'DUMMY')
 	
@@ -38,9 +40,13 @@ func init_conflict_with_details(enemy_texture, req_money, req_sc, enemy_rating):
 		var detail_template = option_selected_detail_templates[idx]
 		var detail_text = detail_template % detail_param[idx]
 		option_selected_detail_text.append(detail_text)
+	_apply_conflict_textures(enemy_texture)
+	mark_selected_option()
+	
+func _apply_conflict_textures(enemy_texture):
 	if (enemy_texture != null):
 		enemy_sprite_node.texture = enemy_texture
-	mark_selected_option()
+	rebel_sprite_node.texture = G.node_active_rebel.active_sprite.texture
 
 	
 func mark_selected_option():
@@ -100,7 +106,7 @@ func _process_pick_option():
 func _process_picked_bribe():
 	pass
 func _process_picked_diss():
-	
+	F.logf("choosing diss for node name %s...", [VS.conflict_with_node.name])
 	var chosen_diss = (
 		DE.get_random_enemy_diss(VS.conflict_with_node.name) 
 		if VS.conflict_with_node != null 

@@ -7,9 +7,9 @@
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
-extents = Vector2( 64, 64 )
+extents = Vector2( 34.1616, 64 )
 
-[node name="rebel_on_foot" type="KinematicBody2D" index="0"]
+[node name="rebel_on_foot" type="KinematicBody2D"]
 
 input_pickable = false
 collision_layer = 8
@@ -25,6 +25,7 @@ shape = SubResource( 1 )
 [node name="sprite_on_foot" type="Sprite" parent="." index="1"]
 
 texture = ExtResource( 2 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="sprite_on_moped" type="Sprite" parent="." index="2"]
 
@@ -59,12 +60,12 @@ _sections_unfolded = [ "Editor", "Limit" ]
 
 [node name="diss_right_position" type="Position2D" parent="." index="4"]
 
-position = Vector2( 128, 0 )
+position = Vector2( 45, 0 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="diss_left_position" type="Position2D" parent="." index="5"]
 
-position = Vector2( -128, 0 )
+position = Vector2( -45, 0 )
 _sections_unfolded = [ "Transform" ]
 
 
