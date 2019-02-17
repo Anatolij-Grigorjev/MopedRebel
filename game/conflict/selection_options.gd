@@ -106,7 +106,6 @@ func _process_pick_option():
 func _process_picked_bribe():
 	pass
 func _process_picked_diss():
-	F.logf("choosing diss for node name %s...", [VS.conflict_with_node.name])
 	var chosen_diss = (
 		DE.get_random_enemy_diss(VS.conflict_with_node.name) 
 		if VS.conflict_with_node != null 

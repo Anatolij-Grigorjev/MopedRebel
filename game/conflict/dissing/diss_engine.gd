@@ -18,7 +18,6 @@ func _ready():
 	F.assert_arr_not_empty(all_disses_model[KEY_COMMON_DISSES])
 	has_specific_disses = not all_disses_model[KEY_SPECIFIC_DISSES].empty()
 	print("Loaded diss engine node DE!")
-	pass
 	
 
 func get_random_common_diss():
@@ -30,7 +29,11 @@ func get_random_enemy_diss(enemy_node_name):
 		F.logf("WARN!!! Dissing %s with common, no specifics...", [enemy_node_name])
 		return get_random_common_diss()
 	var specific_disses = all_disses_model[KEY_SPECIFIC_DISSES]
-	var all_suitable_disses = Array(all_disses_model[KEY_COMMON_DISSES])
+	var all_suitable_disses = []
+	F.add_base_array_all_elems(
+		all_suitable_disses, 
+		all_disses_model[KEY_COMMON_DISSES]
+	)
 	#iterating keys
 	for name_part in specific_disses:
 		if (enemy_node_name.findn(name_part) > -1):
@@ -38,7 +41,6 @@ func get_random_enemy_diss(enemy_node_name):
 				all_suitable_disses, 
 				specific_disses[name_part]
 			)
-			
 	return F.get_rand_array_elem(all_suitable_disses)
 
 

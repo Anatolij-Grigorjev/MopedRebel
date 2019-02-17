@@ -43,11 +43,17 @@ func get_char_actual_z(char_node):
 func call0_if_present(node, action_name):
 	logf("invoking action %s on node %s", [
 		action_name,
-		node
+		get_node_name_safe(node)
 	])
 	if (node != null):
 		if (node.has_method(action_name)):
 			node.call(action_name)
+
+func get_node_name_safe(node):
+	if (node != null && node.has_method("get_name")):
+		return node.name
+	else:
+		return "<NULL>"
 	
 func invoke_later(node_owner, action_name, seconds_delay = 1):
 	if (seconds_delay <= 0):
@@ -55,7 +61,7 @@ func invoke_later(node_owner, action_name, seconds_delay = 1):
 	else: 
 		logf("requested to call %s on %s in %s seconds...", [
 			action_name, 
-			node_owner, 
+			get_node_name_safe(node_owner), 
 			seconds_delay
 		])
 		var timer = Timer.new()
