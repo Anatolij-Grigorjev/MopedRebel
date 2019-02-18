@@ -4,16 +4,14 @@ var velocity = Vector2()
 var dissing_zone_node_scene = preload("res://rebel/dissing_zone.tscn")
 var active_dissing_zone
 
-var diss_right_pos_node
-var diss_left_pos_node
+var diss_positions_control
+
 var active_sprite
 
 func _ready():
 	G.node_rebel_on_foot = self
 	active_sprite = $sprite_on_foot
-	diss_right_pos_node = $diss_right_position
-	diss_left_pos_node = $diss_left_position
-	pass
+	diss_positions_control = $diss_positions
 
 func disable():
 	set_physics_process(false)
@@ -43,7 +41,7 @@ func _physics_process(delta):
 		if (active_dissing_zone == null):
 			active_dissing_zone = dissing_zone_node_scene.instance()
 			add_child(active_dissing_zone)
-		_set_dissing_zone_position(sign(velocity.x))
+		_set_dissing_zone_position()
 	else:
 		if (active_dissing_zone != null):
 			active_dissing_zone.clear_present_nodes()
@@ -52,8 +50,8 @@ func _physics_process(delta):
 	
 	var collision = move_and_collide(velocity * delta)
 	
-func _set_dissing_zone_position(facing):
-	if (facing == C.FACING.RIGHT):
-		active_dissing_zone.global_position = diss_right_pos_node.global_position
-	if (facing == C.FACING.LEFT):
-		active_dissing_zone.global_position = diss_left_pos_node.global_position
+func _set_dissing_zone_position():
+	var active_position_node = diss_positions_control.active_diss_position_node
+	if (active_position_node != null):
+		active_dissing_zone.global_position = active_position_node.global_position
+

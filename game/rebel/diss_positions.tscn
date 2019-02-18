@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://rebel/diss_positions.gd" type="Script" id=1]
+
+[node name="diss_positions" type="Node2D"]
+
+editor/display_folded = true
+script = ExtResource( 1 )
+
+[node name="diss_right_position" type="Position2D" parent="." index="0"]
+
+position = Vector2( 45, 0 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="diss_left_position" type="Position2D" parent="." index="1"]
+
+position = Vector2( -45, 0 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="diss_up_position" type="Position2D" parent="." index="2"]
+
+position = Vector2( 0, -75 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="diss_down_position" type="Position2D" parent="." index="3"]
+
+position = Vector2( 0, 75 )
+_sections_unfolded = [ "Transform" ]
+
+

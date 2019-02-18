@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://rebel/rebel_on_moped.gd" type="Script" id=1]
 [ext_resource path="res://rebel/rebel_on_moped.png" type="Texture" id=2]
 [ext_resource path="res://rebel/rebel_on_foot.png" type="Texture" id=3]
+[ext_resource path="res://rebel/diss_positions.tscn" type="PackedScene" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -62,5 +63,7 @@ editor_draw_screen = true
 editor_draw_limits = false
 editor_draw_drag_margin = false
 _sections_unfolded = [ "Limit" ]
+
+[node name="diss_positions" parent="." index="4" instance=ExtResource( 4 )]
 
 
