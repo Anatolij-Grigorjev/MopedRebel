@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 const MOPED_SUDDEN_STOP_COEF = 3.75
+var dissing_zone_node_scene = preload("res://rebel/dissing_zone.tscn")
 
 var current_speed
 var current_swerve = 0
@@ -27,10 +28,14 @@ var facing_direction
 
 var active_sprite
 
+var diss_positions_control
+var active_dissing_zone
+
 func _ready():
 	facing_direction = C.FACING.RIGHT
 	G.node_rebel_on_moped = self
 	active_sprite = $sprite_on_moped
+	diss_positions_control = $diss_positions
 	reset_velocity()
 	
 func reset_velocity():
@@ -130,6 +135,7 @@ func _process_no_collision(delta):
 		if (current_swerve != 0 and current_speed > 0):
 			#reduce forward pseed by coef based on swerve intensity
 			_adjust_current_speed_to_swerve()
+		_handle_diss_zone()
 
 
 func _handle_unmounting_moped():
@@ -270,4 +276,20 @@ func _adjust_current_speed_to_swerve():
 	#if swerving full speed forward movement will slow down 
 	#a bit more to accomodate manuever
 	current_speed -= (max_fwd_to_swerve_speed_diff * swerve_intensity_coef)
-
+	
+func _handle_diss_zone():
+	if Input.is_action_pressed('flip_bird'):
+		if (active_dissing_zone == null):
+			active_dissing_zone = dissing_zone_node_scene.instance()
+			add_child(active_dissing_zone)
+		_set_dissing_zone_position()
+	else:
+		if (active_dissing_zone != null):
+			active_dissing_zone.clear_present_nodes()
+			active_dissing_zone.queue_free()
+			active_dissing_zone = null
+			
+func _set_dissing_zone_position():
+	var active_position_node = diss_positions_control.active_diss_position_node
+	if (active_position_node != null):
+		active_dissing_zone.global_position = active_position_node.global_position
