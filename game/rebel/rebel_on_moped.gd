@@ -91,8 +91,12 @@ func _physics_process(delta):
 			remaining_collision_recovery = G.moped_config_crash_recovery_time
 			current_speed = velocity.x
 			current_swerve = velocity.y
+			var already_collided = (
+				not collision.collider.has_method("has_collided_with")
+				or collision.collider.has_collided_with(self)
+			)
 			#only setup new conflict if one didnt happen yet
-			if (not collision.collider.collided):
+			if (not already_collided):
 				latest_conflict_collision = collision.collider
 				latest_conflict_collision.react_collision(collision)
 				_emit_collision_conflict_screen()

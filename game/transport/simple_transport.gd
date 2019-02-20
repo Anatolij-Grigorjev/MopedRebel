@@ -8,7 +8,9 @@ export(String) var driver_toughness = 'WHIMP'
  
 var start_position = Vector2(0, 0)
 var velocity = Vector2()
+var should_stop = false
 var collided = false
+var stop_itensity = 0.0
 var maintains_direction = C.FACING.RIGHT
 var sprite
 
@@ -19,8 +21,8 @@ func _ready():
 	reset_transport()
 
 func _physics_process(delta):
-	if (collided):
-		velocity.x = lerp(velocity.x, 0, delta*2)
+	if (should_stop):
+		velocity.x = lerp(velocity.x, 0, stop_itensity)
 		if (velocity.x > 0):
 			move_and_slide(velocity)
 		else:
@@ -32,12 +34,21 @@ func reset_transport():
 	global_position = start_position
 	maintains_direction = F.get_facing_for_velocity(maintains_speed)
 	velocity = Vector2(abs(maintains_speed) * maintains_direction, 0)
+	should_stop = false
 	collided = false
 	sprite.scale.x = abs(sprite.scale.x) * maintains_direction
 	
 func react_collision(collision):
+	should_stop = true
 	collided = true
+	stop_itensity = get_physics_process_delta_time() * 2
+	
+func enter_diss_zone():
+	should_stop = true
+	stop_itensity = get_physics_process_delta_time() * 5
 
+func has_collided_with(other_node):
+	return collided
 
 func _screen_exited():
 	$post_leave_wait.stop()
