@@ -40,11 +40,10 @@ func _physics_process(delta):
 			#try move towards active rebel on road
 			if (G.node_active_rebel == G.node_rebel_on_moped):
 				var current_rebel_position = G.node_rebel_on_moped.global_position
-				var direction_to_rebel = current_rebel_position - global_position
+				var direction_to_rebel = (current_rebel_position - global_position).normalized()
 				var target_velocity = direction_to_rebel * target_speed_magnitude
 				velocity.x = lerp(velocity.x, target_velocity.x, delta * 2)
 				velocity.y = lerp(velocity.y, target_velocity.y, delta * 2)
-				F.logf("direction to rebel: %s | velocity: %s", [direction_to_rebel, velocity])
 			else:
 				is_dissed = false
 		move_and_collide(delta * velocity)

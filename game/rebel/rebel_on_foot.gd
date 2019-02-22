@@ -54,4 +54,5 @@ func _set_dissing_zone_position():
 	var active_position_node = diss_positions_control.active_diss_position_node
 	if (active_position_node != null):
 		active_dissing_zone.global_position = active_position_node.global_position
+		active_dissing_zone.rotation_degrees = diss_positions_control.active_diss_zone_angle
 

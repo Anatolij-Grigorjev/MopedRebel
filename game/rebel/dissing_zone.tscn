@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
-extents = Vector2( 64, 64 )
+extents = Vector2( 204, 64 )
 
 [node name="dissing_zone" type="Area2D"]
 
@@ -20,11 +20,13 @@ collision_mask = 39
 audio_bus_override = false
 audio_bus_name = "Master"
 script = ExtResource( 1 )
-_sections_unfolded = [ "Collision" ]
+_sections_unfolded = [ "Collision", "Transform" ]
 
 [node name="shape" type="CollisionShape2D" parent="." index="0"]
 
+position = Vector2( 140, 0 )
 shape = SubResource( 1 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="dissing_tally_timer" type="Timer" parent="." index="1"]
 
@@ -36,7 +38,8 @@ autostart = false
 [node name="face" type="Sprite" parent="." index="2"]
 
 modulate = Color( 0.157804, 0.863281, 0.218431, 0.42498 )
-scale = Vector2( 13, 13 )
+position = Vector2( 140, 0 )
+scale = Vector2( 41, 13 )
 texture = ExtResource( 2 )
 region_enabled = true
 region_rect = Rect2( 10, 10, 10, 10 )
