@@ -6,8 +6,8 @@
 [ext_resource path="res://stages/tilesets/road.tres" type="TileSet" id=4]
 [ext_resource path="res://rebel/rebel_on_foot.tscn" type="PackedScene" id=5]
 [ext_resource path="res://rebel/rebel_on_moped.tscn" type="PackedScene" id=6]
-[ext_resource path="res://transport/car_blue/car_blue1.tscn" type="PackedScene" id=7]
-[ext_resource path="res://citizens/white_worker/white_worker1.tscn" type="PackedScene" id=8]
+[ext_resource path="res://enemy/transport/car_blue/car_blue1.tscn" type="PackedScene" id=7]
+[ext_resource path="res://enemy/citizens/white_worker/white_worker1.tscn" type="PackedScene" id=8]
 
 [node name="stage_road1" type="Node2D" index="0"]
 
@@ -89,16 +89,16 @@ _sections_unfolded = [ "Collision", "Transform" ]
 
 [node name="car_blue1" parent="." index="5" instance=ExtResource( 7 )]
 
-position = Vector2( 231.427, 656.466 )
+position = Vector2( 441.454, 694.239 )
 maintains_speed = 90.0
 
-[node name="car_blue2" parent="." index="6" instance=ExtResource( 7 )]
+[node name="white_worker1" parent="." index="6" instance=ExtResource( 8 )]
 
-position = Vector2( 1455.12, 809.238 )
+position = Vector2( 766.149, 141.055 )
+
+[node name="car_blue2" parent="." index="7" instance=ExtResource( 7 )]
+
+position = Vector2( 1247.18, 482.285 )
 maintains_speed = -90.0
-
-[node name="white_worker1" parent="." index="7" instance=ExtResource( 8 )]
-
-position = Vector2( 629.362, 102.059 )
 
 

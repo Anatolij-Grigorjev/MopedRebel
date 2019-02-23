@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/citizen_worker.png-e9f9cb22d22896254fe311a4bc7e9bd2.stex"
+path="res://.import/car_blue.png-d425d03e52a68bb624783693583b1948.stex"
 
 [deps]
 
-source_file="res://citizens/white_worker/citizen_worker.png"
-dest_files=[ "res://.import/citizen_worker.png-e9f9cb22d22896254fe311a4bc7e9bd2.stex" ]
+source_file="res://enemy/transport/car_blue/car_blue.png"
+dest_files=[ "res://.import/car_blue.png-d425d03e52a68bb624783693583b1948.stex" ]
 
 [params]
 
@@ -15,9 +15,9 @@ compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/normal_map=0
-flags/repeat=0
+flags/repeat=1
 flags/filter=true
-flags/mipmaps=false
+flags/mipmaps=true
 flags/anisotropic=false
 flags/srgb=2
 process/fix_alpha_border=true
