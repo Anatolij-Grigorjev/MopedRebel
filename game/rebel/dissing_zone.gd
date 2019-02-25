@@ -23,8 +23,8 @@ func _on_dissing_zone_body_entered(body):
 	if (body == exclude_collision_node):
 		pass
 	present_nodes.append(body)
-	if (body.has_method('enter_diss_zone')):
-		body.enter_diss_zone()
+	if (body.has_node('diss_receiver')):
+		body.get_node('diss_receiver').start_receive_diss()
 	if (tally_timer.is_stopped()):
 		tally_timer.start()
 
@@ -45,8 +45,8 @@ func _check_stop_timer():
 func _run_body_post_remove(body):
 	if (body == null):
 		pass
-	if (body.has_method('exit_diss_zone')):
-		body.exit_diss_zone()
+	if (body.has_node('diss_receiver')):
+		body.get_node('diss_receiver').stop_receive_diss()
 
 
 func _count_dissing_tally():
