@@ -12,6 +12,7 @@ func _ready():
 	sprite = $sprite
 	diss_receiver = $diss_receiver
 	diss_receiver.set_got_dissed_action('_start_diss_response')
+	$check_rebel_direction_timer.connect('timeout', self, '_move_in_rebel_direction')
 	pass
 
 func _process(delta):
@@ -29,18 +30,25 @@ func _process(delta):
 	pass
 
 func _start_diss_response():
-	var rebel_position = G.node_active_rebel.global_position
-	var rebel_direction = (rebel_position - global_position).normalized()
+	$check_rebel_direction_timer.start()
+	_prepare_aggressive_response()
+	_move_in_rebel_direction()
 	
-	_prepare_aggressive_response(rebel_direction)
-
-func _prepare_aggressive_response(rebel_direction):
+func _move_in_rebel_direction():
+	var rebel_direction = _get_rebel_direction()
 	velocity = walk_speed * rebel_direction
+	
+func _get_rebel_direction():
+	var rebel_position = G.node_active_rebel.global_position
+	return (rebel_position - global_position).normalized()
+
+func _prepare_aggressive_response():
 	should_move = true
 	set_collision_mask_bit(C.LAYERS_REBEL_SIDEWALK, true)
 	
 func _stop_diss_response():
 	diss_receiver.finish_being_dissed()
+	$check_rebel_direction_timer.stop()
 	velocity = Vector2(0, 0)
 	should_move = false
 	set_collision_mask_bit(C.LAYERS_REBEL_SIDEWALK, false)
