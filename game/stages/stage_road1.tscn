@@ -99,6 +99,7 @@ position = Vector2( 766.149, 141.055 )
 [node name="car_blue2" parent="." index="7" instance=ExtResource( 7 )]
 
 position = Vector2( 1247.18, 482.285 )
-maintains_speed = -90.0
+maintains_speed = 90.0
+maintains_direction = Vector2( -1, 0 )
 
 

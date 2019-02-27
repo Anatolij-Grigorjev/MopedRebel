@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 
 export(float) var maintains_speed = 100
+export(Vector2) var maintains_direction = Vector2(1, 0)
 export(float) var bribe_money = 100
 export(float) var required_sc = 150
 export(String) var driver_toughness = 'WHIMP'
@@ -10,69 +11,67 @@ var start_position = Vector2(0, 0)
 var velocity = Vector2()
 var should_stop = false
 var collided = false
-var is_dissed = false
-var stop_itensity = 0.0
-var maintains_direction = C.FACING.RIGHT
+
+var stop_intensity = 0.0
 var sprite
+var diss_receiver
+var target_direction
 
 func _ready():
 	start_position = global_position
 	sprite = $sprite
+	diss_receiver = $diss_receiver
+	diss_receiver.set_diss_began_action('enter_diss_zone')
+	diss_receiver.set_diss_stopped_action('exit_diss_zone')
+	diss_receiver.set_got_dissed_action('chase_while_dissed')
 	add_to_group(C.GROUP_CARS)
 	reset_transport()
 
 func _physics_process(delta):
 	if (should_stop):
-		velocity.x = lerp(velocity.x, 0, stop_itensity)
-		if (velocity.x > 0):
+		velocity.x = lerp(velocity.x, 0, stop_intensity)
+		if (velocity.x > stop_intensity):
 			#keep stopping and colliding
 			move_and_slide(velocity)
-		else:
-			#if dissed try chase the player after stopping
-			if (is_dissed):
-				should_stop = false
 	else:
-		var target_speed_magnitude = abs(maintains_speed)
+		
+		var target_velocity = target_direction * maintains_speed
 		#speedup back if speed reduced by stopping previously
-		if (abs(velocity.x) < target_speed_magnitude):
-			velocity.x = lerp(velocity.x, sign(velocity.x) * target_speed_magnitude, delta * 2)
-		if (is_dissed):
-			#try move towards active rebel on road
-			if (G.node_active_rebel == G.node_rebel_on_moped):
-				var current_rebel_position = G.node_rebel_on_moped.global_position
-				var direction_to_rebel = (current_rebel_position - global_position).normalized()
-				var target_velocity = direction_to_rebel * target_speed_magnitude
-				velocity.x = lerp(velocity.x, target_velocity.x, delta * 2)
-				velocity.y = lerp(velocity.y, target_velocity.y, delta * 2)
-			else:
-				is_dissed = false
+		if (velocity.length_squared() < target_velocity.length_squared()):
+			velocity.x = lerp(velocity.x, target_velocity.x, delta)
+			velocity.y = lerp(velocity.y, target_velocity.y, delta)
+
 		move_and_collide(delta * velocity)
 
 func reset_transport():
 	global_position = start_position
-	maintains_direction = F.get_facing_for_velocity(maintains_speed)
-	velocity = Vector2(abs(maintains_speed) * maintains_direction, 0)
+	velocity = abs(maintains_speed) * maintains_direction
 	should_stop = false
 	collided = false
-	is_dissed = false
-	sprite.scale.x = abs(sprite.scale.x) * maintains_direction
+	_set_target_direction(maintains_direction)
+	diss_receiver.finish_being_dissed()
+	
+func _set_target_direction(direction):
+	target_direction = direction
+	sprite.scale.x = abs(sprite.scale.x) * sign(direction.x)
 	
 func react_collision(collision):
 	should_stop = true
 	collided = true
-	stop_itensity = get_physics_process_delta_time() * 2
+	diss_receiver.finish_being_dissed()
+	stop_intensity = get_physics_process_delta_time()
 	
 func enter_diss_zone():
 	should_stop = true
-	is_dissed = true
-	stop_itensity = get_physics_process_delta_time() * 3
+	stop_intensity = get_physics_process_delta_time()
 
 func exit_diss_zone():
-	is_dissed = false
 	should_stop = false
-
-func has_collided_with(other_node):
-	return collided
+	
+func chase_while_dissed():
+	should_stop = false
+	_set_target_direction(F.get_speed_to_active_rebel_direction(self))
+	
 
 func _screen_exited():
 	$post_leave_wait.stop()

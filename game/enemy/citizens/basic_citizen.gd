@@ -32,15 +32,7 @@ func _process(delta):
 func _start_diss_response():
 	$check_rebel_direction_timer.start()
 	_prepare_aggressive_response()
-	_move_in_rebel_direction()
-	
-func _move_in_rebel_direction():
-	var rebel_direction = _get_rebel_direction()
-	velocity = walk_speed * rebel_direction
-	
-func _get_rebel_direction():
-	var rebel_position = G.node_active_rebel.global_position
-	return (rebel_position - global_position).normalized()
+	velocity = F.get_speed_to_active_rebel_direction(self, walk_speed)
 
 func _prepare_aggressive_response():
 	should_move = true

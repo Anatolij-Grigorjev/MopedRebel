@@ -40,6 +40,12 @@ func get_char_actual_z(char_node):
 	)
 	return z
 	
+func get_speed_to_active_rebel_direction(node, speed = 1):
+	assert_not_null(node)
+	var rebel_position = G.node_active_rebel.global_position
+	var rebel_direction = (rebel_position - node.global_position).normalized()
+	return speed * rebel_direction
+	
 func call0_if_present(node, action_name):
 	logf("invoking action %s on node %s", [
 		action_name,
@@ -166,6 +172,10 @@ func assert_arr_not_empty(arr = []):
 func assert_string_not_blank(string):
 	if (string == null or string.empty() or (string.strip_edges()).empty()):
 		log_error("Provided string %s was null or empty/blank!", [string])
+
+func assert_not_null(thing):
+	if (thing == null):
+		log_error("Supplied value was null!")
 		
 func assert_file_exists(filepath):
 	assert_string_not_blank(filepath)
