@@ -16,6 +16,7 @@ var stop_intensity = 0.0
 var sprite
 var diss_receiver
 var target_direction
+var target_speed
 
 func _ready():
 	start_position = global_position
@@ -29,19 +30,15 @@ func _ready():
 
 func _physics_process(delta):
 	if (should_stop):
-		velocity.x = lerp(velocity.x, 0, stop_intensity)
-		if (velocity.x > stop_intensity):
-			#keep stopping and colliding
-			move_and_slide(velocity)
+		target_speed = lerp(target_speed, 0, delta)
 	else:
+		target_speed = lerp(target_speed, maintains_speed, delta)
 		
-		var target_velocity = target_direction * maintains_speed
-		#speedup back if speed reduced by stopping previously
-		if (velocity.length_squared() < target_velocity.length_squared()):
-			velocity.x = lerp(velocity.x, target_velocity.x, delta)
-			velocity.y = lerp(velocity.y, target_velocity.y, delta)
-
-		move_and_collide(delta * velocity)
+	velocity = target_direction * target_speed
+	
+	var collision = move_and_collide(delta * velocity)
+	if (collision):
+		react_collision(collision)
 
 func reset_transport():
 	global_position = start_position
@@ -49,21 +46,24 @@ func reset_transport():
 	should_stop = false
 	collided = false
 	_set_target_direction(maintains_direction)
+	_set_target_speed(maintains_speed)
 	diss_receiver.finish_being_dissed()
 	
 func _set_target_direction(direction):
 	target_direction = direction
 	sprite.scale.x = abs(sprite.scale.x) * sign(direction.x)
 	
+func _set_target_speed(speed):
+	target_speed = speed
+	
 func react_collision(collision):
 	should_stop = true
 	collided = true
 	diss_receiver.finish_being_dissed()
-	stop_intensity = get_physics_process_delta_time()
+	
 	
 func enter_diss_zone():
 	should_stop = true
-	stop_intensity = get_physics_process_delta_time()
 
 func exit_diss_zone():
 	should_stop = false
