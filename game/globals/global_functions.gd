@@ -143,7 +143,7 @@ func parse_json_file_as_var(filepath):
 func logf(format, args_list = []):
 	var log_statement = format % args_list
 	#print log date in utc
-	print("[%s UTC]: %s" % [format_date(OS.get_datetime(true)), log_statement])
+	print("[%s UTC] %s" % [format_date(OS.get_datetime(true)), log_statement])
 	
 #return supplied date_dict formatted as constants fromat string
 func format_date(datetime_dict):

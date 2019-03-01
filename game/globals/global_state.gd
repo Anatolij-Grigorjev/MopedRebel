@@ -27,6 +27,10 @@ var moped_config_swerve_speed = F.y2z(moped_config_max_speed)
 var moped_config_swerve_acceleration_rate = 15
 var moped_config_swerve_neutral_threshold = (moped_config_swerve_acceleration_rate / 2)
 var moped_config_crash_recovery_time = 0.9
+var moped_config_max_flat_velocity_sq = Vector2(
+	moped_config_max_speed,
+	moped_config_swerve_speed
+).length_squared()
 
 func _ready():
 	print("Loaded global game state node G!")

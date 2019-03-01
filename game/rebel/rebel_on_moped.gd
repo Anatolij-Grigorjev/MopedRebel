@@ -22,8 +22,6 @@ var is_brake_pressed = false
 var is_unmounting_moped = false
 var remaining_collision_recovery = 0
 
-var latest_conflict_collision = null
-
 var facing_direction
 
 var active_sprite
@@ -86,35 +84,31 @@ func _physics_process(delta):
 	)
 	var collision = move_and_collide(velocity * delta)
 	if (collision):
+		#bump around by car
 		if (collision.collider.is_in_group(C.GROUP_CARS)):
 			velocity = velocity.bounce(collision.normal)
-			remaining_collision_recovery = G.moped_config_crash_recovery_time
+			remaining_collision_recovery = _get_moped_recovery_for_bounce(velocity)
 			current_speed = velocity.x
 			current_swerve = velocity.y
-			var already_collided = (
-				not collision.collider.has_method("has_collided_with")
-				or collision.collider.has_collided_with(self)
-			)
-			#only setup new conflict if one didnt happen yet
-			if (not already_collided):
-				latest_conflict_collision = collision.collider
-				latest_conflict_collision.react_collision(collision)
-				_emit_collision_conflict_screen()
+			
+func _get_moped_recovery_for_bounce(bounce_velocity):
+	var bounce_sq = bounce_velocity.length_squared()
+	# max recovery time reserved only for travelling max speed.
+	# proportionally, 
+	#
+	# max speed - max recovery
+	# bounce speed - x recovery
+	#
+	# (max recovery * bounce speed) / max speed = x recovery
+	return (
+		(G.moped_config_crash_recovery_time * bounce_sq) 
+		/ 
+		G.moped_config_max_flat_velocity_sq
+	)
 
 func _perform_sudden_stop(delta):
 	var reduce_speed_by = (delta * G.moped_config_brake_intensity * MOPED_SUDDEN_STOP_COEF)
 	current_speed = current_speed + (-sign(current_speed) * reduce_speed_by)
-	
-func _emit_collision_conflict_screen():
-	#initiate conflict screen
-	S.emit_signal4(
-		S.SIGNAL_REBEL_START_CONFLICT,
-		latest_conflict_collision,
-		latest_conflict_collision.bribe_money,
-		latest_conflict_collision.required_sc,
-		latest_conflict_collision.driver_toughness
-	)
-	latest_conflict_collision = null
 
 
 func _process_no_collision(delta):

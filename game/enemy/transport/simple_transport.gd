@@ -42,7 +42,6 @@ func _physics_process(delta):
 
 func reset_transport():
 	global_position = start_position
-	velocity = abs(maintains_speed) * maintains_direction
 	should_stop = false
 	collided = false
 	_set_target_direction(maintains_direction)
@@ -57,20 +56,31 @@ func _set_target_speed(speed):
 	target_speed = speed
 	
 func react_collision(collision):
-	should_stop = true
-	collided = true
-	diss_receiver.finish_being_dissed()
+	if (not collided):
+		F.logf("new collision: %s", [collision])
+		should_stop = true
+		collided = true
+		diss_receiver.finish_being_dissed()
+		S.emit_signal(S.SIGNAL_REBEL_START_CONFLICT,
+			self,
+			bribe_money,
+			required_sc,
+			driver_toughness
+		)
 	
 	
 func enter_diss_zone():
-	should_stop = true
+	if (not collided):
+		should_stop = true
 
 func exit_diss_zone():
-	should_stop = false
+	if (not collided):
+		should_stop = false
 	
 func chase_while_dissed():
-	should_stop = false
-	_set_target_direction(F.get_speed_to_active_rebel_direction(self))
+	if (not collided):
+		should_stop = false
+		_set_target_direction(F.get_speed_to_active_rebel_direction(self))
 	
 
 func _screen_exited():
