@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://enemy/citizens/basic_citizen.gd" type="Script" id=1]
 [ext_resource path="res://enemy/citizens/white_worker/citizen_worker.png" type="Texture" id=2]
 [ext_resource path="res://enemy/diss_receiver.tscn" type="PackedScene" id=3]
+[ext_resource path="res://enemy/check_rebel_direction_timer.tscn" type="PackedScene" id=4]
 
 [sub_resource type="CapsuleShape2D" id=1]
 
@@ -29,11 +30,6 @@ shape = SubResource( 1 )
 
 [node name="diss_receiver" parent="." index="2" instance=ExtResource( 3 )]
 
-[node name="check_rebel_direction_timer" type="Timer" parent="." index="3"]
-
-process_mode = 1
-wait_time = 1.0
-one_shot = false
-autostart = false
+[node name="check_rebel_direction_timer" parent="." index="3" instance=ExtResource( 4 )]
 
 

@@ -25,6 +25,8 @@ func _ready():
 	diss_receiver.set_diss_began_action('enter_diss_zone')
 	diss_receiver.set_diss_stopped_action('exit_diss_zone')
 	diss_receiver.set_got_dissed_action('chase_while_dissed')
+	$check_rebel_direction_timer.node_origin = self
+	$check_rebel_direction_timer.node_receiver_action = '_align_new_rebel_direction'
 	add_to_group(C.GROUP_CARS)
 	reset_transport()
 
@@ -95,3 +97,8 @@ func _screen_entered():
 	
 func _offscreen_grace_timeout():
 	reset_transport()
+	
+func _align_new_rebel_direction(new_direction):
+	if (not collided):
+		target_direction = new_direction
+		target_speed = maintains_speed

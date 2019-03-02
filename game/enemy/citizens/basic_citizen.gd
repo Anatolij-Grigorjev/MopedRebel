@@ -12,7 +12,8 @@ func _ready():
 	sprite = $sprite
 	diss_receiver = $diss_receiver
 	diss_receiver.set_got_dissed_action('_start_diss_response')
-	$check_rebel_direction_timer.connect('timeout', self, '_move_in_rebel_direction')
+	$check_rebel_direction_timer.node_origin = self
+	$check_rebel_direction_timer.node_receiver_action = '_align_new_rebel_direction'
 	pass
 
 func _process(delta):
@@ -44,4 +45,7 @@ func _stop_diss_response():
 	velocity = Vector2(0, 0)
 	should_move = false
 	set_collision_mask_bit(C.LAYERS_REBEL_SIDEWALK, false)
+	
+func _align_new_rebel_direction(new_direction):
+	velocity = new_direction * walk_speed
 	
