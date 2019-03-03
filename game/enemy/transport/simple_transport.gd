@@ -63,6 +63,7 @@ func react_collision(collision):
 		should_stop = true
 		collided = true
 		diss_receiver.finish_being_dissed()
+		$check_rebel_direction_timer.stop()
 		S.emit_signal(S.SIGNAL_REBEL_START_CONFLICT,
 			self,
 			bribe_money,
@@ -82,8 +83,7 @@ func exit_diss_zone():
 func chase_while_dissed():
 	if (not collided):
 		should_stop = false
-		_set_target_direction(F.get_speed_to_active_rebel_direction(self))
-	
+		$check_rebel_direction_timer.start()
 
 func _screen_exited():
 	$post_leave_wait.stop()
@@ -100,5 +100,4 @@ func _offscreen_grace_timeout():
 	
 func _align_new_rebel_direction(new_direction):
 	if (not collided):
-		target_direction = new_direction
-		target_speed = maintains_speed
+		_set_target_direction(new_direction)
