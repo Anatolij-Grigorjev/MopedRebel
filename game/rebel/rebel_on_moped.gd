@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+var LOG = preload("res://globals/logger.gd").new(self)
+
 const MOPED_SUDDEN_STOP_COEF = 3.75
 var dissing_zone_node_scene = preload("res://rebel/dissing_zone.tscn")
 

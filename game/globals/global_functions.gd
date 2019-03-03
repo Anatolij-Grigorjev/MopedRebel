@@ -176,6 +176,10 @@ func assert_string_not_blank(string):
 func assert_not_null(thing):
 	if (thing == null):
 		log_error("Supplied value was null!")
+
+func assert_is_true(condition, false_error_message):
+	if (not condition):
+		log_error(false_error_message)
 		
 func assert_file_exists(filepath):
 	assert_string_not_blank(filepath)
