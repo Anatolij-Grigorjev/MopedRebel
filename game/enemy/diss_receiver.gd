@@ -1,5 +1,7 @@
 extends Node2D
 
+var LOG = preload("res://globals/logger.gd").new(self)
+
 var diss_tolerance_timer
 var initial_diss_tolerance_time
 var node_owner
@@ -110,7 +112,7 @@ func _execute_dissed_current_action():
 	if (node_owner != null and node_owner.has_method(diss_success_action_name)):
 		node_owner.call(diss_success_action_name)
 	else:
-		F.log_error("Missing owner node %s or it doesnt have method %s!", 
+		LOG.error("Missing owner node %s or it doesnt have method %s!", 
 			[node_owner, diss_success_action_name]
 		)
 		

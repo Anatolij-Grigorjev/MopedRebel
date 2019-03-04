@@ -8,12 +8,13 @@ enum FACING {
 enum LOG_LEVELS {
 	DEBUG = 0,
 	INFO = 1,
-	WARN = 2
+	WARN = 2,
+	ERROR = 3
 }
 const Z_COEF = sin(deg2rad(45))
 const GRAVITY = 98.5
 const DOUBLE_TAP_LIMIT = 0.25
-const CURRENT_LOG_LEVEL = LOG_LEVELS.INFO
+const CURRENT_LOG_LEVEL = LOG_LEVELS.DEBUG
 #lowest in-game point
 const MAX_WORLD_Y = 100000
 

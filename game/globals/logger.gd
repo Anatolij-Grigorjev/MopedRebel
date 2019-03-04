@@ -21,10 +21,16 @@ func info (format, args = []):
 func warn(format, args = []):
 	_log_at_level(C.LOG_LEVELS.WARN, format, args)
 
-func _log_at_level(level, format, message_args = []):
+func error(format, args = [], break_execution = true):
+	_log_at_level(C.LOG_LEVELS.ERROR, format, args, break_execution)
+
+func _log_at_level(level, format, message_args = [], break_execution_if_error = true):
 	if (level < C.CURRENT_LOG_LEVEL):
 		return
-	var full_prefix = "%s %s %s: " % [owner_node, owner_node.name, current_log_levels[level]]
+	var full_prefix = "%s%s|%s: " % [owner_node, owner_node.name, current_log_levels[level]]
 	var full_format = full_prefix + format
-	F.logf(full_format, message_args)
+	if (break_execution_if_error and level == C.LOG_LEVELS.ERROR):
+		F.log_error(full_format, message_args)
+	else:
+		F.logf(full_format, message_args)
 

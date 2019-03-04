@@ -1,5 +1,7 @@
 extends Node
 
+var LOG = preload("res://globals/logger.gd").new(self)
+
 signal mounting_moped
 signal unmounting_moped
 signal rebel_cause_conflict(enemy_node, bribe_money, min_req_sc, enemy_toughness)
@@ -39,14 +41,14 @@ func _assert_known_signal(signal_name):
 	if (signal_name in known_singals):
 		pass
 	else:
-		F.log_error("No signal name found for constant %s!", signal_name)
+		LOG.error("No signal name found for constant %s!", signal_name)
 		
 
 
 func connect_signal_to(signal_name, target, method, binds = [], flags = 0):
 	_assert_known_signal(signal_name)
 	if (target == null or method == null):
-		F.log_error("Bad target object or method, check invocation!")
+		LOG.error("Bad target object or method, check invocation!")
 	
 	connect(signal_name, target, method, binds, flags)
 		
@@ -70,7 +72,7 @@ func emit_signal4(signal_name, arg1, arg2, arg3, arg4):
 func _emit_signal_variadic(signal_name, args_list = []):
 	_assert_known_signal(signal_name)
 	if (args_list == null):
-		F.logf("WARN: passed null args_list! Using empty list...") 
+		LOG.warn("passed null args_list! Using empty list...") 
 		args_list = []
 	match args_list.size():
 		0:

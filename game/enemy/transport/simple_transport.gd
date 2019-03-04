@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+var LOG = preload("res://globals/logger.gd").new(self)
+
 
 export(float) var maintains_speed = 100
 export(Vector2) var maintains_direction = Vector2(1, 0)
@@ -59,7 +61,7 @@ func _set_target_speed(speed):
 	
 func react_collision(collision):
 	if (not collided):
-		F.logf("new collision: %s", [collision])
+		LOG.debug("new collision: %s", [collision])
 		should_stop = true
 		collided = true
 		diss_receiver.finish_being_dissed()

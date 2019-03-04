@@ -1,5 +1,7 @@
 extends Node
 
+var LOG = preload("res://globals/logger.gd").new(self)
+
 var all_disses_model = {}
 var has_specific_disses = false
 
@@ -26,7 +28,7 @@ func get_random_common_diss():
 	
 func get_random_enemy_diss(enemy_node_name):
 	if (not has_specific_disses):
-		F.logf("WARN!!! Dissing %s with common, no specifics...", [enemy_node_name])
+		LOG.warn("Dissing %s with common, no specifics...", [enemy_node_name])
 		return get_random_common_diss()
 	var specific_disses = all_disses_model[KEY_SPECIFIC_DISSES]
 	var all_suitable_disses = []
@@ -42,9 +44,3 @@ func get_random_enemy_diss(enemy_node_name):
 				specific_disses[name_part]
 			)
 	return F.get_rand_array_elem(all_suitable_disses)
-
-
-#func _process(delta):
-#	# Called every frame. Delta is time since last frame.
-#	# Update game logic here.
-#	pass

@@ -1,5 +1,7 @@
 extends VBoxContainer
 
+var LOG = preload("res://globals/logger.gd").new(self)
+
 var option_containers = []
 var option_normal_text = []
 var option_selected_detail_text = []
@@ -98,7 +100,7 @@ func _process_pick_option():
 			2:
 				_process_picked_fight()
 			_:
-				F.log_error(
+				LOG.error(
 					'Picked weird option %s!', 
 					[curr_selection_idx]
 				)
@@ -111,7 +113,7 @@ func _process_picked_diss():
 		if VS.conflict_with_node != null 
 		else DE.get_random_common_diss()
 	)
-	F.logf("MR: %s", [chosen_diss])
+	LOG.debug("MR: %s", [chosen_diss])
 	S.emit_signal1(
 		S.SIGNAL_CONFLICT_CHOSE_DISS,
 		chosen_diss
