@@ -9,7 +9,7 @@ func _ready():
 	rebel_on_moped_node = $rebel_on_moped
 	S.connect_signal_to(S.SIGNAL_REBEL_MOUNT_MOPED, self, "move_foot_rebel_to_road")
 	S.connect_signal_to(S.SIGNAL_REBEL_UNMOUNT_MOPED, self, "move_moped_rebel_to_sidewalk")
-
+	
 	init_rebel_on_foot()
 
 

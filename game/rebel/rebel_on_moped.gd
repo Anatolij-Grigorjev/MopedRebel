@@ -86,12 +86,19 @@ func _physics_process(delta):
 	)
 	var collision = move_and_collide(velocity * delta)
 	if (collision):
+		LOG.debug("new collision: %s", [collision])
 		#bump around by car
 		if (collision.collider.is_in_group(C.GROUP_CARS)):
-			velocity = velocity.bounce(collision.normal)
-			remaining_collision_recovery = _get_moped_recovery_for_bounce(velocity)
-			current_speed = velocity.x
-			current_swerve = velocity.y
+			_bounce_from_colliding_heavy(collision)
+		if (not collision.collider.collided):
+			collision.collider.react_collision(collision)
+
+func _bounce_from_colliding_heavy(collision):
+	velocity = velocity.bounce(collision.normal)
+	remaining_collision_recovery = _get_moped_recovery_for_bounce(velocity)
+	current_speed = velocity.x
+	current_swerve = velocity.y
+
 			
 func _get_moped_recovery_for_bounce(bounce_velocity):
 	var bounce_sq = bounce_velocity.length_squared()
