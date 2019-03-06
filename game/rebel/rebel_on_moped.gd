@@ -90,8 +90,8 @@ func _physics_process(delta):
 		#bump around by car
 		if (collision.collider.is_in_group(C.GROUP_CARS)):
 			_bounce_from_colliding_heavy(collision)
-		if (not collision.collider.collided):
-			collision.collider.react_collision(collision)
+		if (collision.collider.has_node('conflict_collision_receiver')):
+			collision.collider.conflict_collision_receiver.react_collision(collision)
 
 func _bounce_from_colliding_heavy(collision):
 	velocity = velocity.bounce(collision.normal)

@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://enemy/transport/simple_transport.gd" type="Script" id=1]
 [ext_resource path="res://enemy/transport/car_blue/car_blue.png" type="Texture" id=2]
 [ext_resource path="res://enemy/diss_receiver.tscn" type="PackedScene" id=3]
 [ext_resource path="res://enemy/check_rebel_direction_timer.tscn" type="PackedScene" id=4]
+[ext_resource path="res://enemy/conflict_collision_receiver.tscn" type="PackedScene" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -20,9 +21,6 @@ script = ExtResource( 1 )
 _sections_unfolded = [ "Collision", "Transform", "collision" ]
 maintains_speed = 100
 maintains_direction = Vector2( 1, 0 )
-bribe_money = 100
-required_sc = 150
-driver_toughness = "WHIMP"
 
 [node name="sprite" type="Sprite" parent="." index="0"]
 
@@ -55,6 +53,8 @@ autostart = false
 position = Vector2( 56.9395, -34.2691 )
 
 [node name="check_rebel_direction_timer" parent="." index="5" instance=ExtResource( 4 )]
+
+[node name="conflict_collision_receiver" parent="." index="6" instance=ExtResource( 5 )]
 
 [connection signal="screen_entered" from="leaves_screen" to="." method="_screen_entered"]
 

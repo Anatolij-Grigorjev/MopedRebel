@@ -5,20 +5,18 @@ var LOG = preload("res://globals/logger.gd").new(self)
 
 export(float) var maintains_speed = 100
 export(Vector2) var maintains_direction = Vector2(1, 0)
-export(float) var bribe_money = 100
-export(float) var required_sc = 150
-export(String) var driver_toughness = 'WHIMP'
  
 var start_position = Vector2(0, 0)
 var velocity = Vector2()
 var should_stop = false
-var collided = false
 
 var stop_intensity = 0.0
 var sprite
 var diss_receiver
 var target_direction
 var target_speed
+
+var conflict_collision_receiver
 
 func _ready():
 	start_position = global_position
@@ -29,8 +27,23 @@ func _ready():
 	diss_receiver.set_got_dissed_action('chase_while_dissed')
 	$check_rebel_direction_timer.node_origin = self
 	$check_rebel_direction_timer.node_receiver_action = '_align_new_rebel_direction'
+	conflict_collision_receiver = $conflict_collision_receiver
+	conflict_collision_receiver.set_conflict_params(
+		150,
+		100,
+		'WHIMP'
+	)
+	conflict_collision_receiver.set_pre_conflict_collision_action(
+		self, 
+		"_pre_collide"
+	)
 	add_to_group(C.GROUP_CARS)
 	reset_transport()
+	
+func _pre_collide():
+	should_stop = true
+	diss_receiver.finish_being_dissed()
+	$check_rebel_direction_timer.stop()
 
 func _physics_process(delta):
 	if (should_stop):
@@ -42,14 +55,14 @@ func _physics_process(delta):
 	
 	var collision = move_and_collide(delta * velocity)
 	if (collision):
-		react_collision(collision)
+		conflict_collision_receiver.react_collision(collision)
 
 func reset_transport():
 	global_position = start_position
 	should_stop = false
-	collided = false
 	_set_target_direction(maintains_direction)
 	_set_target_speed(maintains_speed)
+	conflict_collision_receiver.reset_collision()
 	diss_receiver.finish_being_dissed()
 	
 func _set_target_direction(direction):
@@ -59,31 +72,16 @@ func _set_target_direction(direction):
 func _set_target_speed(speed):
 	target_speed = speed
 	
-func react_collision(collision):
-	if (not collided):
-		LOG.debug("new collision: %s", [collision])
-		should_stop = true
-		collided = true
-		diss_receiver.finish_being_dissed()
-		$check_rebel_direction_timer.stop()
-		S.emit_signal(S.SIGNAL_REBEL_START_CONFLICT,
-			self,
-			bribe_money,
-			required_sc,
-			driver_toughness
-		)
-	
-	
 func enter_diss_zone():
-	if (not collided):
+	if (not conflict_collision_receiver.collided):
 		should_stop = true
 
 func exit_diss_zone():
-	if (not collided):
+	if (not conflict_collision_receiver.collided):
 		should_stop = false
 	
 func chase_while_dissed():
-	if (not collided):
+	if (not conflict_collision_receiver.collided):
 		should_stop = false
 		$check_rebel_direction_timer.start()
 
@@ -101,5 +99,5 @@ func _offscreen_grace_timeout():
 	reset_transport()
 	
 func _align_new_rebel_direction(new_direction):
-	if (not collided):
+	if (not $conflict_collision_receiver.collided):
 		_set_target_direction(new_direction)

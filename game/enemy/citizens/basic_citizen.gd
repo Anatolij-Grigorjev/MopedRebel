@@ -14,20 +14,22 @@ func _ready():
 	diss_receiver.set_got_dissed_action('_start_diss_response')
 	$check_rebel_direction_timer.node_origin = self
 	$check_rebel_direction_timer.node_receiver_action = '_align_new_rebel_direction'
+	$conflict_collision_receiver.set_pre_conflict_collision_action(
+		self,
+		 "_stop_diss_response"
+	)
+	$conflict_collision_receiver.set_conflict_params(
+		145,
+		98,
+		"22-34BB"
+	)
 	pass
 
 func _process(delta):
 	if (should_move):
 		var collision = move_and_collide(velocity * delta)
 		if (collision):
-			_stop_diss_response()
-			S.emit_signal4(
-				S.SIGNAL_REBEL_START_CONFLICT,
-				self,
-				145,
-				98,
-				"22-34BB"
-			)
+			$conflict_collision_receiver.react_collision(collision)
 	pass
 
 func _start_diss_response():
@@ -45,6 +47,7 @@ func _stop_diss_response():
 	velocity = Vector2(0, 0)
 	should_move = false
 	set_collision_mask_bit(C.LAYERS_REBEL_SIDEWALK, false)
+	$conflict_collision_receiver.reset_collision()
 	
 func _align_new_rebel_direction(new_direction):
 	velocity = new_direction * walk_speed

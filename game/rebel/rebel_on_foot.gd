@@ -48,7 +48,7 @@ func _physics_process(delta):
 			active_dissing_zone.queue_free()
 			active_dissing_zone = null
 	
-	var collision = move_and_collide(velocity * delta)
+	move_and_collide(velocity * delta)
 	
 func _set_dissing_zone_position():
 	var active_position_node = diss_positions_control.active_diss_position_node
