@@ -77,8 +77,7 @@ func _physics_process(delta):
 		if (remaining_collision_recovery <= 0):
 			reset_velocity()
 	else:
-		_process_no_collision(delta)
-	
+		_process_not_collided(delta)
 	
 	velocity = Vector2(
 		facing_direction * current_speed, 
@@ -90,15 +89,16 @@ func _physics_process(delta):
 		#bump around by car
 		if (collision.collider.is_in_group(C.GROUP_CARS)):
 			_bounce_from_colliding_heavy(collision)
-		if (collision.collider.has_node('conflict_collision_receiver')):
-			collision.collider.conflict_collision_receiver.react_collision(collision)
+		#do conflict if the collider can manage it
+		if (_collider_has_conflict_collision_node(collision)):
+			_collision_receiver_react_collision(collision)
+
 
 func _bounce_from_colliding_heavy(collision):
 	velocity = velocity.bounce(collision.normal)
 	remaining_collision_recovery = _get_moped_recovery_for_bounce(velocity)
 	current_speed = velocity.x
 	current_swerve = velocity.y
-
 			
 func _get_moped_recovery_for_bounce(bounce_velocity):
 	var bounce_sq = bounce_velocity.length_squared()
@@ -114,13 +114,19 @@ func _get_moped_recovery_for_bounce(bounce_velocity):
 		/ 
 		G.moped_config_max_flat_velocity_sq
 	)
+	
+func _collider_has_conflict_collision_node(collision):
+	return collision.collider.has_node('conflict_collision_receiver')
+	
+func _collision_receiver_react_collision(collision):
+	collision.collider.conflict_collision_receiver.react_collision(collision)
 
 func _perform_sudden_stop(delta):
 	var reduce_speed_by = (delta * G.moped_config_brake_intensity * MOPED_SUDDEN_STOP_COEF)
 	current_speed = current_speed + (-sign(current_speed) * reduce_speed_by)
 
 
-func _process_no_collision(delta):
+func _process_not_collided(delta):
 	if (is_unmounting_moped):
 		if (current_speed > 0):
 			_perform_sudden_stop(delta)
@@ -138,7 +144,7 @@ func _process_no_collision(delta):
 			current_speed, 
 			G.moped_config_min_speed, 
 			G.moped_config_max_speed
-		)	
+		)
 		if (current_swerve != 0 and current_speed > 0):
 			#reduce forward pseed by coef based on swerve intensity
 			_adjust_current_speed_to_swerve()

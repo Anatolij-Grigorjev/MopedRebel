@@ -4,10 +4,13 @@ var LOG = preload("res://globals/logger.gd").new(self)
 
 var diss_tolerance_timer
 var initial_diss_tolerance_time
+var diss_calmdown_timer
+var initial_diss_calmdown_time
 var node_owner
 var diss_success_action_name
 var diss_began_action_name
 var diss_stopped_action_name
+var diss_reduction_predicate_name
 var is_dissed = false
 var diss_buildup_time = 0
 var diss_indicator_sprite
@@ -15,10 +18,13 @@ var diss_indicator_sprite
 func _ready():
 	node_owner = owner
 	diss_tolerance_timer = $diss_tolerance_timer
+	diss_calmdown_timer = $diss_calmdown_timer
 	diss_indicator_sprite = $diss_indicator
 	diss_indicator_sprite.modulate.a = 0.0
 	initial_diss_tolerance_time = diss_tolerance_timer.wait_time
+	initial_diss_calmdown_time = diss_calmdown_timer.wait_time
 	diss_tolerance_timer.connect('timeout', self, '_execute_dissed_current_action')
+	diss_calmdown_timer.connect('timeout', self, 'finish_being_dissed')
 	pass
 	
 func _process(delta):
@@ -60,13 +66,13 @@ func finish_being_dissed():
 	diss_buildup_time = 0
 	diss_indicator_sprite.modulate.a = 0.0
 	diss_tolerance_timer.stop()
+	diss_calmdown_timer.stop()
 	
 func set_action_owner(node_owner):
 	if (node_owner == null or diss_success_action_name == null):
 		return
 	_stop_running_timer()
 	self.node_owner = node_owner
-	
 
 func set_got_dissed_action(action_name):
 	if (node_owner == null):
@@ -83,6 +89,11 @@ func set_diss_stopped_action(action_name):
 	if (node_owner == null):
 		return
 	diss_stopped_action_name = action_name
+	
+func set_diss_reduction_predicate(action_name):
+	if (node_owner == null):
+		return
+	diss_reduction_predicate_name = action_name
 	
 func set_diss_tolerance_seconds(seconds):
 	_stop_running_timer()

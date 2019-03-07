@@ -3,7 +3,7 @@
 [ext_resource path="res://enemy/diss_receiver.gd" type="Script" id=1]
 [ext_resource path="res://enemy/diss_indicator.png" type="Texture" id=2]
 
-[node name="diss_receiver" type="Node2D"]
+[node name="diss_receiver" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 
@@ -19,5 +19,12 @@ autostart = false
 modulate = Color( 1, 1, 1, 0 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Material", "Visibility" ]
+
+[node name="diss_calmdown_timer" type="Timer" parent="." index="2"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = false
 
 
