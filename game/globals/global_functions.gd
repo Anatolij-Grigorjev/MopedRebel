@@ -21,6 +21,21 @@ func get_rand_array_elem(array = []):
 		return null
 	return array[randi() % array.size()]
 	
+func get_absolute_for_coef(coef, abs_max, abs_min = 0):
+	var abs_range = abs_max - abs_min
+	var delta = coef * abs_range
+	return abs_min + delta
+	
+func get_coef_for_absolute(abs_value, abs_max, abs_min = 0):
+	var abs_range = abs_max - abs_min
+	return (abs_value - abs_min) / abs_range
+	
+func get_elapsed_timer_time(timer):
+	if (timer.is_stopped()):
+		return 0.0
+	else:
+		return timer.wait_time - timer.time_left
+	
 #check if value is in radius of target with a short circuit if equal
 func is_val_in_target_radius(val, target, radius):
 	return (
