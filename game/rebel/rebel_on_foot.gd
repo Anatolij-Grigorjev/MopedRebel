@@ -14,10 +14,12 @@ func _ready():
 	diss_positions_control = $diss_positions
 
 func disable():
+	set_collision_layer_bit(C.LAYERS_REBEL_SIDEWALK, false)
 	set_physics_process(false)
 	visible = false
 	
 func enable():
+	set_collision_layer_bit(C.LAYERS_REBEL_SIDEWALK, true)
 	set_physics_process(true)
 	visible = true
 	

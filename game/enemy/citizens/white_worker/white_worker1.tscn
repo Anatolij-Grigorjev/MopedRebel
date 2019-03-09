@@ -16,7 +16,7 @@ height = 20.0
 
 input_pickable = false
 collision_layer = 1
-collision_mask = 54
+collision_mask = 6
 collision/safe_margin = 0.08
 script = ExtResource( 1 )
 _sections_unfolded = [ "Collision", "collision" ]

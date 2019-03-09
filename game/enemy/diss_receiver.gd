@@ -46,11 +46,6 @@ func get_active_diss_state():
 		else:
 			return GETTING_DISSED
 	
-func _set_diss_buildup_time(time, for_timer):
-	_set_diss_buildup_coef(
-		F.get_coef_for_absolute(time, for_timer.wait_time)
-	)
-	
 func _set_diss_buildup_coef(coef):
 	diss_buildup_coef = coef
 	diss_indicator_sprite.modulate.a = diss_buildup_coef
@@ -78,7 +73,7 @@ func _process(delta):
 			)
 		DISSED_COOLING_DOWN:
 			new_diss_coef = F.get_coef_for_absolute(
-				F.get_elapsed_timer_time(diss_calmdown_timer),
+				diss_calmdown_timer.time_left,
 				diss_calmdown_timer.wait_time
 			)
 		_:
@@ -94,7 +89,7 @@ func _check_start_calmdown_timer():
 	if (is_dissed and diss_calmdown_timer.is_stopped()):
 		if (node_owner.call(diss_reduction_predicate_name)):
 			diss_calmdown_timer.wait_time = initial_diss_calmdown_time - F.get_absolute_for_coef(
-				diss_buildup_coef, 
+				1.0 - diss_buildup_coef, 
 				initial_diss_tolerance_time
 			)
 			diss_calmdown_timer.start()
@@ -103,7 +98,7 @@ func _check_stop_calmdown_timer():
 	if (is_dissed and not diss_calmdown_timer.is_stopped()):
 		if (not node_owner.call(diss_reduction_predicate_name)):
 			diss_buildup_coef = F.get_coef_for_absolute(
-				F.get_elapsed_timer_time(diss_calmdown_timer)
+				diss_calmdown_timer.time_left
 			)
 			diss_calmdown_timer.stop()
 	

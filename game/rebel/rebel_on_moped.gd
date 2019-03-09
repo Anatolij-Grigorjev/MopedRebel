@@ -2,6 +2,12 @@ extends KinematicBody2D
 
 var LOG = preload("res://globals/logger.gd").new(self)
 
+var check_collision_layers = [
+	C.LAYERS_SIDEWALK,
+	C.LAYERS_CURB,
+	C.LAYERS_TRANSPORT_ROAD
+]
+
 const MOPED_SUDDEN_STOP_COEF = 3.75
 var dissing_zone_node_scene = preload("res://rebel/dissing_zone.tscn")
 
@@ -61,10 +67,16 @@ func _reset_braking():
 
 	
 func disable():
+	set_collision_layer_bit(C.LAYERS_REBEL_ROAD, false)
+	for mask_layer in check_collision_layers:
+		set_collision_mask_bit(mask_layer, false)
 	set_physics_process(false)
 	visible = false
 	
 func enable():
+	set_collision_layer_bit(C.LAYERS_REBEL_ROAD, true)
+	for mask_layer in check_collision_layers:
+		set_collision_mask_bit(mask_layer, true)
 	set_physics_process(true)
 	visible = true
 	

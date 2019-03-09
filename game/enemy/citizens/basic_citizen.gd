@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+var LOG = preload("res://globals/logger.gd").new(self)
+
 export(float) var max_visible_diss_distance = 50
 var sprite
 var should_move = false

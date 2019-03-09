@@ -1,5 +1,7 @@
 extends Node2D
 
+var LOG = preload("res://globals/logger.gd").new(self)
+
 var collided = false
 
 var bribe_money
@@ -22,7 +24,8 @@ func set_conflict_params(bribe_money, min_diss_sc, enemy_toughness):
 	self.enemy_toughness = enemy_toughness
 
 func react_collision(collision):
-	if (not collided):
+	if (not collided and _collision_is_rebel(collision)):
+		LOG.info("fresh collision with %s", [collision.collider])
 		collided = true
 		if (pre_collide_action_node != null and pre_collide_action_name != null):
 			pre_collide_action_node.call(pre_collide_action_name)
@@ -35,3 +38,9 @@ func react_collision(collision):
 		
 func reset_collision():
 	collided = false
+	
+func _collision_is_rebel(collision):
+	return (
+		collision.collider == G.node_rebel_on_foot or
+		collision.collider == G.node_rebel_on_moped
+	)
