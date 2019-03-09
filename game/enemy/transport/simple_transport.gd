@@ -4,6 +4,7 @@ var LOG = preload("res://globals/logger.gd").new(self)
 
 
 export(float) var maintains_speed = 100
+export(float) var max_visible_diss_distance = 90
 export(Vector2) var maintains_direction = Vector2(1, 0)
  
 var start_position = Vector2(0, 0)
@@ -22,9 +23,10 @@ func _ready():
 	start_position = global_position
 	sprite = $sprite
 	diss_receiver = $diss_receiver
-	diss_receiver.set_diss_began_action('enter_diss_zone')
-	diss_receiver.set_diss_stopped_action('exit_diss_zone')
-	diss_receiver.set_got_dissed_action('chase_while_dissed')
+	diss_receiver.diss_began_action_name = 'enter_diss_zone'
+	diss_receiver.diss_stopped_action_name = 'exit_diss_zone'
+	diss_receiver.diss_success_action_name = 'chase_while_dissed'
+	diss_receiver.diss_reduction_predicate_name = 'is_rebel_too_far'
 	$check_rebel_direction_timer.node_origin = self
 	$check_rebel_direction_timer.node_receiver_action = '_align_new_rebel_direction'
 	conflict_collision_receiver = $conflict_collision_receiver
@@ -97,6 +99,15 @@ func _screen_entered():
 	
 func _offscreen_grace_timeout():
 	reset_transport()
+	
+func is_rebel_too_far():
+	if (G.node_active_rebel == G.node_rebel_on_foot):
+		return true
+	return (
+		G.node_active_rebel.global_position.distance_to(
+			global_position) >= max_visible_diss_distance
+	)
+	
 	
 func _align_new_rebel_direction(new_direction):
 	if (not $conflict_collision_receiver.collided):

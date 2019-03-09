@@ -56,11 +56,14 @@ func _set_diss_buildup_coef(coef):
 	diss_indicator_sprite.modulate.a = diss_buildup_coef
 	
 func _process(delta):
+	
+	_check_stop_calmdown_timer()
+	_check_start_calmdown_timer()
+	
 	#alter enemy diss levels
 	var active_diss_state = get_active_diss_state()
 	
 	var new_diss_coef = 0.0
-	
 	match(active_diss_state):
 		GETTING_DISSED:
 			new_diss_coef = F.get_coef_for_absolute(
@@ -68,24 +71,47 @@ func _process(delta):
 				diss_tolerance_timer.wait_time
 			)
 		ACTIVE_DISSED:
-			new_diss_coef = 1.0
+			new_diss_coef = clamp(
+				new_diss_coef + F.get_coef_for_absolute(delta, diss_calmdown_timer.wait_time),
+				0.0,
+				1.0
+			)
 		DISSED_COOLING_DOWN:
 			new_diss_coef = F.get_coef_for_absolute(
 				F.get_elapsed_timer_time(diss_calmdown_timer),
 				diss_calmdown_timer.wait_time
 			)
 		_:
-			new_diss_coef = 0.0
-
+			new_diss_coef = clamp(
+				new_diss_coef - F.get_coef_for_absolute(delta, diss_tolerance_timer.wait_time),
+				0.0,
+				1.0
+			)	
 	if (new_diss_coef != diss_buildup_coef):
 		_set_diss_buildup_coef(new_diss_coef)
-		
+
+func _check_start_calmdown_timer():
+	if (is_dissed and diss_calmdown_timer.is_stopped()):
+		if (node_owner.call(diss_reduction_predicate_name)):
+			diss_calmdown_timer.wait_time = initial_diss_calmdown_time - F.get_absolute_for_coef(
+				diss_buildup_coef, 
+				initial_diss_tolerance_time
+			)
+			diss_calmdown_timer.start()
+			
+func _check_stop_calmdown_timer():
+	if (is_dissed and not diss_calmdown_timer.is_stopped()):
+		if (not node_owner.call(diss_reduction_predicate_name)):
+			diss_buildup_coef = F.get_coef_for_absolute(
+				F.get_elapsed_timer_time(diss_calmdown_timer)
+			)
+			diss_calmdown_timer.stop()
 	
 func start_receive_diss():
 	if (not is_dissed):
 		#use the not cooled disshood to get dissed faster
 		if (diss_buildup_coef > 0):
-			diss_tolerance_timer.wait_time -= F.get_absolute_for_coef(
+			diss_tolerance_timer.wait_time = initial_diss_tolerance_time - F.get_absolute_for_coef(
 				diss_buildup_coef,
 				initial_diss_tolerance_time
 			)
@@ -100,6 +126,8 @@ func stop_receive_diss():
 func finish_being_dissed():
 	is_dissed = false
 	_set_diss_buildup_coef(0.0)
+	diss_tolerance_timer.wait_time = initial_diss_tolerance_time
+	diss_calmdown_timer.wait_time = initial_diss_calmdown_time
 	diss_tolerance_timer.stop()
 	diss_calmdown_timer.stop()
 	

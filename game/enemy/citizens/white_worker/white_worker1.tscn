@@ -20,6 +20,7 @@ collision_mask = 54
 collision/safe_margin = 0.08
 script = ExtResource( 1 )
 _sections_unfolded = [ "Collision", "collision" ]
+max_visible_diss_distance = 50
 
 [node name="sprite" type="Sprite" parent="." index="0"]
 
