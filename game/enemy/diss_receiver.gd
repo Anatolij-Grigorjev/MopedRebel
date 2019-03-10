@@ -8,6 +8,7 @@ enum DISS_STATES {
 	ACTIVE_DISSED,
 	DISSED_COOLING_DOWN
 }
+var diss_states_array = DISS_STATES.keys()
 
 var diss_tolerance_timer
 var initial_diss_tolerance_time
@@ -32,6 +33,10 @@ func _ready():
 	initial_diss_calmdown_time = diss_calmdown_timer.wait_time
 	diss_tolerance_timer.connect('timeout', self, '_execute_dissed_current_action')
 	diss_calmdown_timer.connect('timeout', self, 'finish_being_dissed')
+	$debug_coef_timer.connect('timeout', self, 'print_debug_info')
+	#configure logger to ouput owner name and this as type
+	LOG.entity_name = node_owner.name
+	LOG.entity_type_descriptor = "[diss-recv]"
 	pass
 	
 func get_active_diss_state():
@@ -67,7 +72,7 @@ func _process(delta):
 			)
 		ACTIVE_DISSED:
 			new_diss_coef = clamp(
-				new_diss_coef + F.get_coef_for_absolute(delta, diss_calmdown_timer.wait_time),
+				diss_buildup_coef + F.get_coef_for_absolute(delta, diss_calmdown_timer.wait_time),
 				0.0,
 				1.0
 			)
@@ -78,7 +83,7 @@ func _process(delta):
 			)
 		_:
 			new_diss_coef = clamp(
-				new_diss_coef - F.get_coef_for_absolute(delta, diss_tolerance_timer.wait_time),
+				diss_buildup_coef - F.get_coef_for_absolute(delta, diss_tolerance_timer.wait_time),
 				0.0,
 				1.0
 			)	
@@ -158,3 +163,12 @@ func _execute_optional_around_action(action_name):
 		and node_owner.has_method(action_name)
 	):
 		node_owner.call(action_name)
+		
+func print_debug_info():
+	var active_diss_state = get_active_diss_state()
+	if (diss_buildup_coef == 0.0 and active_diss_state == NOT_ACTIVE):
+		return
+	LOG.info("diss coef: %s | state: %s", 	[
+		diss_buildup_coef, 
+		diss_states_array[active_diss_state]
+	])

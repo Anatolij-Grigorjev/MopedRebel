@@ -37,7 +37,7 @@ const SC_GAIN_FOR_GROUP = {
 	GROUP_CITIZENS: 57
 }
 
-const DATETIME_FORMAT = "%s.%s.%s %s:%s:%s"
+const DATETIME_FORMAT = "%04d.%02d.%02d %02d:%02d:%02d"
 
 
 func _ready():
