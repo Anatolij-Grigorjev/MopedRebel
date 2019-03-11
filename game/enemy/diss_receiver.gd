@@ -37,6 +37,9 @@ func _ready():
 	#configure logger to ouput owner name and this as type
 	LOG.entity_name = node_owner.name
 	LOG.entity_type_descriptor = "[diss-recv]"
+	#enable debug logging if debug level is set
+	if (C.CURRENT_LOG_LEVEL <= C.LOG_LEVELS.DEBUG):
+		$debug_coef_timer.start()
 	pass
 	
 func get_active_diss_state():
@@ -168,7 +171,7 @@ func print_debug_info():
 	var active_diss_state = get_active_diss_state()
 	if (diss_buildup_coef == 0.0 and active_diss_state == NOT_ACTIVE):
 		return
-	LOG.info("diss coef: %s | state: %s", 	[
+	LOG.info("diss coef: %s | state: %s", [
 		diss_buildup_coef, 
 		diss_states_array[active_diss_state]
 	])

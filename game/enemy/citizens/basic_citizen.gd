@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 var LOG = preload("res://globals/logger.gd").new(self)
 
-export(float) var max_visible_diss_distance = 150
+export(float) var max_visible_diss_distance = 450
 var sprite
 var should_move = false
 var velocity = Vector2()
@@ -16,7 +16,6 @@ func _ready():
 	diss_receiver = $diss_receiver
 	diss_receiver.diss_success_action_name = '_start_diss_response'
 	diss_receiver.diss_reduction_predicate_name = 'is_rebel_too_far'
-	diss_receiver.get_node('debug_coef_timer').start()
 	$check_rebel_direction_timer.node_origin = self
 	$check_rebel_direction_timer.node_receiver_action = '_align_new_rebel_direction'
 	$conflict_collision_receiver.set_pre_conflict_collision_action(
@@ -60,8 +59,7 @@ func _align_new_rebel_direction(new_direction):
 func is_rebel_too_far():
 	if (G.node_active_rebel == G.node_rebel_on_moped):
 		return true
-	return (
-		G.node_active_rebel.global_position.distance_to(
-			global_position) >= max_visible_diss_distance
-	)
+	var distance_to_rebel = G.node_active_rebel.global_position.distance_to(
+	global_position)
+	return distance_to_rebel >= max_visible_diss_distance
 	
