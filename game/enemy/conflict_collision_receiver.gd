@@ -27,8 +27,7 @@ func react_collision(collision):
 	if (not collided and _collision_is_rebel(collision)):
 		LOG.info("fresh collision with %s", [collision.collider])
 		collided = true
-		if (pre_collide_action_node != null and pre_collide_action_name != null):
-			pre_collide_action_node.call(pre_collide_action_name)
+		call_pre_collision_action()
 		S.emit_signal(S.SIGNAL_REBEL_START_CONFLICT,
 			owner,
 			bribe_money,
@@ -38,6 +37,10 @@ func react_collision(collision):
 		
 func reset_collision():
 	collided = false
+	
+func call_pre_collision_action():
+	if (pre_collide_action_node != null and pre_collide_action_name != null):
+		pre_collide_action_node.call(pre_collide_action_name)
 	
 func _collision_is_rebel(collision):
 	return (

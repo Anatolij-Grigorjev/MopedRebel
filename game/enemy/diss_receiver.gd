@@ -127,6 +127,7 @@ func stop_receive_diss():
 		_execute_optional_around_action(diss_stopped_action_name)
 		
 func finish_being_dissed():
+	LOG.info("finish being dissed called!")
 	is_dissed = false
 	_set_diss_buildup_coef(0.0)
 	diss_tolerance_timer.wait_time = initial_diss_tolerance_time
