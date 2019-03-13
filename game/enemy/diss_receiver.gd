@@ -16,6 +16,7 @@ var diss_calmdown_timer
 var initial_diss_calmdown_time
 var node_owner
 var diss_success_action_name
+var diss_calmdown_action_name
 var diss_began_action_name
 var diss_stopped_action_name
 var diss_reduction_predicate_name
@@ -32,7 +33,7 @@ func _ready():
 	initial_diss_tolerance_time = diss_tolerance_timer.wait_time
 	initial_diss_calmdown_time = diss_calmdown_timer.wait_time
 	diss_tolerance_timer.connect('timeout', self, '_execute_dissed_current_action')
-	diss_calmdown_timer.connect('timeout', self, 'finish_being_dissed')
+	diss_calmdown_timer.connect('timeout', self, '_execute_calm_current_action')
 	$debug_coef_timer.connect('timeout', self, 'print_debug_info')
 	#configure logger to ouput owner name and this as type
 	LOG.entity_name = node_owner.name
@@ -127,7 +128,6 @@ func stop_receive_diss():
 		_execute_optional_around_action(diss_stopped_action_name)
 		
 func finish_being_dissed():
-	LOG.info("finish being dissed called!")
 	is_dissed = false
 	_set_diss_buildup_coef(0.0)
 	diss_tolerance_timer.wait_time = initial_diss_tolerance_time
@@ -154,12 +154,21 @@ func _execute_dissed_current_action():
 	is_dissed = true
 	_set_diss_buildup_coef(1.0)
 	diss_tolerance_timer.wait_time = initial_diss_tolerance_time
+	diss_calmdown_timer.wait_time = initial_diss_calmdown_time
 	if (node_owner != null and node_owner.has_method(diss_success_action_name)):
 		node_owner.call(diss_success_action_name)
 	else:
 		LOG.error("Missing owner node %s or it doesnt have method %s!", 
 			[node_owner, diss_success_action_name]
 		)
+		
+func _execute_calm_current_action():
+	is_dissed = false
+	_set_diss_buildup_coef(0.0)
+	diss_tolerance_timer.wait_time = initial_diss_tolerance_time
+	diss_calmdown_timer.wait_time = initial_diss_calmdown_time
+	if (node_owner != null and node_owner.has_method(diss_calmdown_action_name)):
+		node_owner.call(diss_calmdown_action_name)
 		
 func _execute_optional_around_action(action_name):
 	if (node_owner != null 

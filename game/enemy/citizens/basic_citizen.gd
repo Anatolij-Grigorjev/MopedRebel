@@ -16,6 +16,7 @@ func _ready():
 	diss_receiver = $diss_receiver
 	diss_receiver.diss_success_action_name = '_start_diss_response'
 	diss_receiver.diss_reduction_predicate_name = 'is_rebel_too_far'
+	diss_receiver.diss_calmdown_action_name = '_stop_diss_response'
 	$check_rebel_direction_timer.node_origin = self
 	$check_rebel_direction_timer.node_receiver_action = '_align_new_rebel_direction'
 	$conflict_collision_receiver.set_pre_conflict_collision_action(
