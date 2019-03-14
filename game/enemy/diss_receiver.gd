@@ -10,6 +10,7 @@ enum DISS_STATES {
 }
 var diss_states_array = DISS_STATES.keys()
 
+var receiver_enabled = true
 var diss_tolerance_timer
 var initial_diss_tolerance_time
 var diss_calmdown_timer
@@ -42,6 +43,7 @@ func _ready():
 	if (C.CURRENT_LOG_LEVEL <= C.LOG_LEVELS.DEBUG):
 		$debug_coef_timer.start()
 	pass
+	
 	
 func get_active_diss_state():
 	if (is_dissed):
@@ -145,6 +147,19 @@ func set_diss_calmdown_seconds(seconds):
 	initial_diss_calmdown_time = seconds
 	diss_calmdown_timer.wait_time = seconds
 	
+func shutdown_receiver():
+	receiver_enabled = false
+	$diss_tolerance_timer.stop()
+	$diss_calmdown_timer.stop()
+	$debug_coef_timer.stop()
+	is_dissed = false
+	
+func startup_receiver():
+	receiver_enabled = true
+	if (C.CURRENT_LOG_LEVEL >= C.LOG_LEVELS.DEBUG):
+		$debug_coef_timer.start()
+	is_dissed = false
+	
 func _stop_running_timer(timer):
 	if (not timer.is_stopped()):
 		timer.stop()
@@ -169,6 +184,10 @@ func _execute_calm_current_action():
 	diss_calmdown_timer.wait_time = initial_diss_calmdown_time
 	if (node_owner != null and node_owner.has_method(diss_calmdown_action_name)):
 		node_owner.call(diss_calmdown_action_name)
+	else:
+		LOG.warn("Missing owner node %s or it doesnt have method %s!", 
+			[node_owner, diss_calmdown_action_name]
+		)
 		
 func _execute_optional_around_action(action_name):
 	if (node_owner != null 

@@ -4,7 +4,7 @@ var LOG = preload("res://globals/logger.gd").new(self)
 
 
 export(float) var maintains_speed = 100
-export(float) var max_visible_diss_distance = 90
+export(float) var max_visible_diss_distance = 600
 export(Vector2) var maintains_direction = Vector2(1, 0)
  
 var start_position = Vector2(0, 0)
@@ -44,9 +44,14 @@ func _ready():
 	reset_transport()
 	
 func _pre_collide():
-	should_stop = true
+	should_stop = conflict_collision_receiver.collided
 	diss_receiver.finish_being_dissed()
 	$check_rebel_direction_timer.stop()
+	if (not should_stop):
+		_set_target_direction(maintains_direction)
+		_set_target_speed(maintains_speed)
+	else:
+		diss_receiver.shutdown_receiver()
 
 func _physics_process(delta):
 	if (should_stop):
@@ -66,6 +71,7 @@ func reset_transport():
 	_set_target_direction(maintains_direction)
 	_set_target_speed(maintains_speed)
 	conflict_collision_receiver.reset_collision()
+	diss_receiver.startup_receiver()
 	diss_receiver.finish_being_dissed()
 	
 func _set_target_direction(direction):
