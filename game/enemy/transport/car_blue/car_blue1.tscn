@@ -57,6 +57,24 @@ position = Vector2( 56.9395, -34.2691 )
 
 [node name="conflict_collision_receiver" parent="." index="6" instance=ExtResource( 5 )]
 
+[node name="accelerate_tween" type="Tween" parent="." index="7"]
+
+repeat = false
+playback_process_mode = 1
+playback_speed = 1.0
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
+
+[node name="deaccelerate_tween" type="Tween" parent="." index="8"]
+
+repeat = false
+playback_process_mode = 1
+playback_speed = 1.0
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
+
 [connection signal="screen_entered" from="leaves_screen" to="." method="_screen_entered"]
 
 [connection signal="screen_exited" from="leaves_screen" to="." method="_screen_exited"]
