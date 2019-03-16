@@ -47,11 +47,11 @@ func _ready():
 	
 func _config_acceleration_tween(starting_speed):
 	$accelerate_tween.remove(self, 'velocity:x')
-	$accelerate_tween.interpolate_property(self, 'velocity:x', starting_speed, maintains_speed, 1.5, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+	$accelerate_tween.interpolate_property(self, 'velocity:x', starting_speed, maintains_speed, 1.5, Tween.TRANS_EXPO, Tween.EASE_IN_OUT)
 	
 func _config_deacceleration_tween(starting_speed):
 	$deaccelerate_tween.remove(self, 'velocity:x')
-	$deaccelerate_tween.interpolate_property(self, 'velocity:x', starting_speed, 0.0, 1.5, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+	$deaccelerate_tween.interpolate_property(self, 'velocity:x', starting_speed, 0.0, 1.5, Tween.TRANS_EXPO, Tween.EASE_IN_OUT)
 	
 func _pre_collide():
 	should_stop = conflict_collision_receiver.collided

@@ -15,9 +15,7 @@ var current_speed
 var current_swerve = 0
 var velocity = Vector2()
 
-var swerve_hold_time = 0
-var swerve_release_time = 0
-var is_swerve_pressed = false
+var swerve_direction = 0
 
 var accelleration_hold_time = 0
 var acceleration_release_time = 0
@@ -37,11 +35,14 @@ var active_sprite
 var diss_positions_control
 var active_dissing_zone
 
+var moped_engine_tween
+
 func _ready():
 	facing_direction = C.FACING.RIGHT
 	G.node_rebel_on_moped = self
 	active_sprite = $sprite_on_moped
 	diss_positions_control = $diss_positions
+	moped_engine_tween = $moped_engine_tween
 	reset_velocity()
 	
 func reset_velocity():
@@ -182,35 +183,24 @@ func _handle_facing_direction(delta):
 		reset_velocity()
 
 func _handle_swerve_control(delta):
-	if (is_swerve_pressed):
-		swerve_hold_time += delta
-	else:
-		swerve_release_time += delta
-	
-	if (Input.is_action_just_pressed('swerve_up') or
-	Input.is_action_just_pressed('swerve_down')):
-		is_swerve_pressed = true
-		swerve_hold_time = 0
+
 	if (Input.is_action_just_released("swerve_up") or
 	Input.is_action_just_released("swerve_down")):
-		is_swerve_pressed = false
-		swerve_release_time = 0
+		moped_engine_tween.stop(self, 'current_swerve')
+	
+	swerve_direction = 0
 	
 	if Input.is_action_pressed('swerve_up'):
-		_increase_swerve_speed_by_time(-1)
+		swerve_direction = -1
 	if Input.is_action_pressed('swerve_down'):
-		_increase_swerve_speed_by_time(1)
-		
-	if (not is_swerve_pressed):
+		swerve_direction = 1
+	
+	#no swerve direction currently pressed
+	if (swerve_direction == 0):
 		_neutralize_swerve_speed()
-	#apply threshold to not swerve on small press
-	if (abs(current_swerve) <= G.moped_config_swerve_neutral_threshold):
-		current_swerve = 0
-	current_swerve = clamp(
-		current_swerve,
-		-G.moped_config_swerve_speed,
-		G.moped_config_swerve_speed
-	)
+	else:
+		#ensure swerve tween
+		pass
 
 func _increase_swerve_speed_by_time(swerve_direction):
 	#increase swerve speed for amoutn of time button held

@@ -10,7 +10,7 @@
 custom_solver_bias = 0.0
 extents = Vector2( 62, 30 )
 
-[node name="rebel_on_moped" type="KinematicBody2D"]
+[node name="rebel_on_moped" type="KinematicBody2D" index="0"]
 
 input_pickable = false
 collision_layer = 16
@@ -65,5 +65,14 @@ editor_draw_drag_margin = false
 _sections_unfolded = [ "Limit" ]
 
 [node name="diss_positions" parent="." index="4" instance=ExtResource( 4 )]
+
+[node name="moped_engine_tween" type="Tween" parent="." index="5"]
+
+repeat = false
+playback_process_mode = 1
+playback_speed = 1.0
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
 
 
