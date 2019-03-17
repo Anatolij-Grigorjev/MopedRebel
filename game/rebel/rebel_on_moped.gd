@@ -11,10 +11,10 @@ var check_collision_layers = [
 const MOPED_SUDDEN_STOP_COEF = 3.75
 var dissing_zone_node_scene = preload("res://rebel/dissing_zone.tscn")
 
-var current_speed
-var current_swerve = 0
 var velocity = Vector2()
 
+var current_speed = 0
+var current_swerve = 0
 var swerve_direction = 0
 
 var accelleration_hold_time = 0
@@ -53,9 +53,7 @@ func reset_velocity():
 	
 func _reset_swerve():
 	current_swerve = 0
-	swerve_hold_time = 0
-	swerve_release_time = 0
-	is_swerve_pressed = false
+	swerve_direction = 0
 	
 func _reset_acceleration():
 	accelleration_hold_time = 0
@@ -184,42 +182,34 @@ func _handle_facing_direction(delta):
 
 func _handle_swerve_control(delta):
 
-	if (Input.is_action_just_released("swerve_up") or
-	Input.is_action_just_released("swerve_down")):
-		moped_engine_tween.stop(self, 'current_swerve')
-	
-	swerve_direction = 0
+	var new_swerve_direction = 0
 	
 	if Input.is_action_pressed('swerve_up'):
-		swerve_direction = -1
+		new_swerve_direction = -1
 	if Input.is_action_pressed('swerve_down'):
-		swerve_direction = 1
-	
-	#no swerve direction currently pressed
-	if (swerve_direction == 0):
-		_neutralize_swerve_speed()
-	else:
-		#ensure swerve tween
-		pass
-
-func _increase_swerve_speed_by_time(swerve_direction):
-	#increase swerve speed for amoutn of time button held
-	#if speed below maximum and button is held
-	if (is_swerve_pressed and abs(current_swerve) <= G.moped_config_swerve_speed):
-		current_swerve += (
-			sign(swerve_direction) * 
-			(G.moped_config_swerve_acceleration_rate * swerve_hold_time)
-		)
-
-func _neutralize_swerve_speed():
-	#if button isnt held and there is still swerving speed left
-	#decrease to zero 
-	if (not is_swerve_pressed and abs(current_swerve) > 0):
-		current_swerve += (
-			-sign(current_swerve) * 
-			(G.moped_config_swerve_acceleration_rate * swerve_release_time)
-		)
+		new_swerve_direction = 1
 		
+	if (new_swerve_direction != swerve_direction):
+		var expected_swerve_target = G.moped_config_swerve_speed * new_swerve_direction
+		var complete_swerve_time = abs((expected_swerve_target - current_swerve) / G.moped_config_swerve_acceleration_rate)
+		#ensure swerve tween from current
+		LOG.info("Starting to swerve from %s to %s in %s sec!", 
+		[
+			current_swerve, 
+			expected_swerve_target, 
+			complete_swerve_time
+		])
+		moped_engine_tween.interpolate_property(
+			self, 
+			'current_swerve',
+			 current_swerve,
+			expected_swerve_target,
+			complete_swerve_time,
+			Tween.TRANS_LINEAR,
+			Tween.EASE_OUT_IN
+		)
+		moped_engine_tween.start()
+		swerve_direction = new_swerve_direction
 
 func _handle_forward_acceleration(delta):
 	if (is_acceleration_pressed):
