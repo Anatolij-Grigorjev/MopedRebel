@@ -190,22 +190,27 @@ func _handle_swerve_control(delta):
 		new_swerve_direction = 1
 		
 	if (new_swerve_direction != swerve_direction):
-		var expected_swerve_target = G.moped_config_swerve_speed * new_swerve_direction
-		var complete_swerve_time = abs((expected_swerve_target - current_swerve) / G.moped_config_swerve_acceleration_rate)
+		var swerve_target_speed = G.moped_config_swerve_speed * new_swerve_direction
+		var complete_swerve_time = abs((swerve_target_speed - current_swerve) / G.moped_config_swerve_acceleration_rate)
+		if (swerve_target_speed == 0):
+			#breaking is FACTOR times faster than accelerating
+			complete_swerve_time /= MOPED_SUDDEN_STOP_COEF
 		#ensure swerve tween from current
 		LOG.info("Starting to swerve from %s to %s in %s sec!", 
 		[
 			current_swerve, 
-			expected_swerve_target, 
+			swerve_target_speed, 
 			complete_swerve_time
 		])
+		#replcae any existing interpolation
+		moped_engine_tween.remove(self, 'current_swerve')
 		moped_engine_tween.interpolate_property(
 			self, 
 			'current_swerve',
 			 current_swerve,
-			expected_swerve_target,
+			swerve_target_speed,
 			complete_swerve_time,
-			Tween.TRANS_LINEAR,
+			Tween.TRANS_EXPO,
 			Tween.EASE_OUT_IN
 		)
 		moped_engine_tween.start()
