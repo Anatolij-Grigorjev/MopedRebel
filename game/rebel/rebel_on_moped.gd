@@ -17,8 +17,6 @@ var current_speed = 0
 var current_swerve = 0
 var swerve_direction = 0
 
-var accelleration_hold_time = 0
-var acceleration_release_time = 0
 var is_acceleration_pressed = false
 
 var brake_hold_time = 0
@@ -56,8 +54,6 @@ func _reset_swerve():
 	swerve_direction = 0
 	
 func _reset_acceleration():
-	accelleration_hold_time = 0
-	acceleration_release_time = 0
 	is_acceleration_pressed = false
 	
 func _reset_braking():
@@ -148,7 +144,7 @@ func _process_not_collided(delta):
 	else:
 		_handle_unmounting_moped()
 		_handle_facing_direction(delta)
-		_handle_swerve_control(delta)
+		_handle_swerve_control()
 		_handle_forward_acceleration(delta)
 		_handle_brakeing(delta)
 		current_speed = clamp(
@@ -180,7 +176,7 @@ func _handle_facing_direction(delta):
 		$sprite_on_moped.scale.x = abs($sprite_on_moped.scale.x) * facing_direction
 		reset_velocity()
 
-func _handle_swerve_control(delta):
+func _handle_swerve_control():
 
 	var new_swerve_direction = 0
 	
@@ -196,58 +192,69 @@ func _handle_swerve_control(delta):
 			#breaking is FACTOR times faster than accelerating
 			complete_swerve_time /= MOPED_SUDDEN_STOP_COEF
 		#ensure swerve tween from current
-		LOG.info("Starting to swerve from %s to %s in %s sec!", 
+		_start_new_swerve_tween(swerve_target_speed, complete_swerve_time)
+		swerve_direction = new_swerve_direction
+		
+func _start_new_swerve_tween(final_swerve_speed, swerve_duration):
+	LOG.info("Starting to swerve from %s to %s in %s sec!", 
 		[
 			current_swerve, 
-			swerve_target_speed, 
-			complete_swerve_time
+			final_swerve_speed, 
+			swerve_duration
 		])
-		#replcae any existing interpolation
-		moped_engine_tween.remove(self, 'current_swerve')
-		moped_engine_tween.interpolate_property(
-			self, 
-			'current_swerve',
-			 current_swerve,
-			swerve_target_speed,
-			complete_swerve_time,
-			Tween.TRANS_EXPO,
-			Tween.EASE_OUT_IN
-		)
-		moped_engine_tween.start()
-		swerve_direction = new_swerve_direction
+	moped_engine_tween.remove(self, 'current_swerve')
+	moped_engine_tween.interpolate_property(
+		self, 
+		'current_swerve',
+		 current_swerve,
+		final_swerve_speed,
+		swerve_duration,
+		Tween.TRANS_EXPO,
+		Tween.EASE_OUT_IN
+	)
+	moped_engine_tween.start()
 
 func _handle_forward_acceleration(delta):
-	if (is_acceleration_pressed):
-		accelleration_hold_time += delta
-	else:
-		acceleration_release_time += delta
 		
 	var accelerate_action = _accelerate_action_for_facing()
 	
-	if (Input.is_action_just_pressed(accelerate_action)):
-		is_acceleration_pressed = true
-		accelleration_hold_time = 0
-	if (Input.is_action_just_released(accelerate_action)):
-		is_acceleration_pressed = false
-		acceleration_release_time = 0
-		
-	_increase_acceleration_by_time()
+	var new_is_accelerating = false
+	if (Input.is_action_pressed(accelerate_action)):
+		new_is_accelerating = true
+	
+	#change acceleration tween state
+	if (new_is_accelerating != is_acceleration_pressed):
+		if (new_is_accelerating):
+			var acceleration_time = (G.moped_config_max_speed - current_speed) / G.moped_config_max_acceleration_rate
+			_start_new_acceleration_tween(G.moped_config_max_speed, acceleration_time)
+		else:
+			var slowdown_time = (current_speed - G.moped_config_min_speed) / G.moped_config_brake_intensity
+			_start_new_acceleration_tween(G.moped_config_min_speed, slowdown_time)
+		is_acceleration_pressed = new_is_accelerating
+
 
 func _accelerate_action_for_facing():
 	return 'accelerate_right' if facing_direction == C.FACING.RIGHT else 'accelerate_left'
 	
-func _increase_acceleration_by_time():
-	if (is_acceleration_pressed and current_speed < G.moped_config_max_speed):
-		#if the player has not been holding acceleration for long they will 
-		#accelerate more slowly, acceleration rate grows linearly up to max
-		var acceleration_reduce_coef = (
-			min(accelleration_hold_time, G.moped_config_max_acceleration_reach_time)
-			/ G.moped_config_max_acceleration_reach_time
-		)
-		current_speed += (
-			(G.moped_config_max_acceleration_rate * acceleration_reduce_coef)
-			* accelleration_hold_time
-		)
+func _start_new_acceleration_tween(final_speed, speed_shift_duration):
+	LOG.info("Starting to change speed from %s to %s in %s sec!", 
+		[
+			current_speed, 
+			final_speed, 
+			speed_shift_duration
+		])
+	moped_engine_tween.remove(self, 'current_speed')
+	moped_engine_tween.interpolate_property(
+		self, 
+		'current_speed',
+		 current_speed,
+		final_speed,
+		speed_shift_duration,
+		Tween.TRANS_EXPO,
+		Tween.EASE_OUT_IN
+	)
+	moped_engine_tween.start()
+
 
 func _handle_brakeing(delta):
 	
