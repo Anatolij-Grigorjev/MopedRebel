@@ -14,10 +14,9 @@ var dissing_zone_node_scene = preload("res://rebel/dissing_zone.tscn")
 var velocity = Vector2()
 
 var current_speed = 0
+var speed_alter_direction = 0
 var current_swerve = 0
 var swerve_direction = 0
-
-var is_acceleration_pressed = false
 
 var brake_hold_time = 0
 var brake_release_time = 0
@@ -54,7 +53,7 @@ func _reset_swerve():
 	swerve_direction = 0
 	
 func _reset_acceleration():
-	is_acceleration_pressed = false
+	speed_alter_direction = 0
 	
 func _reset_braking():
 	brake_hold_time = 0
@@ -216,31 +215,47 @@ func _start_new_swerve_tween(final_swerve_speed, swerve_duration):
 
 func _handle_forward_acceleration(delta):
 		
-	var accelerate_action = _accelerate_action_for_facing()
-	
-	var new_is_accelerating = false
-	if (Input.is_action_pressed(accelerate_action)):
-		new_is_accelerating = true
-	
+	var new_speed_alter_direction = _get_new_speed_alter_direction()
 	#change acceleration tween state
-	if (new_is_accelerating != is_acceleration_pressed):
-		if (new_is_accelerating):
+	if (new_speed_alter_direction != speed_alter_direction):
+		if (new_speed_alter_direction > 0):
 			var acceleration_time = (G.moped_config_max_speed - current_speed) / G.moped_config_max_acceleration_rate
 			_start_new_acceleration_tween(G.moped_config_max_speed, acceleration_time)
-		else:
+		elif (new_speed_alter_direction < 0):
 			var slowdown_time = (current_speed - G.moped_config_min_speed) / G.moped_config_brake_intensity
 			_start_new_acceleration_tween(G.moped_config_min_speed, slowdown_time)
-		is_acceleration_pressed = new_is_accelerating
+		else:
+			#dont tween if neither direction is insisted
+			moped_engine_tween.stop(self, 'current_speed')
+		speed_alter_direction = new_speed_alter_direction
 
+func _get_new_speed_alter_direction():
+	var change_speed_actions = _get_speed_actions_for_facing()
+	var accelerate_action = change_speed_actions[0]
+	var slowdown_action = change_speed_actions[1]
+	
+	#speed alter direction 0 is neutral
+	var new_speed_alter_direction = 0
+	if (Input.is_action_pressed(accelerate_action)):
+		#speed alter direction 1 is accelerate
+		new_speed_alter_direction = 1
+	if (Input.is_action_pressed(slowdown_action)):
+		#speed alter direction -1 is slowdown
+		new_speed_alter_direction = -1
+		
+	return new_speed_alter_direction
 
-func _accelerate_action_for_facing():
-	return 'accelerate_right' if facing_direction == C.FACING.RIGHT else 'accelerate_left'
+func _get_speed_actions_for_facing():
+	if (facing_direction == C.FACING.RIGHT):
+		return ['accelerate_right', 'accelerate_left']
+	else:
+		return ['accelerate_left', 'accelerate_right']
 	
 func _start_new_acceleration_tween(final_speed, speed_shift_duration):
 	LOG.info("Starting to change speed from %s to %s in %s sec!", 
 		[
-			current_speed, 
-			final_speed, 
+			facing_direction * current_speed, 
+			facing_direction * final_speed, 
 			speed_shift_duration
 		])
 	moped_engine_tween.remove(self, 'current_speed')
