@@ -85,8 +85,15 @@ func _physics_process(delta):
 	else:
 		_process_not_collided(delta)
 	
+	var velocity_speed = (
+		facing_direction * 
+		(
+			F.y2z(current_speed) if (_is_moped_swerving()) 
+			else current_speed
+		)
+	)
 	velocity = Vector2(
-		facing_direction * current_speed, 
+		velocity_speed, 
 		current_swerve
 	)
 	var collision = move_and_collide(velocity * delta)
@@ -98,6 +105,9 @@ func _physics_process(delta):
 		#do conflict if the collider can manage it
 		if (_collider_has_conflict_collision_node(collision)):
 			_collision_receiver_react_collision(collision)
+
+func _is_moped_swerving():
+	return current_swerve != 0 and current_speed > 0
 
 
 func _bounce_from_colliding_heavy(collision):
@@ -151,9 +161,6 @@ func _process_not_collided(delta):
 			G.moped_config_min_speed, 
 			G.moped_config_max_speed
 		)
-		if (current_swerve != 0 and current_speed > 0):
-			#reduce forward pseed by coef based on swerve intensity
-			_adjust_current_speed_to_swerve()
 		_handle_diss_zone()
 
 
@@ -298,16 +305,6 @@ func _increase_brake_by_time(delta):
 		current_speed -= (
 			G.moped_config_brake_intensity * brake_hold_time
 		)
-
-
-func _adjust_current_speed_to_swerve():
-	
-	var swerve_intensity_coef = abs(current_swerve) / G.moped_config_swerve_speed
-	var max_fwd_to_swerve_speed_diff = current_speed - F.y2z(current_speed)
-	#reduce current speed by how intensely a swerve is happening 
-	#if swerving full speed forward movement will slow down 
-	#a bit more to accomodate manuever
-	current_speed -= (max_fwd_to_swerve_speed_diff * swerve_intensity_coef)
 	
 func _handle_diss_zone():
 	if Input.is_action_pressed('flip_bird'):
