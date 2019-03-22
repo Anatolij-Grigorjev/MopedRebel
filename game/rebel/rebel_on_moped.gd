@@ -202,23 +202,24 @@ func _handle_swerve_control():
 		swerve_direction = new_swerve_direction
 		
 func _start_new_swerve_tween(final_swerve_speed, swerve_duration):
-	LOG.info("Starting to swerve from %s to %s in %s sec!", 
-		[
-			current_swerve, 
-			final_swerve_speed, 
-			swerve_duration
-		])
 	moped_engine_tween.remove(self, 'current_swerve')
-	moped_engine_tween.interpolate_property(
-		self, 
-		'current_swerve',
-		 current_swerve,
-		final_swerve_speed,
-		swerve_duration,
-		Tween.TRANS_EXPO,
-		Tween.EASE_OUT_IN
-	)
-	moped_engine_tween.start()
+	if (current_swerve != final_swerve_speed):
+		LOG.info("Starting to swerve from %s to %s in %s sec!", 
+			[
+				current_swerve, 
+				final_swerve_speed, 
+				swerve_duration
+			])
+		moped_engine_tween.interpolate_property(
+			self, 
+			'current_swerve',
+			 current_swerve,
+			final_swerve_speed,
+			swerve_duration,
+			Tween.TRANS_EXPO,
+			Tween.EASE_OUT_IN
+		)
+		moped_engine_tween.start()
 
 func _handle_forward_acceleration(delta):
 		
@@ -259,23 +260,24 @@ func _get_speed_actions_for_facing():
 		return ['accelerate_left', 'accelerate_right']
 	
 func _start_new_acceleration_tween(final_speed, speed_shift_duration):
-	LOG.info("Starting to change speed from %s to %s in %s sec!", 
-		[
-			facing_direction * current_speed, 
-			facing_direction * final_speed, 
-			speed_shift_duration
-		])
 	moped_engine_tween.remove(self, 'current_speed')
-	moped_engine_tween.interpolate_property(
-		self, 
-		'current_speed',
-		 current_speed,
-		final_speed,
-		speed_shift_duration,
-		Tween.TRANS_EXPO,
-		Tween.EASE_OUT_IN
-	)
-	moped_engine_tween.start()
+	if (final_speed != current_speed):
+		LOG.info("Starting to change speed from %s to %s in %s sec!", 
+			[
+				facing_direction * current_speed, 
+				facing_direction * final_speed, 
+				speed_shift_duration
+			])
+		moped_engine_tween.interpolate_property(
+			self, 
+			'current_speed',
+			 current_speed,
+			final_speed,
+			speed_shift_duration,
+			Tween.TRANS_EXPO,
+			Tween.EASE_OUT_IN
+		)
+		moped_engine_tween.start()
 
 
 func _handle_brakeing(delta):
