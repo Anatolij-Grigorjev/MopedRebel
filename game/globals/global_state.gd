@@ -31,6 +31,9 @@ var moped_config_max_flat_velocity_sq = Vector2(
 	moped_config_swerve_speed
 ).length_squared()
 
+
+var PRESSED_ACTIONS_TRACKER = {}
+
 func _ready():
 	print("Loaded global game state node G!")
 	print('moped_config_max_speed: %s' % moped_config_max_speed)
@@ -42,4 +45,29 @@ func _ready():
 	print('moped_config_swerve_acceleration_rate: %s' % moped_config_swerve_acceleration_rate)
 	print('moped_config_crash_recovery_time: %s' % moped_config_crash_recovery_time)
 	print('moped_config_max_flat_velocity_sq: %s' % moped_config_max_flat_velocity_sq)
+	PRESSED_ACTIONS_TRACKER.clear()
 	pass
+	
+func track_action_press_release(action_name):
+	stop_tracking_action_press_release(action_name)
+	PRESSED_ACTIONS_TRACKER[action_name] = {
+		'last_pressed_time': 0,
+		'last_released_time': 0
+	}
+	
+func stop_tracking_action_press_release(action_name):
+	if (PRESSED_ACTIONS_TRACKER.has(action_name)):
+		PRESSED_ACTIONS_TRACKER.erase(action_name)
+		
+func _process(delta):
+	for action_name in PRESSED_ACTIONS_TRACKER:
+		if (Input.is_action_just_pressed(action_name)):
+			PRESSED_ACTIONS_TRACKER[action_name].last_pressed_time = 0
+		elif (Input.is_action_just_released(action_name)):
+			PRESSED_ACTIONS_TRACKER[action_name].last_released_time = 0
+		else:
+			if (Input.is_action_pressed(action_name)):
+				PRESSED_ACTIONS_TRACKER[action_name].last_pressed_time += delta
+			else:
+				PRESSED_ACTIONS_TRACKER[action_name].last_released_time += delta
+			

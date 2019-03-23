@@ -40,6 +40,8 @@ func _ready():
 	active_sprite = $sprite_on_moped
 	diss_positions_control = $diss_positions
 	moped_engine_tween = $moped_engine_tween
+	G.track_action_press_release('accelerate_right')
+	G.track_action_press_release('accelerate_left')
 	reset_velocity()
 	
 func reset_velocity():
@@ -152,10 +154,9 @@ func _process_not_collided(delta):
 			S.emit_signal0(S.SIGNAL_REBEL_UNMOUNT_MOPED)
 	else:
 		_handle_unmounting_moped()
-		_handle_facing_direction(delta)
+		_handle_facing_direction()
 		_handle_swerve_control()
-		_handle_forward_acceleration(delta)
-		_handle_brakeing(delta)
+		_handle_forward_acceleration()
 		current_speed = clamp(
 			current_speed, 
 			G.moped_config_min_speed, 
@@ -169,11 +170,12 @@ func _handle_unmounting_moped():
 		if (Input.is_action_pressed('unmount_moped')):
 			is_unmounting_moped = true
 
-func _handle_facing_direction(delta):
+func _handle_facing_direction():
 	
-	var brake_action = _brake_action_for_facing()
+	var facing_speed_actions = _get_speed_actions_for_facing()
+	var brake_action = facing_speed_actions[1]
 	var double_tap_direction = (Input.is_action_pressed(brake_action) 
-		and brake_release_time < C.DOUBLE_TAP_LIMIT)
+		and G.PRESSED_ACTIONS_TRACKER[brake_action].last_released_time < C.DOUBLE_TAP_LIMIT)
 	
 	if (double_tap_direction 
 		or Input.is_action_just_released('turn_around')
@@ -221,7 +223,7 @@ func _start_new_swerve_tween(final_swerve_speed, swerve_duration):
 		)
 		moped_engine_tween.start()
 
-func _handle_forward_acceleration(delta):
+func _handle_forward_acceleration():
 		
 	var new_speed_alter_direction = _get_new_speed_alter_direction()
 	#change acceleration tween state
@@ -278,35 +280,6 @@ func _start_new_acceleration_tween(final_speed, speed_shift_duration):
 			Tween.EASE_OUT_IN
 		)
 		moped_engine_tween.start()
-
-
-func _handle_brakeing(delta):
-	
-	if (is_brake_pressed):
-		brake_hold_time += delta
-	else:
-		brake_release_time += delta
-		
-	var brake_action = _brake_action_for_facing()
-		
-	if (Input.is_action_just_pressed(brake_action)):
-		is_brake_pressed = true
-		brake_hold_time = 0
-	if (Input.is_action_just_released(brake_action)):
-		is_brake_pressed = false
-		brake_release_time = 0
-		
-	_increase_brake_by_time(delta)
-	
-func _brake_action_for_facing():
-	return 'brake_right' if facing_direction == C.FACING.RIGHT else 'brake_left'
-	
-
-func _increase_brake_by_time(delta):
-	if (is_brake_pressed and current_speed > G.moped_config_min_speed):
-		current_speed -= (
-			G.moped_config_brake_intensity * brake_hold_time
-		)
 	
 func _handle_diss_zone():
 	if Input.is_action_pressed('flip_bird'):
