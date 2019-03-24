@@ -18,10 +18,6 @@ var speed_alter_direction = 0
 var current_swerve = 0
 var swerve_direction = 0
 
-var brake_hold_time = 0
-var brake_release_time = 0
-var is_brake_pressed = false
-
 var is_unmounting_moped = false
 var remaining_collision_recovery = 0
 
@@ -48,7 +44,6 @@ func reset_velocity():
 	current_speed = G.moped_config_min_speed
 	_reset_swerve()
 	_reset_acceleration()
-	_reset_braking()
 	
 func _reset_swerve():
 	current_swerve = 0
@@ -56,10 +51,6 @@ func _reset_swerve():
 	
 func _reset_acceleration():
 	speed_alter_direction = 0
-	
-func _reset_braking():
-	brake_hold_time = 0
-	is_brake_pressed = false
 
 	
 func disable():

@@ -101,19 +101,6 @@ func chase_while_dissed():
 	if (not conflict_collision_receiver.collided):
 		should_stop = false
 		$check_rebel_direction_timer.start()
-
-func _screen_exited():
-	$post_leave_wait.stop()
-	$post_leave_wait.start()
-
-func _screen_entered():
-	#reset timer when car onscreen
-	#not to dissapear it
-	if (not $post_leave_wait.is_stopped()):
-		$post_leave_wait.stop()
-	
-func _offscreen_grace_timeout():
-	reset_transport()
 	
 func is_rebel_too_far():
 	if (G.node_active_rebel == G.node_rebel_on_foot):
