@@ -1,5 +1,7 @@
 extends Node2D
 
+var LOG = preload("res://globals/logger.gd").new(self)
+
 var conflict_node_scene = preload("res://conflict/conflict_root.tscn")
 var diss_popup_node_scene = preload("res://conflict/dissing/diss_popup.tscn")
 
@@ -60,6 +62,9 @@ func _init_finish_conflict_state():
 	)
 
 func _finish_conflict_state():
+	if (conflict_with_node != null and conflict_with_node.has_method("_post_conflict")):
+		LOG.info("invoking post-conflict handler for node %s", [conflict_with_node])
+		conflict_with_node._post_conflict()
 	active_conflict_screen_node.queue_free()
 	G.node_active_rebel.get_node('camera').current = true
 	get_tree().paused = false

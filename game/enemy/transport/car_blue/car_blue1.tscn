@@ -36,37 +36,15 @@ _sections_unfolded = [ "Animation", "Offset", "Region", "Transform" ]
 
 shape = SubResource( 1 )
 
-[node name="leaves_screen" type="VisibilityNotifier2D" parent="." index="2"]
-
-position = Vector2( 7390.12, 0 )
-scale = Vector2( 38.898, 1 )
-rect = Rect2( -195, -64, 10, 128 )
-
-[node name="post_leave_wait" type="Timer" parent="." index="3"]
-
-process_mode = 1
-wait_time = 1.0
-one_shot = true
-autostart = false
-
-[node name="diss_receiver" parent="." index="4" instance=ExtResource( 3 )]
+[node name="diss_receiver" parent="." index="2" instance=ExtResource( 3 )]
 
 position = Vector2( 56.9395, -34.2691 )
 
-[node name="check_rebel_direction_timer" parent="." index="5" instance=ExtResource( 4 )]
+[node name="check_rebel_direction_timer" parent="." index="3" instance=ExtResource( 4 )]
 
-[node name="conflict_collision_receiver" parent="." index="6" instance=ExtResource( 5 )]
+[node name="conflict_collision_receiver" parent="." index="4" instance=ExtResource( 5 )]
 
-[node name="accelerate_tween" type="Tween" parent="." index="7"]
-
-repeat = false
-playback_process_mode = 1
-playback_speed = 1.0
-playback/active = false
-playback/repeat = false
-playback/speed = 1.0
-
-[node name="deaccelerate_tween" type="Tween" parent="." index="8"]
+[node name="accelerate_tween" type="Tween" parent="." index="5"]
 
 repeat = false
 playback_process_mode = 1
@@ -75,10 +53,13 @@ playback/active = false
 playback/repeat = false
 playback/speed = 1.0
 
-[connection signal="screen_entered" from="leaves_screen" to="." method="_screen_entered"]
+[node name="deaccelerate_tween" type="Tween" parent="." index="6"]
 
-[connection signal="screen_exited" from="leaves_screen" to="." method="_screen_exited"]
-
-[connection signal="timeout" from="post_leave_wait" to="." method="_offscreen_grace_timeout"]
+repeat = false
+playback_process_mode = 1
+playback_speed = 1.0
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
 
 

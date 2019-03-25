@@ -154,7 +154,8 @@ func parse_json_file_as_var(filepath):
 			]
 		)
 	
-#log formatted with timestamp
+#log formatted with timestamp, avoid using directly since 
+#logger.gd is a thing!
 func logf(format, args_list = []):
 	var log_statement = format % args_list
 	#print log date in utc
