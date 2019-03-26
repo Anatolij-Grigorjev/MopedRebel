@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://common/dissapear_offscreen.gd" type="Script" id=1]
+
+[node name="dissapear_offscreen" type="VisibilityNotifier2D" index="0"]
+
+rect = Rect2( -10, -10, 20, 20 )
+script = ExtResource( 1 )
+grace_period = 1.0
+
+[node name="wait_period" type="Timer" parent="." index="0"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = false
+
+
