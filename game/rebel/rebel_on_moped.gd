@@ -11,6 +11,12 @@ var check_collision_layers = [
 const MOPED_SUDDEN_STOP_COEF = 3.75
 var dissing_zone_node_scene = preload("res://rebel/dissing_zone.tscn")
 
+enum MOPED_GROUND_TYPES {
+	ROAD = 0,
+	SIDEWALK = 1
+}
+
+var moped_ground_type = MOPED_GROUND_TYPES.ROAD
 var velocity = Vector2()
 
 var current_speed = 0
