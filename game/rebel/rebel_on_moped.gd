@@ -151,6 +151,7 @@ func _process_not_collided(delta):
 			S.emit_signal0(S.SIGNAL_REBEL_UNMOUNT_MOPED)
 	else:
 		_handle_unmounting_moped()
+		_handle_jumping_curb()
 		_handle_facing_direction()
 		_handle_swerve_control()
 		_handle_forward_acceleration()
@@ -166,6 +167,10 @@ func _handle_unmounting_moped():
 	if (not is_unmounting_moped):
 		if (Input.is_action_pressed('unmount_moped')):
 			is_unmounting_moped = true
+			
+func _handle_jumping_curb():
+	if (Input.is_action_just_released('jump_curb')):
+		S.emit_signal0(S.SIGNAL_REBEL_JUMP_CURB_ON_MOPED)
 
 func _handle_facing_direction():
 	
