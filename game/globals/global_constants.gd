@@ -13,6 +13,7 @@ enum LOG_LEVELS {
 }
 const Z_COEF = sin(deg2rad(45))
 const GRAVITY = 98.5
+const NUM_COLLISION_BITS = 20
 const DOUBLE_TAP_LIMIT = 0.25
 const CURRENT_LOG_LEVEL = LOG_LEVELS.INFO
 #lowest in-game point

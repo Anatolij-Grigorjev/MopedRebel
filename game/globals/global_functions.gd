@@ -21,6 +21,20 @@ func get_rand_array_elem(array = []):
 		return null
 	return array[randi() % array.size()]
 	
+func get_node_collision_layer_state(node, num_bits = C.NUM_COLLISION_BITS):
+	var current_state = []
+	current_state.resize(num_bits)
+	for idx in range(0, current_state.size()):
+		current_state[idx] = node.get_collision_layer_bit(idx)
+	return current_state
+	
+func set_node_collision_layer_bits(node, value, which_bits = []):
+	#if no specifics then do all bits
+	if (which_bits.empty()):
+		which_bits = range(0, C.NUM_COLLISION_BITS)
+	for idx in which_bits:
+		node.set_collision_layer_bit(idx, value)
+	
 func get_absolute_for_coef(coef, abs_max, abs_min = 0):
 	var abs_range = abs_max - abs_min
 	var delta = coef * abs_range

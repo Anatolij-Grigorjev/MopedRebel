@@ -3,7 +3,6 @@ extends KinematicBody2D
 var LOG = preload("res://globals/logger.gd").new(self)
 
 var check_collision_layers = [
-	C.LAYERS_SIDEWALK,
 	C.LAYERS_CURB,
 	C.LAYERS_TRANSPORT_ROAD
 ]
@@ -58,16 +57,22 @@ func _reset_swerve():
 func _reset_acceleration():
 	speed_alter_direction = 0
 
+var last_enabled_collision_layer_state = []
 	
 func disable():
-	set_collision_layer_bit(C.LAYERS_REBEL_ROAD, false)
+	last_enabled_collision_layer_state = F.get_node_collision_layer_state(self)
+	F.set_node_collision_layer_bits(self, false)
 	for mask_layer in check_collision_layers:
 		set_collision_mask_bit(mask_layer, false)
 	set_physics_process(false)
 	visible = false
 	
 func enable():
-	set_collision_layer_bit(C.LAYERS_REBEL_ROAD, true)
+	var enabled_bits = []
+	for idx in range(0, last_enabled_collision_layer_state.size()):
+		if (last_enabled_collision_layer_state[idx]):
+			enabled_bits.append(idx)
+	F.set_node_collision_layer_bits(self, true, enabled_bits)
 	for mask_layer in check_collision_layers:
 		set_collision_mask_bit(mask_layer, true)
 	set_physics_process(true)
@@ -171,6 +176,13 @@ func _handle_unmounting_moped():
 func _handle_jumping_curb():
 	if (Input.is_action_just_released('jump_curb')):
 		S.emit_signal0(S.SIGNAL_REBEL_JUMP_CURB_ON_MOPED)
+		moped_ground_type = (moped_ground_type + 1) % 2
+		_set_moped_ground_layers()
+		
+func _set_moped_ground_layers():
+	var moped_on_road = moped_ground_type == MOPED_GROUND_TYPES.ROAD
+	set_collision_layer_bit(C.LAYERS_REBEL_ROAD, moped_on_road)
+	set_collision_layer_bit(C.LAYERS_REBEL_SIDEWALK, not moped_on_road)
 
 func _handle_facing_direction():
 	

@@ -10,10 +10,10 @@
 custom_solver_bias = 0.0
 extents = Vector2( 62, 30 )
 
-[node name="rebel_on_moped" type="KinematicBody2D"]
+[node name="rebel_on_moped" type="KinematicBody2D" index="0"]
 
 input_pickable = false
-collision_layer = 0
+collision_layer = 17
 collision_mask = 34
 collision/safe_margin = 0.08
 script = ExtResource( 1 )
