@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://enemy/citizens/basic_citizen.gd" type="Script" id=1]
 [ext_resource path="res://enemy/citizens/white_worker/citizen_worker.png" type="Texture" id=2]
@@ -11,6 +11,11 @@
 custom_solver_bias = 0.0
 radius = 45.7688
 height = 20.0
+
+[sub_resource type="RectangleShape2D" id=2]
+
+custom_solver_bias = 0.0
+extents = Vector2( 300, 60 )
 
 [node name="white_worker1" type="KinematicBody2D"]
 
@@ -35,5 +40,23 @@ shape = SubResource( 1 )
 [node name="check_rebel_direction_timer" parent="." index="3" instance=ExtResource( 4 )]
 
 [node name="conflict_collision_receiver" parent="." index="4" instance=ExtResource( 5 )]
+
+[node name="moped_detect_area" type="Area2D" parent="." index="5"]
+
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+
+[node name="body" type="CollisionShape2D" parent="moped_detect_area" index="0"]
+
+shape = SubResource( 2 )
+
+[connection signal="body_entered" from="moped_detect_area" to="." method="_on_body_entered_moped_detect_area"]
+
+[connection signal="body_exited" from="moped_detect_area" to="." method="_on_body_exited_moped_detect_area"]
 
 
