@@ -102,10 +102,12 @@ func _physics_process(delta):
 	)
 	var collision = move_and_collide(velocity * delta)
 	if (collision):
-		LOG.debug("new collision: %s", [collision])
-		#bump around by car
+		LOG.info("new collision: %s", [collision])
+		
+		#bump around by heavy collision (car)
 		if (collision.collider.is_in_group(C.GROUP_CARS)):
 			_bounce_from_colliding_heavy(collision)
+			
 		#do conflict if the collider can manage it
 		if (_collider_has_conflict_collision_node(collision)):
 			_collision_receiver_react_collision(collision)
