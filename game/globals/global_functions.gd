@@ -57,6 +57,14 @@ func is_val_in_target_radius(val, target, radius):
 		(target - radius <= val and val <= target + radius)
 	)
 	
+#checks node for equality against currently cached global
+#game state rebels
+func is_node_rebel(node):
+	return (
+		node == G.node_rebel_on_foot 
+		or node == G.node_rebel_on_moped
+	)
+	
 #get character position z coordinate, respecting jump
 #z depends on air/ground and coefficient
 func get_char_actual_z(char_node):

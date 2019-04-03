@@ -33,15 +33,11 @@ func switch_foot_rebel_to_moped_on_road():
 
 func _get_highest_road_position_below_sidewalk(on_sidewalk_position):
 	#find closest curb tile below and get global position of that
-	var increment = $sidewalk_tileset.cell_size.y
-	var curb_cell_idx = -1
-	var below_position = on_sidewalk_position
-	while(curb_cell_idx < 0 and below_position.y < C.MAX_WORLD_Y):
-		below_position += Vector2(0, increment)
-		curb_cell_idx = $curb_tileset.get_cellv($curb_tileset.world_to_map(below_position))
-	
-	var on_road_position = below_position + Vector2(0, $curb_tileset.cell_size.y)
-	return on_road_position
+	return _get_first_position_on_target_tileset(
+		on_sidewalk_position,
+		$road_tileset,
+		$sidewalk_tileset.cell_size.y
+	)
 
 func switch_moped_rebel_to_foot_on_sidewalk():
 	var on_sidewalk_position = rebel_on_moped_node.global_position
@@ -57,24 +53,33 @@ func _is_rebel_on_sidewalk():
 	return sidewalk_cell_idx >= 0
 
 func move_moped_rebel_over_curb():
-	var otherside_position = (
-		_get_highest_road_position_below_sidewalk(rebel_on_moped_node.global_position) 
-		if _is_rebel_on_sidewalk() else 
-		_get_lowest_sidewalk_position_above_road(rebel_on_moped_node.global_position)
-	)
+	var otherside_position = Vector2()
+	if (_is_rebel_on_sidewalk()):
+		otherside_position = _get_highest_road_position_below_sidewalk(rebel_on_moped_node.global_position)
+	else:
+		otherside_position = _get_lowest_sidewalk_position_above_road(rebel_on_moped_node.global_position)
+	
 	rebel_on_moped_node.global_position = otherside_position
 	
 func _get_lowest_sidewalk_position_above_road(on_road_position):
-	#find closes curb tile above and use a global position above it
-	var increment = $road_tileset.cell_size.y
-	var curb_cell_idx = -1
-	var above_position = on_road_position
-	while(curb_cell_idx < 0 and above_position.y > 0):
-		above_position -= Vector2(0, increment)
-		curb_cell_idx = $curb_tileset.get_cellv($curb_tileset.world_to_map(above_position))
 	
-	var on_sidewalk_position = above_position - Vector2(0, $curb_tileset.cell_size.y)
-	return on_sidewalk_position
+	#find closes curb tile above and use a global position above it
+	return _get_first_position_on_target_tileset(
+		on_road_position,
+		$sidewalk_tileset,
+		-$road_tileset.cell_size.y
+	)
+	
+func _get_first_position_on_target_tileset(start_position, target_tileset, increment, max_increments = 10):
+	var target_tileset_position = start_position
+	var target_tileset_cell_idx = target_tileset.get_cellv(target_tileset.world_to_map(target_tileset_position))
+	var num_increments = 0
+	while(target_tileset_cell_idx < 0 and num_increments < max_increments):
+		max_increments += 1
+		target_tileset_position += Vector2(0, increment)
+		target_tileset_cell_idx = target_tileset.get_cellv(target_tileset.world_to_map(target_tileset_position))
+	
+	return target_tileset_position
 	
 func _physics_process(delta):
 	pass

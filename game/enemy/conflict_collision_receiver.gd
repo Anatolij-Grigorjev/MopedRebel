@@ -24,7 +24,7 @@ func set_conflict_params(bribe_money, min_diss_sc, enemy_toughness):
 	self.enemy_toughness = enemy_toughness
 
 func react_collision(collision):
-	if (not collided and _collision_is_me_or_rebel(collision)):
+	if (not collided and _collided_with_me_or_rebel(collision)):
 		LOG.info("fresh collision with %s", [collision.collider])
 		collided = true
 		call_pre_collision_action()
@@ -42,9 +42,8 @@ func call_pre_collision_action():
 	if (pre_collide_action_node != null and pre_collide_action_name != null):
 		pre_collide_action_node.call(pre_collide_action_name)
 	
-func _collision_is_me_or_rebel(collision):
+func _collided_with_me_or_rebel(collision):
 	return (
-		collision.collider == G.node_rebel_on_foot or
-		collision.collider == G.node_rebel_on_moped or
-		collision.collider == owner
+		collision.collider == owner or
+		F.is_node_rebel(collision.collider)
 	)

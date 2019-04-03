@@ -5,9 +5,11 @@
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
-extents = Vector2( 64, 64 )
+extents = Vector2( 64, 6 )
 
 [node name="curb_tileset" type="Node2D"]
+
+editor/display_folded = true
 
 [node name="curb1" type="Sprite" parent="." index="0"]
 
@@ -28,6 +30,8 @@ bounce = 0.0
 
 [node name="collider" type="CollisionShape2D" parent="curb1/body" index="0"]
 
+position = Vector2( 0, -35 )
 shape = SubResource( 1 )
+_sections_unfolded = [ "Transform" ]
 
 
