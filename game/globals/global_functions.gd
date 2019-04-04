@@ -65,6 +65,36 @@ func is_node_rebel(node):
 		or node == G.node_rebel_on_moped
 	)
 	
+func get_tileset_position_or_break(start_position, target_tileset, increment, max_increments = 10):
+	var initial_search = get_first_position_on_target_tileset(start_position, target_tileset, increment, max_increments)
+	#if position found all good
+	if (initial_search[0]):
+		return initial_search[1]
+	else:
+		log_error("Could not find position on tileset %s after %s increments of %s starting from %s", [
+			get_node_name_safe(target_tileset),
+			max_increments,
+			increment,
+			start_position
+		])
+
+#starting from start_position, keep adding increment upwards of
+#max_increment tries to find a global_position that 
+#belongs to a tile on the tileset target_tileset
+#returns flag of pos found/not and claculated position
+func get_first_position_on_target_tileset(start_position, target_tileset, increment, max_increments = 10):
+	var num_increments = 0
+	var target_tileset_position = start_position
+	#before doing any looping check if already on target tileset
+	var target_tileset_cell_idx = target_tileset.get_cellv(target_tileset.world_to_map(target_tileset_position))
+	while(target_tileset_cell_idx < 0 and num_increments < max_increments):
+		max_increments += 1
+		target_tileset_position += Vector2(0, increment)
+		target_tileset_cell_idx = target_tileset.get_cellv(target_tileset.world_to_map(target_tileset_position))
+	
+	var was_position_found = target_tileset_cell_idx >= 0
+	return [was_position_found, target_tileset_position]
+	
 #get character position z coordinate, respecting jump
 #z depends on air/ground and coefficient
 func get_char_actual_z(char_node):
