@@ -107,6 +107,7 @@ func _process_pick_option():
 				
 func _process_picked_bribe():
 	pass
+	
 func _process_picked_diss():
 	var chosen_diss = (
 		DE.get_random_enemy_diss(VS.conflict_with_node.name) 
@@ -118,6 +119,7 @@ func _process_picked_diss():
 		S.SIGNAL_CONFLICT_CHOSE_DISS,
 		chosen_diss
 	)
-	pass
+
+	
 func _process_picked_fight():
 	pass

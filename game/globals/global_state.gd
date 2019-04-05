@@ -2,6 +2,9 @@ extends Node
 
 #global state node, stubbed props for testing individual scenes
 
+###GENERAL REBEL STATE###
+var rebel_total_street_cred = 150
+
 ########
 ##FOOT##
 ########
