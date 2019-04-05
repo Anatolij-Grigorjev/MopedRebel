@@ -1,5 +1,9 @@
 extends Node2D
 
+onready var sidewalk_tileset = get_node("tileset/sidewalk")
+onready var curb_tileset = get_node("tileset/curb")
+onready var road_tileset = get_node("tileset/road")
+
 var rebel_on_foot_node
 var rebel_on_moped_node
 
@@ -35,8 +39,8 @@ func _get_highest_road_position_below_sidewalk(on_sidewalk_position):
 	#find closest curb tile below and get global position of that
 	return F.get_tileset_position_or_break(
 		on_sidewalk_position,
-		$road_tileset,
-		$sidewalk_tileset.cell_size.y
+		road_tileset,
+		curb_tileset.cell_size.y
 	)
 
 func switch_moped_rebel_to_foot_on_sidewalk():
@@ -48,7 +52,7 @@ func switch_moped_rebel_to_foot_on_sidewalk():
 	
 func _is_rebel_on_sidewalk():
 	var rebel_position = G.node_active_rebel.global_position
-	var sidewalk_cell_idx = $sidewalk_tileset.get_cellv($sidewalk_tileset.world_to_map(rebel_position))
+	var sidewalk_cell_idx = sidewalk_tileset.get_cellv(sidewalk_tileset.world_to_map(rebel_position))
 	
 	return sidewalk_cell_idx >= 0
 
@@ -66,8 +70,8 @@ func _get_lowest_sidewalk_position_above_road(on_road_position):
 	#find closes curb tile above and use a global position above it
 	return F.get_tileset_position_or_break(
 		on_road_position,
-		$sidewalk_tileset,
-		-$road_tileset.cell_size.y
+		sidewalk_tileset,
+		-road_tileset.cell_size.y
 	)
 	
 func _physics_process(delta):
