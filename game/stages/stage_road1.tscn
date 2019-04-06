@@ -1,21 +1,42 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://stages/stage_road1.gd" type="Script" id=1]
-[ext_resource path="res://stages/tilesets/sidewalk.tres" type="TileSet" id=2]
-[ext_resource path="res://stages/tilesets/curb.tres" type="TileSet" id=3]
-[ext_resource path="res://stages/tilesets/road.tres" type="TileSet" id=4]
-[ext_resource path="res://rebel/rebel_on_foot.tscn" type="PackedScene" id=5]
-[ext_resource path="res://rebel/rebel_on_moped.tscn" type="PackedScene" id=6]
-[ext_resource path="res://enemy/transport/car_blue/car_blue1.tscn" type="PackedScene" id=7]
-[ext_resource path="res://enemy/citizens/white_worker/white_worker1.tscn" type="PackedScene" id=8]
+[ext_resource path="res://stages/tilesets/tileset.tres" type="TileSet" id=2]
+[ext_resource path="res://stages/tilemap_copier.gd" type="Script" id=3]
+[ext_resource path="res://rebel/rebel_on_foot.tscn" type="PackedScene" id=4]
+[ext_resource path="res://rebel/rebel_on_moped.tscn" type="PackedScene" id=5]
+[ext_resource path="res://enemy/transport/car_blue/car_blue1.tscn" type="PackedScene" id=6]
+[ext_resource path="res://enemy/citizens/white_worker/white_worker1.tscn" type="PackedScene" id=7]
 
 [node name="stage_road1" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="sidewalk_tileset" type="TileMap" parent="." index="0"]
+[node name="tileset" type="TileMap" parent="." index="0"]
 
+mode = 0
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 128, 128 )
+cell_quadrant_size = 16
+cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+cell_half_offset = 2
+cell_tile_origin = 0
+cell_y_sort = false
+cell_clip_uv = false
+collision_use_kinematic = false
+collision_friction = 1.0
+collision_bounce = 0.0
+collision_layer = 0
+collision_mask = 0
+occluder_light_mask = 1
+format = 1
+tile_data = PoolIntArray( 0, 2, 0, 1, 2, 0, 2, 2, 0, 3, 2, 0, 4, 2, 0, 5, 2, 0, 6, 2, 0, 7, 2, 0, 8, 2, 0, 9, 2, 0, 10, 2, 0, 11, 2, 0, 12, 2, 0, 65536, 2, 0, 65537, 2, 0, 65538, 2, 0, 65539, 2, 0, 65540, 2, 0, 65541, 2, 0, 65542, 2, 0, 65543, 2, 0, 65544, 2, 0, 65545, 2, 0, 65546, 2, 0, 65547, 2, 0, 65548, 2, 0, 131072, 0, 0, 131073, 0, 0, 131074, 0, 0, 131075, 0, 0, 131076, 0, 0, 131077, 0, 0, 131078, 0, 0, 131079, 0, 0, 131080, 0, 0, 131081, 0, 0, 131082, 0, 0, 131083, 0, 0, 131084, 0, 0, 196608, 1, 0, 196609, 1, 0, 196610, 1, 0, 196611, 1, 0, 196612, 1, 0, 196613, 1, 0, 196614, 1, 0, 196615, 1, 0, 196616, 1, 0, 196617, 1, 0, 196618, 1, 0, 196619, 1, 0, 196620, 1, 0, 262144, 1, 0, 262145, 1, 0, 262146, 1, 0, 262147, 1, 0, 262148, 1, 0, 262149, 1, 0, 262150, 1, 0, 262151, 1, 0, 262152, 1, 0, 262153, 1, 0, 262154, 1, 0, 262155, 1, 0, 262156, 1, 0, 327680, 1, 0, 327681, 1, 0, 327682, 1, 0, 327683, 1, 0, 327684, 1, 0, 327685, 1, 0, 327686, 1, 0, 327687, 1, 0, 327688, 1, 0, 327689, 1, 0, 327690, 1, 0, 327691, 1, 0, 327692, 1, 0, 393216, 1, 0, 393217, 1, 0, 393218, 1, 0, 393219, 1, 0, 393220, 1, 0, 393221, 1, 0, 393222, 1, 0, 393223, 1, 0, 393224, 1, 0, 393225, 1, 0, 393226, 1, 0, 393227, 1, 0, 393228, 1, 0 )
+_sections_unfolded = [ "Cell", "Collision", "Occluder" ]
+
+[node name="sidewalk" type="TileMap" parent="tileset" index="0"]
+
+visible = false
 mode = 0
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 128, 128 )
@@ -32,13 +53,16 @@ collision_layer = 1
 collision_mask = 2
 occluder_light_mask = 1
 format = 1
-tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 10, 0, 0, 11, 0, 0, 12, 0, 0, 65536, 0, 0, 65537, 0, 0, 65538, 0, 0, 65539, 0, 0, 65540, 0, 0, 65541, 0, 0, 65542, 0, 0, 65543, 0, 0, 65544, 0, 0, 65545, 0, 0, 65546, 0, 0, 65547, 0, 0, 65548, 0, 0 )
-_sections_unfolded = [ "Cell", "Collision", "Occluder" ]
+tile_data = PoolIntArray(  )
+script = ExtResource( 3 )
+_sections_unfolded = [ "Cell", "Collision" ]
+COPIED_TILE_ID = 2
 
-[node name="curb_tileset" type="TileMap" parent="." index="1"]
+[node name="curb" type="TileMap" parent="tileset" index="1"]
 
+visible = false
 mode = 0
-tile_set = ExtResource( 3 )
+tile_set = ExtResource( 2 )
 cell_size = Vector2( 128, 128 )
 cell_quadrant_size = 16
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -53,13 +77,16 @@ collision_layer = 2
 collision_mask = 5
 occluder_light_mask = 1
 format = 1
-tile_data = PoolIntArray( 131072, 0, 0, 131073, 0, 0, 131074, 0, 0, 131075, 0, 0, 131076, 0, 0, 131077, 0, 0, 131078, 0, 0, 131079, 0, 0, 131080, 0, 0, 131081, 0, 0, 131082, 0, 0, 131083, 0, 0, 131084, 0, 0 )
-_sections_unfolded = [ "Collision" ]
+tile_data = PoolIntArray(  )
+script = ExtResource( 3 )
+_sections_unfolded = [ "Cell", "Collision" ]
+COPIED_TILE_ID = 0
 
-[node name="road_tileset" type="TileMap" parent="." index="2"]
+[node name="road" type="TileMap" parent="tileset" index="2"]
 
+visible = false
 mode = 0
-tile_set = ExtResource( 4 )
+tile_set = ExtResource( 2 )
 cell_size = Vector2( 128, 128 )
 cell_quadrant_size = 16
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -74,31 +101,33 @@ collision_layer = 4
 collision_mask = 2
 occluder_light_mask = 1
 format = 1
-tile_data = PoolIntArray( 196608, 0, 0, 196609, 0, 0, 196610, 0, 0, 196611, 0, 0, 196612, 0, 0, 196613, 0, 0, 196614, 0, 0, 196615, 0, 0, 196616, 0, 0, 196617, 0, 0, 196618, 0, 0, 196619, 0, 0, 196620, 0, 0, 262144, 0, 0, 262145, 0, 0, 262146, 0, 0, 262147, 0, 0, 262148, 0, 0, 262149, 0, 0, 262150, 0, 0, 262151, 0, 0, 262152, 0, 0, 262153, 0, 0, 262154, 0, 0, 262155, 0, 0, 262156, 0, 0, 327680, 0, 0, 327681, 0, 0, 327682, 0, 0, 327683, 0, 0, 327684, 0, 0, 327685, 0, 0, 327686, 0, 0, 327687, 0, 0, 327688, 0, 0, 327689, 0, 0, 327690, 0, 0, 327691, 0, 0, 327692, 0, 0, 393216, 0, 0, 393217, 0, 0, 393218, 0, 0, 393219, 0, 0, 393220, 0, 0, 393221, 0, 0, 393222, 0, 0, 393223, 0, 0, 393224, 0, 0, 393225, 0, 0, 393226, 0, 0, 393227, 0, 0, 393228, 0, 0 )
-_sections_unfolded = [ "Collision" ]
+tile_data = PoolIntArray(  )
+script = ExtResource( 3 )
+_sections_unfolded = [ "Cell", "Collision" ]
+COPIED_TILE_ID = 1
 
-[node name="rebel_on_foot" parent="." index="3" instance=ExtResource( 5 )]
+[node name="rebel_on_foot" parent="." index="1" instance=ExtResource( 4 )]
 
 position = Vector2( 154.116, 131.568 )
 collision_mask = 2
 _sections_unfolded = [ "Collision", "Pickable", "Transform", "Z Index", "collision" ]
 
-[node name="rebel_on_moped" parent="." index="4" instance=ExtResource( 6 )]
+[node name="rebel_on_moped" parent="." index="2" instance=ExtResource( 5 )]
 
 position = Vector2( 100, 500 )
 _sections_unfolded = [ "Collision", "Pickable", "Transform", "Z Index", "collision" ]
 
-[node name="car_blue1" parent="." index="5" instance=ExtResource( 7 )]
+[node name="car_blue1" parent="." index="3" instance=ExtResource( 6 )]
 
 position = Vector2( 441.454, 694.239 )
 maintains_speed = 90.0
 
-[node name="white_worker1" parent="." index="6" instance=ExtResource( 8 )]
+[node name="white_worker1" parent="." index="4" instance=ExtResource( 7 )]
 
 position = Vector2( 766.149, 141.055 )
 _sections_unfolded = [ "Collision", "Transform", "collision" ]
 
-[node name="car_blue2" parent="." index="7" instance=ExtResource( 7 )]
+[node name="car_blue2" parent="." index="5" instance=ExtResource( 6 )]
 
 position = Vector2( 1253.19, 474.769 )
 maintains_speed = 90.0
