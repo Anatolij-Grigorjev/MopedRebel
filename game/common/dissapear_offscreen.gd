@@ -16,7 +16,7 @@ func _screen_exited():
 	$wait_period.start()
 
 func _screen_entered():
-	#reset timer when car onscreen
+	#reset timer when node onscreen
 	#not to dissapear it
 	if (not $wait_period.is_stopped()):
 		$wait_period.stop()

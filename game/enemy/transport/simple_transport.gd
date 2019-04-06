@@ -34,7 +34,7 @@ func _ready():
 	conflict_collision_receiver = $conflict_collision_receiver
 	conflict_collision_receiver.set_conflict_params(
 		150,
-		100,
+		50,
 		'WHIMP'
 	)
 	conflict_collision_receiver.set_pre_conflict_collision_action(

@@ -17,6 +17,10 @@ var option_picked = false
 var enemy_sprite_node
 var rebel_sprite_node
 
+var param_req_money
+var param_req_sc
+var param_enemy_toughness
+
 func _ready():
 	enemy_sprite_node = owner.get_node('outer_container/chars_outer_container/pictures_container/enemy_tex')
 	rebel_sprite_node = owner.get_node('outer_container/chars_outer_container/pictures_container/rebel_tex')
@@ -37,6 +41,9 @@ func init_options_containers_data():
 
 func init_conflict_with_details(enemy_texture, req_money, req_sc, enemy_rating):
 	var detail_param = [req_money, req_sc, enemy_rating]
+	param_req_money = detail_param[0]
+	param_req_sc = detail_param[1]
+	param_enemy_toughness = detail_param[2]
 	option_selected_detail_text.clear()
 	for idx in range(0, option_selected_detail_templates.size()):
 		var detail_template = option_selected_detail_templates[idx]
@@ -53,27 +60,45 @@ func _apply_conflict_textures(enemy_texture):
 	
 func mark_selected_option():
 	F.assert_arr_not_empty(option_selected_detail_text)
-	clear_selection()
-	correct_selection_idx()
+	_clear_selection()
+	_correct_selection_idx()
 	var label_node = option_containers[curr_selection_idx].get_node('selection_arrow')
 	label_node.text = C.GUI_SELECTED_OPT_MARKER
 	var text_node = option_containers[curr_selection_idx].get_node('text_label')
 	var normal_text = option_normal_text[curr_selection_idx]
 	var detail_text = option_selected_detail_text[curr_selection_idx]
 	text_node.text = "%s (%s)" % [normal_text, detail_text]
+	if (_option_requirements_met(curr_selection_idx)):
+		text_node.add_color_override('font_color', C.GUI_AVAILABLE_OPTION_COLOR)
+	else:
+		text_node.add_color_override('font_color', C.GUI_DISABLED_OPTION_COLOR)
 	
-func correct_selection_idx():
+func _correct_selection_idx():
 	if (curr_selection_idx < 0):
 		curr_selection_idx = option_containers.size() + curr_selection_idx
 	else:
 		curr_selection_idx = curr_selection_idx % option_containers.size()
 	
-func clear_selection():
+func _clear_selection():
 	for idx in range(0, option_containers.size()):
 		var container_node = option_containers[idx]
 		container_node.get_node('selection_arrow').text = ''
 		container_node.get_node('text_label').text = option_normal_text[idx]
+		container_node.get_node('text_label').add_color_override('font_color', C.GUI_AVAILABLE_OPTION_COLOR)
 
+func _option_requirements_met(option_idx):
+	match option_idx:
+		0:
+			return G.rebel_total_money >= param_req_money
+		1: 
+			return G.rebel_total_street_cred >= param_req_sc
+		2:
+			true
+		_:
+			LOG.error(
+				'Checking unexpected option idx %s!', 
+				[option_idx]
+			)
 
 func _physics_process(delta):
 	if (not option_picked):
@@ -90,7 +115,8 @@ func _process_browse_options():
 		mark_selected_option()
 		
 func _process_pick_option():
-	if (Input.is_action_just_released('unmount_moped')):
+	if (Input.is_action_just_released('unmount_moped')
+		and _option_requirements_met(curr_selection_idx)):
 		option_picked = true
 		match curr_selection_idx:
 			0:
@@ -101,7 +127,7 @@ func _process_pick_option():
 				_process_picked_fight()
 			_:
 				LOG.error(
-					'Picked weird option %s!', 
+					'Picked weird option idx %s!', 
 					[curr_selection_idx]
 				)
 				

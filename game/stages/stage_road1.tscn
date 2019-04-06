@@ -15,6 +15,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="tileset" type="TileMap" parent="." index="0"]
 
+editor/display_folded = true
 mode = 0
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 128, 128 )

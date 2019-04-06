@@ -20,6 +20,8 @@ const CURRENT_LOG_LEVEL = LOG_LEVELS.INFO
 const MAX_WORLD_Y = 100000
 
 const GUI_SELECTED_OPT_MARKER = "->"
+const GUI_AVAILABLE_OPTION_COLOR = Color(1, 1, 1)
+const GUI_DISABLED_OPTION_COLOR = Color(1, 0, 0)
 const DISS_JSON_LOCATION = "res://conflict/dissing/disses.json"
 
 ## LAYERS
