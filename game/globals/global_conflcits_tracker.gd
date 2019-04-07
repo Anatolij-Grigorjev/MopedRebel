@@ -2,8 +2,8 @@ extends Node2D
 
 var LOG = preload("res://globals/logger.gd").new(self)
 
-var conflict_node_scene = preload("res://conflict/conflict_root.tscn")
-var diss_popup_node_scene = preload("res://conflict/dissing/diss_popup.tscn")
+var ConflictRoot = preload("res://conflict/conflict_root.tscn")
+var InfoPopup = preload("res://conflict/info_popup.tscn")
 
 var conflict_rebel_node = null
 var conflict_with_node = null
@@ -17,12 +17,17 @@ func _ready():
 		"_init_rebel_other_conflict_screen"
 	)
 	S.connect_signal_to(
+		S.SIGNAL_CONFLICT_CHOSE_BRIBE,
+		self,
+		"_init_bribe_popup"
+	)
+	S.connect_signal_to(
 		S.SIGNAL_CONFLICT_CHOSE_DISS,
 		self,
 		"_init_diss_popup"
 	)
 	S.connect_signal_to(
-		S.SIGNAL_DISS_POPUP_CLOSED,
+		S.SIGNAL_INFO_POPUP_CLOSED,
 		self,
 		"_init_finish_conflict_state"
 	)
@@ -43,16 +48,22 @@ func _init_rebel_other_conflict_screen(enemy_node, bribe_money, diss_min_sc, fig
 	get_tree().paused = true
 	
 func _attach_conflict_to_stage():
-	var conflict_node = conflict_node_scene.instance()
+	var conflict_node = ConflictRoot.instance()
 	var stage = G.node_current_stage_root
 	stage.add_child(conflict_node)
 	active_conflict_screen_node = conflict_node
 	return conflict_node
 
 func _init_diss_popup(diss_text):
-	var new_diss_dialog = diss_popup_node_scene.instance()
+	var new_diss_dialog = InfoPopup.instance()
 	G.node_current_stage_root.add_child(new_diss_dialog)
 	new_diss_dialog.show_popup(diss_text)
+	
+func _init_bribe_popup(req_money):
+	var bribe_text = C.BRIBE_POPUP_TEXT_TEMPLATE % req_money
+	var new_bribe_dialog = InfoPopup.instance()
+	G.node_current_stage_root.add_child(new_bribe_dialog)
+	new_bribe_dialog.show_popup(bribe_text)
 	
 func _init_finish_conflict_state():
 	F.invoke_later(

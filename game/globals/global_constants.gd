@@ -21,8 +21,10 @@ const MAX_WORLD_Y = 100000
 
 const GUI_SELECTED_OPT_MARKER = "->"
 const GUI_AVAILABLE_OPTION_COLOR = Color(1, 1, 1)
-const GUI_DISABLED_OPTION_COLOR = Color(1, 0, 0)
+const GUI_NOT_AVAILABLE_OPTION_COLOR = Color(0.5, 0.5, 0.5)
+const GUI_REQ_NOT_MET_OPTION_COLOR = Color(1, 0, 0)
 const DISS_JSON_LOCATION = "res://conflict/dissing/disses.json"
+const BRIBE_POPUP_TEXT_TEMPLATE = "Take %s$ and get out of here!"
 
 ## LAYERS
 const LAYERS_SIDEWALK = 0

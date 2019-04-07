@@ -71,7 +71,7 @@ func mark_selected_option():
 	if (_option_requirements_met(curr_selection_idx)):
 		text_node.add_color_override('font_color', C.GUI_AVAILABLE_OPTION_COLOR)
 	else:
-		text_node.add_color_override('font_color', C.GUI_DISABLED_OPTION_COLOR)
+		text_node.add_color_override('font_color', C.GUI_REQ_NOT_MET_OPTION_COLOR)
 	
 func _correct_selection_idx():
 	if (curr_selection_idx < 0):
@@ -84,7 +84,10 @@ func _clear_selection():
 		var container_node = option_containers[idx]
 		container_node.get_node('selection_arrow').text = ''
 		container_node.get_node('text_label').text = option_normal_text[idx]
-		container_node.get_node('text_label').add_color_override('font_color', C.GUI_AVAILABLE_OPTION_COLOR)
+		if (_option_requirements_met(idx)):
+			container_node.get_node('text_label').add_color_override('font_color', C.GUI_AVAILABLE_OPTION_COLOR)
+		else:
+			container_node.get_node('text_label').add_color_override('font_color', C.GUI_NOT_AVAILABLE_OPTION_COLOR)
 
 func _option_requirements_met(option_idx):
 	match option_idx:
@@ -93,7 +96,7 @@ func _option_requirements_met(option_idx):
 		1: 
 			return G.rebel_total_street_cred >= param_req_sc
 		2:
-			true
+			return true
 		_:
 			LOG.error(
 				'Checking unexpected option idx %s!', 
@@ -132,7 +135,10 @@ func _process_pick_option():
 				)
 				
 func _process_picked_bribe():
-	pass
+	S.emit_signal1(
+		S.SIGNAL_CONFLICT_CHOSE_BRIBE,
+		param_req_money
+	)
 	
 func _process_picked_diss():
 	var chosen_diss = (
