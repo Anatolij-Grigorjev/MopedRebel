@@ -19,12 +19,12 @@ func _ready():
 	S.connect_signal_to(
 		S.SIGNAL_CONFLICT_CHOSE_BRIBE,
 		self,
-		"_init_bribe_popup"
+		"_init_info_popup"
 	)
 	S.connect_signal_to(
 		S.SIGNAL_CONFLICT_CHOSE_DISS,
 		self,
-		"_init_diss_popup"
+		"_init_info_popup"
 	)
 	S.connect_signal_to(
 		S.SIGNAL_INFO_POPUP_CLOSED,
@@ -54,16 +54,10 @@ func _attach_conflict_to_stage():
 	active_conflict_screen_node = conflict_node
 	return conflict_node
 
-func _init_diss_popup(diss_text):
-	var new_diss_dialog = InfoPopup.instance()
-	G.node_current_stage_root.add_child(new_diss_dialog)
-	new_diss_dialog.show_popup(diss_text)
-	
-func _init_bribe_popup(req_money):
-	var bribe_text = C.BRIBE_POPUP_TEXT_TEMPLATE % req_money
-	var new_bribe_dialog = InfoPopup.instance()
-	G.node_current_stage_root.add_child(new_bribe_dialog)
-	new_bribe_dialog.show_popup(bribe_text)
+func _init_info_popup(info_text):
+	var new_info_dialog = InfoPopup.instance()
+	G.node_current_stage_root.add_child(new_info_dialog)
+	new_info_dialog.show_popup(info_text)
 	
 func _init_finish_conflict_state():
 	F.invoke_later(
