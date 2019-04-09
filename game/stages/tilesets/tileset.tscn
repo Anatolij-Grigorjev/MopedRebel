@@ -17,9 +17,9 @@ extents = Vector2( 64, 64 )
 custom_solver_bias = 0.0
 extents = Vector2( 64, 64 )
 
-[node name="curb_tileset" type="Node2D" index="0"]
+[node name="tileset" type="Node2D" index="0"]
 
-[node name="curb1" type="Sprite" parent="." index="0"]
+[node name="curb1up" type="Sprite" parent="." index="0"]
 
 editor/display_folded = true
 texture = ExtResource( 1 )
@@ -27,7 +27,7 @@ region_enabled = true
 region_rect = Rect2( 0, 128, 128, 128 )
 _sections_unfolded = [ "Region", "Transform", "Visibility" ]
 
-[node name="body" type="StaticBody2D" parent="curb1" index="0"]
+[node name="body" type="StaticBody2D" parent="curb1up" index="0"]
 
 input_pickable = false
 collision_layer = 1
@@ -37,13 +37,38 @@ constant_angular_velocity = 0.0
 friction = 1.0
 bounce = 0.0
 
-[node name="collider" type="CollisionShape2D" parent="curb1/body" index="0"]
+[node name="collider" type="CollisionShape2D" parent="curb1up/body" index="0"]
 
 position = Vector2( 0, -35 )
 shape = SubResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="road1" type="Sprite" parent="." index="1"]
+[node name="curb1down" type="Sprite" parent="." index="1"]
+
+position = Vector2( 200, 150 )
+texture = ExtResource( 1 )
+flip_v = true
+region_enabled = true
+region_rect = Rect2( 0, 128, 128, 128 )
+_sections_unfolded = [ "Offset", "Region", "Transform", "Visibility" ]
+
+[node name="body" type="StaticBody2D" parent="curb1down" index="0"]
+
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+
+[node name="collider" type="CollisionShape2D" parent="curb1down/body" index="0"]
+
+position = Vector2( 0, 35 )
+shape = SubResource( 1 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="road1" type="Sprite" parent="." index="2"]
 
 editor/display_folded = true
 position = Vector2( 192, 0 )
@@ -66,7 +91,7 @@ bounce = 0.0
 
 shape = SubResource( 2 )
 
-[node name="sidewalk1" type="Sprite" parent="." index="2"]
+[node name="sidewalk1" type="Sprite" parent="." index="3"]
 
 editor/display_folded = true
 position = Vector2( 384, 0 )
