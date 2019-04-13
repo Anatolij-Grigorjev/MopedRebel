@@ -15,7 +15,7 @@ func _ready():
 	S.connect_signal_to(S.SIGNAL_REBEL_UNMOUNT_MOPED, self, "switch_moped_rebel_to_foot_on_sidewalk")
 	S.connect_signal_to(S.SIGNAL_REBEL_JUMP_CURB_ON_MOPED, self, "move_moped_rebel_over_curb")
 	
-	init_rebel_on_foot()
+	init_rebel_on_moped()
 
 
 func init_rebel_on_foot():
@@ -27,7 +27,6 @@ func init_rebel_on_moped():
 func _switch_rebel_node(switch_from_rebel, switch_to_rebel):
 	switch_from_rebel.disable()
 	switch_to_rebel.enable()
-	switch_to_rebel.get_node('camera').current = true
 	G.node_active_rebel = switch_to_rebel
 
 func switch_foot_rebel_to_moped_on_road():

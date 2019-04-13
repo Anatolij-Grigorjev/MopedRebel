@@ -1,20 +1,18 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://stages/stage_road1.gd" type="Script" id=1]
 [ext_resource path="res://stages/tilesets/city_tileset1.tres" type="TileSet" id=2]
 [ext_resource path="res://stages/tilemap_copier.gd" type="Script" id=3]
-[ext_resource path="res://rebel/rebel_on_foot.tscn" type="PackedScene" id=4]
-[ext_resource path="res://rebel/rebel_on_moped.tscn" type="PackedScene" id=5]
-[ext_resource path="res://enemy/transport/car_blue/car_blue1.tscn" type="PackedScene" id=6]
-[ext_resource path="res://enemy/citizens/white_worker/white_worker1.tscn" type="PackedScene" id=7]
 
-[node name="stage_road1" type="Node2D" index="0"]
+[node name="city1middle_road1" type="Node2D"]
 
+editor/display_folded = true
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="tileset" type="TileMap" parent="." index="0"]
 
+editor/display_folded = true
 mode = 0
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 64, 64 )
@@ -108,34 +106,5 @@ tile_data = PoolIntArray(  )
 script = ExtResource( 3 )
 _sections_unfolded = [ "Collision" ]
 COPIED_TILE_IDs = PoolIntArray( 3 )
-
-[node name="rebel_on_foot" parent="." index="1" instance=ExtResource( 4 )]
-
-position = Vector2( 154.116, 131.568 )
-collision_layer = 9
-collision_mask = 2
-_sections_unfolded = [ "Collision", "Pickable", "Transform", "Z Index", "collision" ]
-
-[node name="rebel_on_moped" parent="." index="2" instance=ExtResource( 5 )]
-
-position = Vector2( 100, 500 )
-collision_layer = 20
-_sections_unfolded = [ "Collision", "Pickable", "Transform", "Z Index", "collision" ]
-
-[node name="car_blue1" parent="." index="3" instance=ExtResource( 6 )]
-
-position = Vector2( 441.454, 694.239 )
-maintains_speed = 90.0
-
-[node name="white_worker1" parent="." index="4" instance=ExtResource( 7 )]
-
-position = Vector2( 766.149, 141.055 )
-_sections_unfolded = [ "Collision", "Transform", "collision" ]
-
-[node name="car_blue2" parent="." index="5" instance=ExtResource( 6 )]
-
-position = Vector2( 1253.19, 474.769 )
-maintains_speed = 90.0
-maintains_direction = Vector2( -1, 0 )
 
 

@@ -77,6 +77,7 @@ func enable():
 		set_collision_mask_bit(mask_layer, true)
 	set_physics_process(true)
 	visible = true
+	$camera.make_current()
 	
 func _physics_process(delta):
 	

@@ -22,6 +22,7 @@ func enable():
 	set_collision_layer_bit(C.LAYERS_REBEL_SIDEWALK, true)
 	set_physics_process(true)
 	visible = true
+	$camera.make_current()
 	
 func _physics_process(delta):
 	
