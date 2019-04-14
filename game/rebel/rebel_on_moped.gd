@@ -41,6 +41,7 @@ func _ready():
 	active_sprite = $sprite_on_moped
 	diss_positions_control = $diss_positions
 	moped_engine_tween = $moped_engine_tween
+	last_enabled_collision_layer_state = F.get_node_collision_layer_state(self)
 	G.track_action_press_release('accelerate_right')
 	G.track_action_press_release('accelerate_left')
 	reset_velocity()

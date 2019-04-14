@@ -9,19 +9,21 @@
 
 script = ExtResource( 1 )
 
-[node name="city1middle_road1" parent="." index="0" instance=ExtResource( 2 )]
+[node name="city1middle_road1" parent="." index="0" groups=[
+"stage_chunk",
+] instance=ExtResource( 2 )]
 
-script = null
-
-[node name="city1middle_road2" parent="." index="1" instance=ExtResource( 2 )]
+[node name="city1middle_road2" parent="." index="1" groups=[
+"stage_chunk",
+] instance=ExtResource( 2 )]
 
 position = Vector2( 1664, 0 )
-script = null
 
-[node name="city1middle_road3" parent="." index="2" instance=ExtResource( 2 )]
+[node name="city1middle_road3" parent="." index="2" groups=[
+"stage_chunk",
+] instance=ExtResource( 2 )]
 
 position = Vector2( 3328, 0 )
-script = null
 
 [node name="rebel_on_foot" parent="." index="3" instance=ExtResource( 3 )]
 

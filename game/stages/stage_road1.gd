@@ -7,6 +7,10 @@ onready var road_tileset = get_node("tileset/road")
 var rebel_on_foot_node
 var rebel_on_moped_node
 
+
+var bounding_rects_to_tilemaps = {}
+
+
 func _ready():
 	G.node_current_stage_root = self
 	rebel_on_foot_node = $rebel_on_foot
@@ -14,6 +18,18 @@ func _ready():
 	S.connect_signal_to(S.SIGNAL_REBEL_MOUNT_MOPED, self, "switch_foot_rebel_to_moped_on_road")
 	S.connect_signal_to(S.SIGNAL_REBEL_UNMOUNT_MOPED, self, "switch_moped_rebel_to_foot_on_sidewalk")
 	S.connect_signal_to(S.SIGNAL_REBEL_JUMP_CURB_ON_MOPED, self, "move_moped_rebel_over_curb")
+	
+	for stage_chunk in get_nodes_in_group(C.GROUP_STAGE_CHUNK):
+		
+		var stage_maps = stage_chunk.get_node('tileset')
+		var bounds = F.get_tilemap_bounding_rect(stage_maps)
+		
+		bounding_rects_to_tilemaps[bounds] = {
+			'curb': stage_maps.get_node('curb'),
+			'road': stage_maps.get_node('road'),
+			'sidewalk': stage_maps.get_node('sidewalk')
+		}
+		
 	
 	init_rebel_on_moped()
 
@@ -39,7 +55,7 @@ func _get_highest_road_position_below_sidewalk(on_sidewalk_position):
 	return F.get_tileset_position_or_break(
 		on_sidewalk_position,
 		road_tileset,
-		curb_tileset.cell_size.y
+		Vector2(0, curb_tileset.cell_size.y)
 	)
 
 func switch_moped_rebel_to_foot_on_sidewalk():
@@ -70,7 +86,7 @@ func _get_lowest_sidewalk_position_above_road(on_road_position):
 	return F.get_tileset_position_or_break(
 		on_road_position,
 		sidewalk_tileset,
-		-road_tileset.cell_size.y
+		Vector2(0, -road_tileset.cell_size.y)
 	)
 	
 func _physics_process(delta):

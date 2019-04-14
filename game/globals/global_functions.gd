@@ -78,18 +78,61 @@ func get_tileset_position_or_break(start_position, target_tileset, increment, ma
 			start_position
 		])
 
-#starting from start_position, keep adding increment upwards of
+
+func get_tilemap_bounding_rect(tilemap):
+	if (tilemap == null):
+		return Rect2()
+	
+	var tilemap_cells = tilemap.get_used_cells()
+	if (tilemap_cells == null or tilemap_cells.empty()):
+		return Rect2()
+		
+	var first_cell = tilemap_cells[0]
+	var low_x = first_cell.x
+	var low_y = first_cell.y
+	var high_x = low_x
+	var high_y = low_y
+	
+	for cell_idx in range(1, tilemap_cells.size()):
+		var a_cell_pos = tilemap_cells[cell_idx]
+		
+		#check X
+		if (a_cell_pos.x < low_x):
+			low.x = a_cell_pos.x
+		elif (a_cell_pos.x > high_x):
+			high_x = a_cell_pos.x
+			
+		#check Y
+		if (a_cell_pos.y < low_y):
+			low_y = a_cell_pos.y
+		elif (a_cell_pos.y > high_y):
+			high_y = a_cell_pos.y
+	
+	var cell_extents = tilemap.get_cell_size() / 2
+	
+	var lowest_global = tilemap.map_to_world(Vector2(low_x, low_y)) - cell_extents
+	var highest_global = tilemap.map_to_world(Vector2(high_x, high_y)) + cell_extents
+	
+	return Rect2(
+		#x/y vector
+		lowest_global,
+		#w/h vector
+		(highest_global - lowest_global)
+	)
+
+
+#starting from start_position, keep adding the "increment" vector
 #max_increment tries to find a global_position that 
 #belongs to a tile on the tileset target_tileset
-#returns flag of pos found/not and claculated position
-func get_first_position_on_target_tileset(start_position, target_tileset, increment, max_increments = 10):
+#returns flag of pos found/not and calculated position
+func get_first_position_on_target_tileset(start_position, target_tileset, increment = Vector2(), max_increments = 10):
 	var num_increments = 0
 	var target_tileset_position = start_position
 	#before doing any looping check if already on target tileset
 	var target_tileset_cell_idx = target_tileset.get_cellv(target_tileset.world_to_map(target_tileset_position))
 	while(target_tileset_cell_idx < 0 and num_increments < max_increments):
 		max_increments += 1
-		target_tileset_position += Vector2(0, increment)
+		target_tileset_position += increment
 		target_tileset_cell_idx = target_tileset.get_cellv(target_tileset.world_to_map(target_tileset_position))
 	
 	var was_position_found = target_tileset_cell_idx >= 0

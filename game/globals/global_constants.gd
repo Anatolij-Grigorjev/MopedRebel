@@ -16,8 +16,12 @@ const GRAVITY = 98.5
 const NUM_COLLISION_BITS = 20
 const DOUBLE_TAP_LIMIT = 0.25
 const CURRENT_LOG_LEVEL = LOG_LEVELS.INFO
-#lowest in-game point
+
+#STAGES
 const MAX_WORLD_Y = 100000
+const GROUP_STAGE_CHUNK = "stage_chunk"
+
+
 
 const GUI_SELECTED_OPT_MARKER = "->"
 const GUI_AVAILABLE_OPTION_COLOR = Color(1, 1, 1)
