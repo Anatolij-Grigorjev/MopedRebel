@@ -1,16 +1,29 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://stages/tilesets/city_tileset1.tres" type="TileSet" id=1]
-[ext_resource path="res://stages/tilemap_copier.gd" type="Script" id=2]
+[ext_resource path="res://stages/stage_chunk.gd" type="Script" id=1]
+[ext_resource path="res://stages/tilesets/city_tileset1.tres" type="TileSet" id=2]
+[ext_resource path="res://stages/tilemap_copier.gd" type="Script" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 50, 448 )
+
+[sub_resource type="RectangleShape2D" id=2]
+
+custom_solver_bias = 0.0
+extents = Vector2( 50, 448 )
 
 [node name="city1middle_road1" type="Node2D" index="0"]
 
+script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="tileset" type="TileMap" parent="." index="0"]
 
+editor/display_folded = true
 mode = 0
-tile_set = ExtResource( 1 )
+tile_set = ExtResource( 2 )
 cell_size = Vector2( 64, 64 )
 cell_quadrant_size = 16
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -35,7 +48,7 @@ __meta__ = {
 
 visible = false
 mode = 0
-tile_set = ExtResource( 1 )
+tile_set = ExtResource( 2 )
 cell_size = Vector2( 64, 64 )
 cell_quadrant_size = 16
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -51,7 +64,7 @@ collision_mask = 5
 occluder_light_mask = 1
 format = 1
 tile_data = PoolIntArray(  )
-script = ExtResource( 2 )
+script = ExtResource( 3 )
 _sections_unfolded = [ "Collision" ]
 COPIED_TILE_IDs = PoolIntArray( 0, 1 )
 
@@ -59,7 +72,7 @@ COPIED_TILE_IDs = PoolIntArray( 0, 1 )
 
 visible = false
 mode = 0
-tile_set = ExtResource( 1 )
+tile_set = ExtResource( 2 )
 cell_size = Vector2( 64, 64 )
 cell_quadrant_size = 16
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -75,7 +88,7 @@ collision_mask = 2
 occluder_light_mask = 1
 format = 1
 tile_data = PoolIntArray(  )
-script = ExtResource( 2 )
+script = ExtResource( 3 )
 _sections_unfolded = [ "Collision" ]
 COPIED_TILE_IDs = PoolIntArray( 2 )
 
@@ -83,7 +96,7 @@ COPIED_TILE_IDs = PoolIntArray( 2 )
 
 visible = false
 mode = 0
-tile_set = ExtResource( 1 )
+tile_set = ExtResource( 2 )
 cell_size = Vector2( 64, 64 )
 cell_quadrant_size = 16
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -99,8 +112,46 @@ collision_mask = 2
 occluder_light_mask = 1
 format = 1
 tile_data = PoolIntArray(  )
-script = ExtResource( 2 )
+script = ExtResource( 3 )
 _sections_unfolded = [ "Collision" ]
 COPIED_TILE_IDs = PoolIntArray( 3 )
+
+[node name="chunk_left" type="Area2D" parent="." index="1"]
+
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+
+[node name="collider" type="CollisionShape2D" parent="chunk_left" index="0"]
+
+position = Vector2( 50, 448 )
+shape = SubResource( 1 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="chunk_right" type="Area2D" parent="." index="2"]
+
+position = Vector2( 1665, 0 )
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+_sections_unfolded = [ "Transform" ]
+
+[node name="collider" type="CollisionShape2D" parent="chunk_right" index="0"]
+
+position = Vector2( -50, 448 )
+shape = SubResource( 2 )
+_sections_unfolded = [ "Transform" ]
+
+[connection signal="body_entered" from="chunk_left" to="." method="_on_body_entered_chunk_left"]
+
+[connection signal="body_entered" from="chunk_right" to="." method="_on_body_entered_chunk_right"]
 
 

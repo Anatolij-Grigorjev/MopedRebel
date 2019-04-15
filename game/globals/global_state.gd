@@ -5,6 +5,7 @@ extends Node
 ###GENERAL REBEL STATE###
 var rebel_total_street_cred = 75
 var rebel_total_money = 200.7
+var rebel_current_stage_chunk_idx = 0
 ########
 ##FOOT##
 ########

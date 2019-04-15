@@ -12,6 +12,8 @@ signal conflict_chose_diss(diss_text)
 signal conflict_info_popup_close
 signal rebel_gain_sc(added_sc_amount)
 signal moped_jump_curb
+signal rebel_leaving_chunk(chunk_idx, facing)
+signal rebel_entering_chunk(chunk_idx, facing)
 
 const SIGNAL_REBEL_MOUNT_MOPED = "mounting_moped"
 const SIGNAL_REBEL_UNMOUNT_MOPED = "unmounting_moped"
@@ -23,6 +25,8 @@ const SIGNAL_CONFLICT_CHOSE_DISS = "conflict_chose_diss"
 const SIGNAL_INFO_POPUP_CLOSED = "conflict_info_popup_close"
 const SIGNAL_REBEL_GAIN_SC = "rebel_gain_sc"
 const SIGNAL_REBEL_JUMP_CURB_ON_MOPED = "moped_jump_curb"
+const SIGNAL_REBEL_LEAVING_CHUNK = "rebel_leaving_chunk"
+const SIGNAL_REBEL_ENTERED_CHUNK = "rebel_entering_chunk"
 
 const known_singals = [
 	SIGNAL_REBEL_MOUNT_MOPED,
@@ -34,7 +38,9 @@ const known_singals = [
 	SIGNAL_CONFLICT_CHOSE_DISS,
 	SIGNAL_INFO_POPUP_CLOSED,
 	SIGNAL_REBEL_GAIN_SC,
-	SIGNAL_REBEL_JUMP_CURB_ON_MOPED
+	SIGNAL_REBEL_JUMP_CURB_ON_MOPED,
+	SIGNAL_REBEL_LEAVING_CHUNK,
+	SIGNAL_REBEL_ENTERED_CHUNK
 ]
 
 

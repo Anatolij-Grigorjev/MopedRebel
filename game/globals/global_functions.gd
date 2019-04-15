@@ -119,6 +119,10 @@ func get_tilemap_bounding_rect(tilemap):
 		#w/h vector
 		(highest_global - lowest_global)
 	)
+	
+#check if this node is actually the active rebel node
+func is_body_active_rebel(body):
+	return body == G.node_active_rebel
 
 
 #starting from start_position, keep adding the "increment" vector
