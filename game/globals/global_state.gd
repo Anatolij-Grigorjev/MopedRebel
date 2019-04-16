@@ -21,6 +21,7 @@ var node_rebel_on_moped = {
 	"global_position": Vector2()
 }
 var node_active_rebel = {}
+var active_rebel_state = C.REBEL_STATES.ON_FOOT
 var node_current_stage_root = {}
 var moped_config_max_speed = 200
 var moped_config_min_speed = 10

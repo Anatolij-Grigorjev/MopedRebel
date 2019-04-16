@@ -104,7 +104,7 @@ func chase_while_dissed():
 		$check_rebel_direction_timer.start()
 	
 func is_rebel_too_far():
-	if (G.node_active_rebel == G.node_rebel_on_foot):
+	if F.is_rebel_state(C.REBEL_STATES.ON_FOOT):
 		return true
 	return (
 		G.node_active_rebel.global_position.distance_to(

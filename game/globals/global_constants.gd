@@ -5,6 +5,10 @@ enum FACING {
 	RIGHT = 1,
 	LEFT = -1
 }
+enum REBEL_STATES {
+	ON_FOOT = 0,
+	ON_MOPED = 1
+}
 enum LOG_LEVELS {
 	DEBUG = 0,
 	INFO = 1,

@@ -98,7 +98,7 @@ func get_tilemap_bounding_rect(tilemap):
 		
 		#check X
 		if (a_cell_pos.x < low_x):
-			low.x = a_cell_pos.x
+			low_x = a_cell_pos.x
 		elif (a_cell_pos.x > high_x):
 			high_x = a_cell_pos.x
 			
@@ -122,7 +122,20 @@ func get_tilemap_bounding_rect(tilemap):
 	
 #check if this node is actually the active rebel node
 func is_body_active_rebel(body):
-	return body == G.node_active_rebel
+	return (
+		typeof(body) == typeof(G.node_active_rebel)
+		and body == G.node_active_rebel
+	)
+	
+func set_active_rebel_state(new_rebel_state):
+	G.active_rebel_state = new_rebel_state
+	if (new_rebel_state == C.REBEL_STATES.ON_FOOT):
+		G.node_active_rebel = G.node_rebel_on_foot
+	else:
+		G.node_active_rebel = G.node_rebel_on_moped
+		
+func is_rebel_state(rebel_state):
+	return G.active_rebel_state == rebel_state
 
 
 #starting from start_position, keep adding the "increment" vector

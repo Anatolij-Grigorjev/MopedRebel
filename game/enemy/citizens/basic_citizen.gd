@@ -64,7 +64,7 @@ func _align_new_rebel_direction(new_direction):
 	velocity = new_direction * walk_speed
 	
 func is_rebel_too_far():
-	if (G.node_active_rebel == G.node_rebel_on_moped):
+	if F.is_rebel_state(C.REBEL_STATES.ON_MOPED):
 		return true
 	var distance_to_rebel = G.node_active_rebel.global_position.distance_to(
 	global_position)
