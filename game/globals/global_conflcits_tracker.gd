@@ -17,12 +17,7 @@ func _ready():
 		"_init_rebel_other_conflict_screen"
 	)
 	S.connect_signal_to(
-		S.SIGNAL_CONFLICT_CHOSE_BRIBE,
-		self,
-		"_init_info_popup"
-	)
-	S.connect_signal_to(
-		S.SIGNAL_CONFLICT_CHOSE_DISS,
+		S.SIGNAL_CONFLICT_CHOSE_RESOLUTION,
 		self,
 		"_init_info_popup"
 	)
@@ -54,7 +49,7 @@ func _attach_conflict_to_stage():
 	active_conflict_screen_node = conflict_node
 	return conflict_node
 
-func _init_info_popup(info_text):
+func _init_info_popup(conflict_type, info_text):
 	var new_info_dialog = InfoPopup.instance()
 	G.node_current_stage_root.add_child(new_info_dialog)
 	new_info_dialog.show_popup(info_text)

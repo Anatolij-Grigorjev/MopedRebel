@@ -141,8 +141,9 @@ func _process_picked_bribe():
 	else:
 		chosen_bribe_text = PE.get_random_enemy_bribe(VS.conflict_with_node.name) % param_req_money
 		
-	S.emit_signal1(
-		S.SIGNAL_CONFLICT_CHOSE_BRIBE,
+	S.emit_signal2(
+		S.SIGNAL_CONFLICT_CHOSE_RESOLUTION,
+		C.CONFLICT_RESOLUTIONS.BRIBE,
 		chosen_bribe_text
 	)
 	
@@ -154,8 +155,9 @@ func _process_picked_diss():
 		chosen_diss = PE.get_random_enemy_diss(VS.conflict_with_node.name)
 		
 	LOG.debug("MR: %s", [chosen_diss])
-	S.emit_signal1(
-		S.SIGNAL_CONFLICT_CHOSE_DISS,
+	S.emit_signal2(
+		S.SIGNAL_CONFLICT_CHOSE_RESOLUTION,
+		C.CONFLICT_RESOLUTIONS.DISS,
 		chosen_diss
 	)
 

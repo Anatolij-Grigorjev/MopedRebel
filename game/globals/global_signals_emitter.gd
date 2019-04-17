@@ -7,8 +7,7 @@ signal unmounting_moped
 signal rebel_cause_conflict(enemy_node, bribe_money, min_req_sc, enemy_toughness)
 signal rebel_moped_collided
 signal conflict_resolved
-signal conflict_chose_bribe(req_money)
-signal conflict_chose_diss(diss_text)
+signal conflict_chose_resolution(choice_type, choice_param)
 signal conflict_info_popup_close
 signal rebel_gain_sc(added_sc_amount)
 signal moped_jump_curb
@@ -21,8 +20,7 @@ const SIGNAL_REBEL_UNMOUNT_MOPED = "unmounting_moped"
 const SIGNAL_REBEL_START_CONFLICT = "rebel_cause_conflict"
 const SIGNAL_REBEL_MOPED_COLLISION = "rebel_moped_collided"
 const SIGNAL_CONFLICT_RESOLVED = "conflict_resolved"
-const SIGNAL_CONFLICT_CHOSE_BRIBE = "conflict_chose_bribe"
-const SIGNAL_CONFLICT_CHOSE_DISS = "conflict_chose_diss"
+const SIGNAL_CONFLICT_CHOSE_RESOLUTION = "conflict_chose_resolution"
 const SIGNAL_INFO_POPUP_CLOSED = "conflict_info_popup_close"
 const SIGNAL_REBEL_GAIN_SC = "rebel_gain_sc"
 const SIGNAL_REBEL_JUMP_CURB_ON_MOPED = "moped_jump_curb"
@@ -36,8 +34,7 @@ const known_singals = [
 	SIGNAL_REBEL_START_CONFLICT,
 	SIGNAL_REBEL_MOPED_COLLISION,
 	SIGNAL_CONFLICT_RESOLVED,
-	SIGNAL_CONFLICT_CHOSE_BRIBE,
-	SIGNAL_CONFLICT_CHOSE_DISS,
+	SIGNAL_CONFLICT_CHOSE_RESOLUTION,
 	SIGNAL_INFO_POPUP_CLOSED,
 	SIGNAL_REBEL_GAIN_SC,
 	SIGNAL_REBEL_JUMP_CURB_ON_MOPED,

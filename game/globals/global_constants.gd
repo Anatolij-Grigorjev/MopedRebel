@@ -9,6 +9,11 @@ enum REBEL_STATES {
 	ON_FOOT = 0,
 	ON_MOPED = 1
 }
+enum CONFLICT_RESOLUTIONS {
+	BRIBE = 0,
+	DISS = 1,
+	FIGHT = 2
+}
 enum LOG_LEVELS {
 	DEBUG = 0,
 	INFO = 1,
