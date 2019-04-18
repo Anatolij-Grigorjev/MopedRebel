@@ -10,7 +10,7 @@
 custom_solver_bias = 0.0
 extents = Vector2( 62, 30 )
 
-[node name="rebel_on_moped" type="KinematicBody2D" index="0"]
+[node name="rebel_on_moped" type="KinematicBody2D"]
 
 input_pickable = false
 collision_layer = 20
@@ -39,7 +39,6 @@ texture = ExtResource( 3 )
 
 [node name="camera" type="Camera2D" parent="." index="3"]
 
-visible = false
 anchor_mode = 1
 rotating = false
 current = false

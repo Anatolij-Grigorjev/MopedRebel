@@ -14,11 +14,16 @@ func _ready():
 	rebel_on_foot_node = $rebel_on_foot
 	rebel_on_moped_node = $rebel_on_moped
 	
+	var latest_chunk_idx = 0
+	
 	for stage_chunk in get_tree().get_nodes_in_group(C.GROUP_STAGE_CHUNK):
 		
 		var stage_maps = stage_chunk.get_node('tileset')
 		var bounds = F.get_tilemap_bounding_rect(stage_maps)
 		bounds.position += stage_chunk.global_position
+		
+		stage_chunk.chunk_idx = latest_chunk_idx
+		latest_chunk_idx += 1
 		
 		LOG.info("bounds for chunk %s: %s", [stage_chunk.name, bounds])
 		bounding_rects_to_tilemaps[bounds] = {
