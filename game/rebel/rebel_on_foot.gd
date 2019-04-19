@@ -8,21 +8,28 @@ var diss_positions_control
 
 var active_sprite
 
+var enabled = true
+
 func _ready():
 	G.node_rebel_on_foot = self
 	active_sprite = $sprite_on_foot
 	diss_positions_control = $diss_positions
 
 func disable():
-	set_collision_layer_bit(C.LAYERS_REBEL_SIDEWALK, false)
-	set_physics_process(false)
-	visible = false
+	if (enabled):
+		set_collision_layer_bit(C.LAYERS_REBEL_SIDEWALK, false)
+		set_physics_process(false)
+		visible = false
+		enabled = false
+		$camera.clear_current()
 	
 func enable():
-	set_collision_layer_bit(C.LAYERS_REBEL_SIDEWALK, true)
-	set_physics_process(true)
-	visible = true
-	$camera.make_current()
+	if (not enabled):
+		set_collision_layer_bit(C.LAYERS_REBEL_SIDEWALK, true)
+		set_physics_process(true)
+		visible = true
+		enabled = true
+		$camera.make_current()
 	
 func _physics_process(delta):
 	

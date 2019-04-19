@@ -128,11 +128,14 @@ func is_body_active_rebel(body):
 	)
 	
 func set_active_rebel_state(new_rebel_state):
+	if (new_rebel_state != G.active_rebel_state):
+		G.node_active_rebel.disable() 
 	G.active_rebel_state = new_rebel_state
 	if (new_rebel_state == C.REBEL_STATES.ON_FOOT):
 		G.node_active_rebel = G.node_rebel_on_foot
 	else:
 		G.node_active_rebel = G.node_rebel_on_moped
+	G.node_active_rebel.enable()
 		
 func is_rebel_state(rebel_state):
 	return G.active_rebel_state == rebel_state

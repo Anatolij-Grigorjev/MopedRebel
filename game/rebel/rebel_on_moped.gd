@@ -35,6 +35,8 @@ var active_dissing_zone
 
 var moped_engine_tween
 
+var enabled = true
+
 func _ready():
 	facing_direction = C.FACING.RIGHT
 	G.node_rebel_on_moped = self
@@ -61,24 +63,29 @@ func _reset_acceleration():
 var last_enabled_collision_layer_state = []
 	
 func disable():
-	last_enabled_collision_layer_state = F.get_node_collision_layer_state(self)
-	F.set_node_collision_layer_bits(self, false)
-	for mask_layer in check_collision_layers:
-		set_collision_mask_bit(mask_layer, false)
-	set_physics_process(false)
-	visible = false
+	if (enabled):
+		last_enabled_collision_layer_state = F.get_node_collision_layer_state(self)
+		F.set_node_collision_layer_bits(self, false)
+		for mask_layer in check_collision_layers:
+			set_collision_mask_bit(mask_layer, false)
+		set_physics_process(false)
+		visible = false
+		enabled = false
+		$camera.clear_current()
 	
 func enable():
-	var enabled_bits = []
-	for idx in range(0, last_enabled_collision_layer_state.size()):
-		if (last_enabled_collision_layer_state[idx]):
-			enabled_bits.append(idx)
-	F.set_node_collision_layer_bits(self, true, enabled_bits)
-	for mask_layer in check_collision_layers:
-		set_collision_mask_bit(mask_layer, true)
-	set_physics_process(true)
-	visible = true
-	$camera.make_current()
+	if (not enabled):
+		var enabled_bits = []
+		for idx in range(0, last_enabled_collision_layer_state.size()):
+			if (last_enabled_collision_layer_state[idx]):
+				enabled_bits.append(idx)
+		F.set_node_collision_layer_bits(self, true, enabled_bits)
+		for mask_layer in check_collision_layers:
+			set_collision_mask_bit(mask_layer, true)
+		set_physics_process(true)
+		visible = true
+		enabled = true
+		$camera.make_current()
 	
 func _physics_process(delta):
 	

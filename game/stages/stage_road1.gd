@@ -13,6 +13,10 @@ func _ready():
 	G.node_current_stage_root = self
 	rebel_on_foot_node = $rebel_on_foot
 	rebel_on_moped_node = $rebel_on_moped
+	G.node_rebel_on_moped = rebel_on_moped_node
+	G.node_rebel_on_foot = rebel_on_foot_node
+	G.node_active_rebel = G.node_rebel_on_foot
+	
 	
 	var latest_chunk_idx = 0
 	
@@ -33,6 +37,8 @@ func _ready():
 		}
 	
 	S.connect_signal_to(S.SIGNAL_REBEL_CHANGED_POSITION, self, "_rebel_new_position_state_received")
+	S.connect_signal_to(S.SIGNAL_REBEL_LEAVING_CHUNK, self, "_rebel_leaving_chunk")
+	S.connect_signal_to(S.SIGNAL_REBEL_ENTERING_CHUNK, self, "_rebel_entering_chunk")
 	
 	init_rebel_on_moped()
 	
@@ -43,8 +49,6 @@ func init_rebel_on_moped():
 	_switch_rebel_node(rebel_on_foot_node, rebel_on_moped_node)
 	
 func _switch_rebel_node(switch_from_rebel, switch_to_rebel):
-	switch_from_rebel.disable()
-	switch_to_rebel.enable()
 	var new_state = C.REBEL_STATES.ON_FOOT
 	if (switch_to_rebel == G.node_rebel_on_moped):
 		new_state = C.REBEL_STATES.ON_MOPED
@@ -53,8 +57,13 @@ func _switch_rebel_node(switch_from_rebel, switch_to_rebel):
 func _rebel_new_position_state_received(new_rebel_position, for_rebel_state):
 	if (not F.is_rebel_state(for_rebel_state)):
 		F.set_active_rebel_state(for_rebel_state)
-	
 	G.node_active_rebel.global_position = new_rebel_position
+	
+func _rebel_leaving_chunk(chunk_idx, rebel_facing):
+	pass
+	
+func _rebel_entering_chunk(chunk_idx, rebel_facing):
+	pass
 	
 func _physics_process(delta):
 	pass
