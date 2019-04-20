@@ -36,6 +36,7 @@ var active_dissing_zone
 var moped_engine_tween
 
 var enabled = true
+var control_locked = false
 
 func _ready():
 	facing_direction = C.FACING.RIGHT
@@ -166,17 +167,18 @@ func _process_not_collided(delta):
 			is_unmounting_moped = false
 			S.emit_signal0(S.SIGNAL_REBEL_UNMOUNT_MOPED)
 	else:
-		_handle_unmounting_moped()
-		_handle_jumping_curb()
-		_handle_facing_direction()
-		_handle_swerve_control()
-		_handle_forward_acceleration()
+		if (not control_locked):
+			_handle_unmounting_moped()
+			_handle_jumping_curb()
+			_handle_facing_direction()
+			_handle_swerve_control()
+			_handle_forward_acceleration()
+			_handle_diss_zone()
 		current_speed = clamp(
 			current_speed, 
 			G.moped_config_min_speed, 
 			G.moped_config_max_speed
 		)
-		_handle_diss_zone()
 
 
 func _handle_unmounting_moped():
@@ -205,9 +207,12 @@ func _handle_facing_direction():
 	if (double_tap_direction 
 		or Input.is_action_just_released('turn_around')
 	):
-		facing_direction = F.flip_facing(facing_direction)
-		$sprite_on_moped.scale.x = abs($sprite_on_moped.scale.x) * facing_direction
-		reset_velocity()
+		_turn_around_moped()
+		
+func _turn_around_moped():
+	facing_direction = F.flip_facing(facing_direction)
+	$sprite_on_moped.scale.x = abs($sprite_on_moped.scale.x) * facing_direction
+	reset_velocity()
 
 func _handle_swerve_control():
 

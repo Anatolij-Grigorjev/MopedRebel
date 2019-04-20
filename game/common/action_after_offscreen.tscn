@@ -2,11 +2,14 @@
 
 [ext_resource path="res://common/dissapear_offscreen.gd" type="Script" id=1]
 
-[node name="dissapear_offscreen" type="VisibilityNotifier2D" index="0"]
+[node name="action_after_offscreen" type="VisibilityNotifier2D"]
 
 rect = Rect2( -10, -10, 20, 20 )
 script = ExtResource( 1 )
-grace_period = 1.0
+action_delay = 1.0
+action_type = 0
+custom_action_owner = null
+custom_action_name = null
 
 [node name="wait_period" type="Timer" parent="." index="0"]
 

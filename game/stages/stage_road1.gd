@@ -65,8 +65,22 @@ func _rebel_leaving_chunk(chunk_idx, rebel_facing):
 func _rebel_entering_chunk(chunk_idx, rebel_facing):
 	pass
 	
-func _physics_process(delta):
-	pass
+func _turn_around_offscreen_moped():
+	LOG.info('Moped went offscreen long enough, turning around...')
 	
+	rebel_on_moped_node.control_locked = true
+	#turn around rebel in case its still facing wrong way
+	if (rebel_on_moped_node.global_position.x < 0 
+		and rebel_on_moped_node.facing_direction == C.FACING.LEFT):
+		rebel_on_moped_node._turn_around_moped()
+	var average_moped_speed = G.moped_config_min_speed + ((G.moped_config_max_speed - G.moped_config_min_speed) / 2)
+	rebel_on_moped_node.current_speed = average_moped_speed
+	#amount of time it will take to drive back
+	var time_back = (100 + abs(rebel_on_moped_node.global_position.x)) / average_moped_speed
+	#give back control once onscreen
+	F.invoke_later(self, '_restore_moped_control', time_back)
+
+func _restore_moped_control():
+	rebel_on_moped_node.control_locked = false
 	
 	
