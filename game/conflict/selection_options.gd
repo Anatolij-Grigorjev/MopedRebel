@@ -136,10 +136,9 @@ func _process_pick_option():
 				
 func _process_picked_bribe():
 	var chosen_bribe_text = null
-	if (VS.conflict_with_node == null):
-		chosen_bribe_text = PE.get_random_common_bribe() % param_req_money
-	else:
-		chosen_bribe_text = PE.get_random_enemy_bribe(VS.conflict_with_node.name) % param_req_money
+	var enemy_name = (null if VS.conflict_with_node == null 
+						else VS.conflict_with_node.name)
+	chosen_bribe_text = PE.get_random_enemy_bribe(enemy_name) % param_req_money
 		
 	S.emit_signal2(
 		S.SIGNAL_CONFLICT_CHOSE_RESOLUTION,
@@ -149,10 +148,9 @@ func _process_picked_bribe():
 	
 func _process_picked_diss():
 	var chosen_diss = null
-	if (VS.conflict_with_node == null):
-		chosen_diss = PE.get_random_common_diss()
-	else:
-		chosen_diss = PE.get_random_enemy_diss(VS.conflict_with_node.name)
+	var enemy_name = (null if VS.conflict_with_node == null 
+						else VS.conflict_with_node.name)
+	chosen_diss = PE.get_random_enemy_diss(enemy_name)
 		
 	LOG.debug("MR: %s", [chosen_diss])
 	S.emit_signal2(

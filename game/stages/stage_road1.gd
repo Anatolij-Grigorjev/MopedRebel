@@ -1,6 +1,7 @@
 extends Node2D
 
 var LOG = preload("res://globals/logger.gd").new(self)
+var ManagerShout = preload("res://common/shout_popup.tscn")
 
 var rebel_on_foot_node
 var rebel_on_moped_node
@@ -66,9 +67,14 @@ func _rebel_entering_chunk(chunk_idx, rebel_facing):
 	pass
 	
 func _turn_around_offscreen_moped():
+	if (rebel_on_moped_node.control_locked):
+		LOG.info('Moped still control locked...')
+		return 
+	
 	LOG.info('Moped went offscreen long enough, turning around...')
 	
 	rebel_on_moped_node.control_locked = true
+	
 	#turn around rebel in case its still facing wrong way
 	if (rebel_on_moped_node.global_position.x < 0 
 		and rebel_on_moped_node.facing_direction == C.FACING.LEFT):
@@ -79,6 +85,12 @@ func _turn_around_offscreen_moped():
 	var time_back = (100 + abs(rebel_on_moped_node.global_position.x)) / average_moped_speed
 	#give back control once onscreen
 	F.invoke_later(self, '_restore_moped_control', time_back)
+	#make manager shout
+	var manager_shout_dialog = ManagerShout.instance()
+	var manager_line = PE._get_random_common_phrase(PE.PHRASE_TYPES.MANAGER)
+	add_child(manager_shout_dialog)
+	manager_shout_dialog.show_popup(manager_line, time_back)
+	
 
 func _restore_moped_control():
 	rebel_on_moped_node.control_locked = false

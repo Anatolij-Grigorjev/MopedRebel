@@ -36,6 +36,7 @@ const GUI_SELECTED_OPT_MARKER = "->"
 const GUI_AVAILABLE_OPTION_COLOR = Color(1, 1, 1)
 const GUI_NOT_AVAILABLE_OPTION_COLOR = Color(0.5, 0.5, 0.5)
 const GUI_REQ_NOT_MET_OPTION_COLOR = Color(1, 0, 0)
+const MANAGER_JSON_LOCATION = "res://common/manager/manager_phrases.json"
 const DISS_JSON_LOCATION = "res://conflict/dissing/disses.json"
 const BRIBE_JSON_LOCATION = "res://conflict/bribing/bribes.json"
 

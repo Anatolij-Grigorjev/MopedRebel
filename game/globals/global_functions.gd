@@ -297,8 +297,8 @@ func assert_dict_props(dict = {}, props_names = []):
 		log_error("%s doesnt contain all props names of %s", [dict, props_names])
 
 func assert_arr_not_empty(arr = []):
-	if (arr == null or arr.size() < 1):
-		log_error("Array %s was null or empty!", [arr])
+	if (arr == null or (typeof(arr) < TYPE_ARRAY) or arr.size() < 1):
+		log_error("%s was null or NOT an Array or empty!", [arr])
 		
 func assert_string_not_blank(string):
 	if (string == null or string.empty() or (string.strip_edges()).empty()):
