@@ -1,7 +1,7 @@
 extends Node2D
 
 var LOG = preload("res://globals/logger.gd").new(self)
-var ManagerShout = preload("res://common/shout_popup.tscn")
+var ShoutPopup = preload("res://common/shout_popup.tscn")
 
 var rebel_on_foot_node
 var rebel_on_moped_node
@@ -66,33 +66,47 @@ func _rebel_leaving_chunk(chunk_idx, rebel_facing):
 func _rebel_entering_chunk(chunk_idx, rebel_facing):
 	pass
 	
-func _turn_around_offscreen_moped():
-	if (rebel_on_moped_node.control_locked):
-		LOG.info('Moped still control locked...')
-		return 
+func _turn_around_offscreen_rebel():
+	LOG.info('rebel went offscreen long enough, turning around...')
 	
-	LOG.info('Moped went offscreen long enough, turning around...')
+	var rebel_node = G.node_active_rebel
+	rebel_node.control_locked = true
 	
-	rebel_on_moped_node.control_locked = true
+	#which direction rebel should face to comeback onscreen
+	var new_facing = (C.FACING.RIGHT if rebel_node.global_position.x < 0 
+					else C.FACING.LEFT)
 	
-	#turn around rebel in case its still facing wrong way
-	if (rebel_on_moped_node.global_position.x < 0 
-		and rebel_on_moped_node.facing_direction == C.FACING.LEFT):
-		rebel_on_moped_node._turn_around_moped()
-	var average_moped_speed = G.moped_config_min_speed + ((G.moped_config_max_speed - G.moped_config_min_speed) / 2)
-	rebel_on_moped_node.current_speed = average_moped_speed
+	#turn around rebel on moped in case its still facing wrong way
+	if (F.is_rebel_state(C.REBEL_STATES.ON_MOPED)
+		and rebel_node.facing_direction != new_facing):
+		rebel_node._turn_around_moped()
+		
+	var comeback_speed = 0
+	if (F.is_rebel_state(C.REBEL_STATES.ON_MOPED)):
+		var average_moped_speed = G.moped_config_min_speed + ((G.moped_config_max_speed - G.moped_config_min_speed) / 2)
+		rebel_node.current_speed = average_moped_speed
+		comeback_speed = average_moped_speed
+	else:
+		var walk_speed = G.foot_config_walk_speed
+		rebel_node.velocity = Vector2(walk_speed * new_facing, 0)
+		comeback_speed = walk_speed
 	#amount of time it will take to drive back
-	var time_back = (100 + abs(rebel_on_moped_node.global_position.x)) / average_moped_speed
+	var time_back = (100 + abs(rebel_node.global_position.x)) / comeback_speed
 	#give back control once onscreen
-	F.invoke_later(self, '_restore_moped_control', time_back)
+	F.invoke_later(self, '_restore_rebel_control', time_back)
 	#make manager shout
-	var manager_shout_dialog = ManagerShout.instance()
 	var manager_line = PE._get_random_common_phrase(PE.PHRASE_TYPES.MANAGER)
-	add_child(manager_shout_dialog)
-	manager_shout_dialog.show_popup(manager_line, time_back)
+	_show_shout_dialog(manager_line, time_back)
+	
+func _show_shout_dialog(shout_line, for_seconds):
+	var shout_dialog = ShoutPopup.instance()
+	shout_dialog.shout_line = shout_line
+	shout_dialog.visible_time = for_seconds
+	add_child(shout_dialog)
+	shout_dialog.show_popup()
 	
 
-func _restore_moped_control():
-	rebel_on_moped_node.control_locked = false
+func _restore_rebel_control():
+	G.node_active_rebel.control_locked = false
 	
 	

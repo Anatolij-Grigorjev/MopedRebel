@@ -14,6 +14,7 @@ export(String) var custom_action_name
 
 func _ready():
 	$wait_period.stop()
+	$wait_period.one_shot = true
 	$wait_period.wait_time = action_delay
 	match(action_type):
 		OFFSCREEN_ACTION_TYPES.FREE_NODE:
