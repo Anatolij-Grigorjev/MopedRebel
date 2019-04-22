@@ -12,8 +12,8 @@ var bounding_rects_to_tilemaps = {}
 
 func _ready():
 	G.node_current_stage_root = self
-	rebel_on_foot_node = $rebel_on_foot
-	rebel_on_moped_node = $rebel_on_moped
+	rebel_on_foot_node = $sorted_sprites/rebel_on_foot
+	rebel_on_moped_node = $sorted_sprites/rebel_on_moped
 	G.node_rebel_on_moped = rebel_on_moped_node
 	G.node_rebel_on_foot = rebel_on_foot_node
 	G.node_active_rebel = G.node_rebel_on_foot
@@ -40,7 +40,7 @@ func _ready():
 	S.connect_signal_to(S.SIGNAL_REBEL_CHANGED_POSITION, self, "_rebel_new_position_state_received")
 	S.connect_signal_to(S.SIGNAL_REBEL_LEAVING_CHUNK, self, "_rebel_leaving_chunk")
 	S.connect_signal_to(S.SIGNAL_REBEL_ENTERING_CHUNK, self, "_rebel_entering_chunk")
-	
+	rebel_on_moped_node.disable()
 	init_rebel_on_moped()
 	
 func init_rebel_on_foot():

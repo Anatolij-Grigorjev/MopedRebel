@@ -21,6 +21,24 @@ func get_rand_array_elem(array = []):
 		return null
 	return array[randi() % array.size()]
 	
+func get_N_rand_array_elems(N = 1, array = []):
+	if (N == 1):
+		return get_rand_array_elem(array)
+	if (array == null or array.empty()):
+		return null
+	if (N >= array.size()):
+		return array
+	#search defensively with array copy
+	var array_indices = range(array.size())
+	var rand_list = []
+	for iter_idx in range(N):
+		var rand_idx = get_rand_array_elem(array_indices)
+		array_indices.erase(rand_idx)
+		rand_list.append(array[rand_idx])
+		
+	return rand_list
+	
+	
 func get_node_collision_layer_state(node, num_bits = C.NUM_COLLISION_BITS):
 	var current_state = []
 	current_state.resize(num_bits)

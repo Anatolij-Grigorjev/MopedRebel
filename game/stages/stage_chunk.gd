@@ -1,10 +1,12 @@
 extends Node2D
 
 var LOG = preload("res://globals/logger.gd").new(self)
+var Bench = preload("res://stages/props/bench.tscn")
 
 var stage_chunk_bounds = Rect2()
 var tileset
 var chunk_idx = 0
+var bench_density = 0.5
 
 var chunk_left
 var chunk_right
@@ -12,6 +14,7 @@ var chunk_right
 var road_tileset
 var curb_tileset
 var sidewalk_tileset
+
 
 func _ready():
 	tileset = $tileset
@@ -26,11 +29,19 @@ func _ready():
 	S.connect_signal_to(S.SIGNAL_REBEL_MOUNT_MOPED, self, "emit_closest_road_position")
 	S.connect_signal_to(S.SIGNAL_REBEL_UNMOUNT_MOPED, self, "emit_closest_sidewalk_position")
 	S.connect_signal_to(S.SIGNAL_REBEL_JUMP_CURB_ON_MOPED, self, "move_moped_rebel_over_curb")
+	
+	_generate_random_benches()
 
-#func _process(delta):
-#	# Called every frame. Delta is time since last frame.
-#	# Update game logic here.
-#	pass
+func _generate_random_benches():
+	var potential_bench_positions = get_tree().get_nodes_in_group(C.GROUP_BENCH_POS)
+	var bench_positions = F.get_N_rand_array_elems(
+		potential_bench_positions.size() * bench_density,
+		potential_bench_positions
+	)
+	for position in bench_positions:
+		var bench = Bench.instance()
+		bench.global_position = position.global_position
+		$prop_positions.add_child(bench)
 
 
 func _on_body_entered_chunk_left(body):

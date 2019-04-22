@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+var LOG = preload("res://globals/logger.gd").new(self)
+
 var velocity = Vector2()
 var dissing_zone_node_scene = preload("res://rebel/dissing_zone.tscn")
 var active_dissing_zone
@@ -31,6 +33,7 @@ func enable():
 		visible = true
 		enabled = true
 		$camera.make_current()
+		LOG.info("current rebel enabled FOOT")
 	
 func _physics_process(delta):
 	if (not control_locked):

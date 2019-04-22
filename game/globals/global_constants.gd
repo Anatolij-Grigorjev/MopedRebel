@@ -29,7 +29,7 @@ const CURRENT_LOG_LEVEL = LOG_LEVELS.INFO
 #STAGES
 const MAX_WORLD_Y = 100000
 const GROUP_STAGE_CHUNK = "stage_chunk"
-
+const GROUP_BENCH_POS = "bench_position"
 
 
 const GUI_SELECTED_OPT_MARKER = "->"

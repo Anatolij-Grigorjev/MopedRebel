@@ -87,6 +87,7 @@ func enable():
 		visible = true
 		enabled = true
 		$camera.make_current()
+		LOG.info("current rebel enabled MOPED")
 	
 func _physics_process(delta):
 	
