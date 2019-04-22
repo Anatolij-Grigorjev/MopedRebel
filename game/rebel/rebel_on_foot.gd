@@ -7,6 +7,7 @@ var dissing_zone_node_scene = preload("res://rebel/dissing_zone.tscn")
 var active_dissing_zone
 
 var diss_positions_control
+var low_position
 
 var active_sprite
 
@@ -17,6 +18,7 @@ func _ready():
 	G.node_rebel_on_foot = self
 	active_sprite = $sprite_on_foot
 	diss_positions_control = $diss_positions
+	low_position = $feet_pos
 
 func disable():
 	if (enabled):

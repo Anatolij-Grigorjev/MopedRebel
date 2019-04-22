@@ -29,6 +29,7 @@ var remaining_collision_recovery = 0
 var facing_direction
 
 var active_sprite
+var low_position
 
 var diss_positions_control
 var active_dissing_zone
@@ -44,6 +45,7 @@ func _ready():
 	active_sprite = $sprite_on_moped
 	diss_positions_control = $diss_positions
 	moped_engine_tween = $moped_engine_tween
+	low_position = $wheels_pos
 	last_enabled_collision_layer_state = F.get_node_collision_layer_state(self)
 	G.track_action_press_release('accelerate_right')
 	G.track_action_press_release('accelerate_left')

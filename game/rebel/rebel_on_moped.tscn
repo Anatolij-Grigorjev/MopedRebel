@@ -74,4 +74,9 @@ playback/active = false
 playback/repeat = false
 playback/speed = 1.0
 
+[node name="wheels_pos" type="Position2D" parent="." index="6"]
+
+position = Vector2( 0, 58 )
+_sections_unfolded = [ "Transform" ]
+
 

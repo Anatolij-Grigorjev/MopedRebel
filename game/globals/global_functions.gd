@@ -157,6 +157,12 @@ func set_active_rebel_state(new_rebel_state):
 		
 func is_rebel_state(rebel_state):
 	return G.active_rebel_state == rebel_state
+	
+func is_rebel_on_sidewalk():
+	return (
+		is_rebel_state(C.REBEL_STATES.ON_FOOT) 
+		or G.node_rebel_on_moped.moped_ground_type == G.node_rebel_on_moped.MOPED_GROUND_TYPES.SIDEWALK
+	)
 
 
 #starting from start_position, keep adding the "increment" vector
