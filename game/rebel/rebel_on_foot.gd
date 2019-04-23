@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends Node2D
 
 var LOG = preload("res://globals/logger.gd").new(self)
 
@@ -18,11 +18,11 @@ func _ready():
 	G.node_rebel_on_foot = self
 	active_sprite = $sprite_on_foot
 	diss_positions_control = $diss_positions
-	low_position = $feet_pos
+	low_position = $rebel_feet
 
 func disable():
 	if (enabled):
-		set_collision_layer_bit(C.LAYERS_REBEL_SIDEWALK, false)
+		$rebel_body.set_collision_layer_bit(C.LAYERS_REBEL_SIDEWALK, false)
 		set_physics_process(false)
 		visible = false
 		enabled = false
@@ -30,7 +30,7 @@ func disable():
 	
 func enable():
 	if (not enabled):
-		set_collision_layer_bit(C.LAYERS_REBEL_SIDEWALK, true)
+		$rebel_body.set_collision_layer_bit(C.LAYERS_REBEL_SIDEWALK, true)
 		set_physics_process(true)
 		visible = true
 		enabled = true
@@ -64,7 +64,8 @@ func _physics_process(delta):
 				active_dissing_zone.queue_free()
 				active_dissing_zone = null
 	
-	move_and_collide(velocity * delta)
+	$rebel_body.move_and_collide(velocity * delta)
+	$rebel_feet.move_and_collide(velocity * delta)
 	
 func _set_dissing_zone_position():
 	var active_position_node = diss_positions_control.active_diss_position_node

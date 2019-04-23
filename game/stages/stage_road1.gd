@@ -36,6 +36,14 @@ func _ready():
 			'road': stage_maps.get_node('road'),
 			'sidewalk': stage_maps.get_node('sidewalk')
 		}
+		#put all stage chunk props into YSORT thing
+		var active_props = get_tree().get_nodes_in_group(C.GROUP_PROPS)
+		for active_prop in active_props:
+			if (active_prop.get_parent() != null):
+				var prev_parent = active_prop.get_parent()
+				prev_parent.remove_child(active_prop)
+			$sorted_sprites.add_child(active_prop)
+			active_prop.set_owner($sorted_sprites)
 	
 	S.connect_signal_to(S.SIGNAL_REBEL_CHANGED_POSITION, self, "_rebel_new_position_state_received")
 	S.connect_signal_to(S.SIGNAL_REBEL_LEAVING_CHUNK, self, "_rebel_leaving_chunk")

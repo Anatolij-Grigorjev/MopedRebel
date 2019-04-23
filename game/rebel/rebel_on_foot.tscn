@@ -1,39 +1,25 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://rebel/rebel_on_foot.gd" type="Script" id=1]
-[ext_resource path="res://rebel/rebel_on_foot.png" type="Texture" id=2]
-[ext_resource path="res://rebel/rebel_on_moped.png" type="Texture" id=3]
-[ext_resource path="res://rebel/diss_positions.tscn" type="PackedScene" id=4]
+[ext_resource path="res://rebel/diss_positions.tscn" type="PackedScene" id=2]
+[ext_resource path="res://rebel/rebel_on_foot.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
 extents = Vector2( 34.1616, 64 )
 
-[node name="rebel_on_foot" type="KinematicBody2D"]
+[sub_resource type="RectangleShape2D" id=2]
 
-input_pickable = false
-collision_layer = 8
-collision_mask = 6
-collision/safe_margin = 0.08
+custom_solver_bias = 0.0
+extents = Vector2( 34, 5 )
+
+[node name="rebel_on_foot" type="Node2D"]
+
 script = ExtResource( 1 )
-_sections_unfolded = [ "Collision" ]
+_sections_unfolded = [ "Collision", "Transform" ]
 
-[node name="collider" type="CollisionShape2D" parent="." index="0"]
-
-shape = SubResource( 1 )
-
-[node name="sprite_on_foot" type="Sprite" parent="." index="1"]
-
-texture = ExtResource( 2 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="sprite_on_moped" type="Sprite" parent="." index="2"]
-
-visible = false
-texture = ExtResource( 3 )
-
-[node name="camera" type="Camera2D" parent="." index="3"]
+[node name="camera" type="Camera2D" parent="." index="0"]
 
 anchor_mode = 1
 rotating = false
@@ -59,11 +45,36 @@ editor_draw_limits = true
 editor_draw_drag_margin = true
 _sections_unfolded = [ "Editor", "Limit" ]
 
-[node name="diss_positions" parent="." index="4" instance=ExtResource( 4 )]
+[node name="diss_positions" parent="." index="1" instance=ExtResource( 2 )]
 
-[node name="feet_pos" type="Position2D" parent="." index="5"]
+[node name="rebel_body" type="KinematicBody2D" parent="." index="2"]
 
-position = Vector2( 0, 64 )
-_sections_unfolded = [ "Transform" ]
+input_pickable = false
+collision_layer = 9
+collision_mask = 6
+collision/safe_margin = 0.08
+_sections_unfolded = [ "Collision" ]
+
+[node name="collider" type="CollisionShape2D" parent="rebel_body" index="0"]
+
+shape = SubResource( 1 )
+
+[node name="sprite" type="Sprite" parent="rebel_body" index="1"]
+
+texture = ExtResource( 3 )
+
+[node name="rebel_feet" type="KinematicBody2D" parent="." index="3"]
+
+editor/display_folded = true
+position = Vector2( 0, 59 )
+input_pickable = false
+collision_layer = 64
+collision_mask = 2
+collision/safe_margin = 0.08
+_sections_unfolded = [ "Collision", "Transform" ]
+
+[node name="collider" type="CollisionShape2D" parent="rebel_feet" index="0"]
+
+shape = SubResource( 2 )
 
 

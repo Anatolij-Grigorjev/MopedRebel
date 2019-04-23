@@ -30,7 +30,7 @@ const CURRENT_LOG_LEVEL = LOG_LEVELS.INFO
 const MAX_WORLD_Y = 100000
 const GROUP_STAGE_CHUNK = "stage_chunk"
 const GROUP_BENCH_POS = "bench_position"
-
+const GROUP_PROPS = "props"
 
 const GUI_SELECTED_OPT_MARKER = "->"
 const GUI_AVAILABLE_OPTION_COLOR = Color(1, 1, 1)
@@ -48,9 +48,10 @@ const LAYERS_REBEL_SIDEWALK = 3
 const LAYERS_REBEL_ROAD = 4
 const LAYERS_TRANSPORT_ROAD = 5
 
-## GROUPS
+## ENEMY GROUPS
 const GROUP_CARS = "road_cars"
 const GROUP_CITIZENS = "sidewalk_citizens"
+
 const SC_GAIN_FOR_GROUP = {
 	GROUP_CARS: 154,
 	GROUP_CITIZENS: 57

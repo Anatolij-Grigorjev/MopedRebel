@@ -41,6 +41,7 @@ func _generate_random_benches():
 	for position in bench_positions:
 		var bench = Bench.instance()
 		bench.global_position = position.global_position
+		bench.add_to_group(C.GROUP_PROPS)
 		$prop_positions.add_child(bench)
 
 

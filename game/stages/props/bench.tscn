@@ -1,16 +1,14 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://stages/props/bench_full.png" type="Texture" id=1]
-[ext_resource path="res://stages/props/collide_when_behind.gd" type="Script" id=2]
+[ext_resource path="res://stages/props/bench_rebel_height.png" type="Texture" id=1]
 
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
-extents = Vector2( 190, 5 )
+extents = Vector2( 95, 3 )
 
 [node name="bench" type="Sprite"]
 
-scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
@@ -18,17 +16,16 @@ _sections_unfolded = [ "Transform" ]
 
 input_pickable = false
 collision_layer = 1
-collision_mask = 9
+collision_mask = 64
 constant_linear_velocity = Vector2( 0, 0 )
 constant_angular_velocity = 0.0
 friction = 1.0
 bounce = 0.0
-script = ExtResource( 2 )
-_sections_unfolded = [ "Collision" ]
+_sections_unfolded = [ "Collision", "Transform" ]
 
 [node name="collider" type="CollisionShape2D" parent="body" index="0"]
 
-position = Vector2( 0, 55 )
+position = Vector2( 0, 60 )
 shape = SubResource( 1 )
 _sections_unfolded = [ "Transform" ]
 

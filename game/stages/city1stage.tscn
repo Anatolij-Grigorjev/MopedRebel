@@ -35,7 +35,7 @@ sort_enabled = true
 editor/display_folded = true
 position = Vector2( 227.433, 154.654 )
 
-[node name="action_after_offscreen" parent="sorted_sprites/rebel_on_foot" index="5" instance=ExtResource( 4 )]
+[node name="action_after_offscreen" parent="sorted_sprites/rebel_on_foot" index="2" instance=ExtResource( 4 )]
 
 position = Vector2( 6.82312, 352.521 )
 rect = Rect2( -64, -64, 128, 128 )

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://rebel/rebel_on_moped.gd" type="Script" id=1]
 [ext_resource path="res://rebel/rebel_on_moped.png" type="Texture" id=2]
@@ -9,6 +9,11 @@
 
 custom_solver_bias = 0.0
 extents = Vector2( 62, 30 )
+
+[sub_resource type="RectangleShape2D" id=2]
+
+custom_solver_bias = 0.0
+extents = Vector2( 60, 3 )
 
 [node name="rebel_on_moped" type="KinematicBody2D"]
 
@@ -74,9 +79,18 @@ playback/active = false
 playback/repeat = false
 playback/speed = 1.0
 
-[node name="wheels_pos" type="Position2D" parent="." index="6"]
+[node name="rebel_wheels" type="KinematicBody2D" parent="." index="6"]
 
-position = Vector2( 0, 58 )
-_sections_unfolded = [ "Transform" ]
+editor/display_folded = true
+position = Vector2( 3, 55 )
+input_pickable = false
+collision_layer = 64
+collision_mask = 2
+collision/safe_margin = 0.08
+_sections_unfolded = [ "Collision", "Transform" ]
+
+[node name="collider" type="CollisionShape2D" parent="rebel_wheels" index="0"]
+
+shape = SubResource( 2 )
 
 

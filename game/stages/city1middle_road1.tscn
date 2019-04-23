@@ -29,7 +29,7 @@ cell_quadrant_size = 16
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 cell_half_offset = 2
 cell_tile_origin = 0
-cell_y_sort = false
+cell_y_sort = true
 cell_clip_uv = false
 collision_use_kinematic = false
 collision_friction = 1.0
@@ -152,13 +152,9 @@ position = Vector2( -50, 448 )
 shape = SubResource( 2 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="prop_positions" type="YSort" parent="." index="3"]
+[node name="prop_positions" type="Node2D" parent="." index="3"]
 
-sort_enabled = true
 _sections_unfolded = [ "Sort" ]
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="bench_pos1" type="Position2D" parent="prop_positions" index="0" groups=[
 "bench_position",
@@ -178,7 +174,7 @@ _sections_unfolded = [ "Transform" ]
 "bench_position",
 ]]
 
-position = Vector2( 600, 230 )
+position = Vector2( 600, 220 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="bench_pos5" type="Position2D" parent="prop_positions" index="3" groups=[
