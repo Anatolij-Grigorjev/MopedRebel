@@ -1,25 +1,28 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://rebel/rebel_on_foot.gd" type="Script" id=1]
-[ext_resource path="res://rebel/diss_positions.tscn" type="PackedScene" id=2]
-[ext_resource path="res://rebel/rebel_on_foot.png" type="Texture" id=3]
-
-[sub_resource type="RectangleShape2D" id=1]
-
-custom_solver_bias = 0.0
-extents = Vector2( 34.1616, 64 )
+[ext_resource path="res://rebel/rebel_on_foot.png" type="Texture" id=2]
+[ext_resource path="res://rebel/diss_positions.tscn" type="PackedScene" id=3]
 
 [sub_resource type="RectangleShape2D" id=2]
 
 custom_solver_bias = 0.0
-extents = Vector2( 34, 5 )
+extents = Vector2( 34, 6 )
 
-[node name="rebel_on_foot" type="Node2D"]
+[node name="rebel_on_foot" type="KinematicBody2D"]
 
+input_pickable = false
+collision_layer = 72
+collision_mask = 6
+collision/safe_margin = 0.08
 script = ExtResource( 1 )
 _sections_unfolded = [ "Collision", "Transform" ]
 
-[node name="camera" type="Camera2D" parent="." index="0"]
+[node name="sprite" type="Sprite" parent="." index="0"]
+
+texture = ExtResource( 2 )
+
+[node name="camera" type="Camera2D" parent="." index="1"]
 
 anchor_mode = 1
 rotating = false
@@ -45,36 +48,12 @@ editor_draw_limits = true
 editor_draw_drag_margin = true
 _sections_unfolded = [ "Editor", "Limit" ]
 
-[node name="diss_positions" parent="." index="1" instance=ExtResource( 2 )]
+[node name="diss_positions" parent="." index="2" instance=ExtResource( 3 )]
 
-[node name="rebel_body" type="KinematicBody2D" parent="." index="2"]
+[node name="feet_collider" type="CollisionShape2D" parent="." index="3"]
 
-input_pickable = false
-collision_layer = 9
-collision_mask = 6
-collision/safe_margin = 0.08
-_sections_unfolded = [ "Collision" ]
-
-[node name="collider" type="CollisionShape2D" parent="rebel_body" index="0"]
-
-shape = SubResource( 1 )
-
-[node name="sprite" type="Sprite" parent="rebel_body" index="1"]
-
-texture = ExtResource( 3 )
-
-[node name="rebel_feet" type="KinematicBody2D" parent="." index="3"]
-
-editor/display_folded = true
-position = Vector2( 0, 59 )
-input_pickable = false
-collision_layer = 64
-collision_mask = 2
-collision/safe_margin = 0.08
-_sections_unfolded = [ "Collision", "Transform" ]
-
-[node name="collider" type="CollisionShape2D" parent="rebel_feet" index="0"]
-
+position = Vector2( 0, 58 )
 shape = SubResource( 2 )
+_sections_unfolded = [ "Collision", "Transform" ]
 
 
