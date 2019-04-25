@@ -36,8 +36,8 @@ func _ready():
 			'road': stage_maps.get_node('road'),
 			'sidewalk': stage_maps.get_node('sidewalk')
 		}
-		#put all stage chunk props into YSORT thing
-		var active_props = get_tree().get_nodes_in_group(C.GROUP_PROPS)
+		#put all stage chunk props/enemies into YSORT thing
+		var active_props = stage_chunk.get_node('chunk_props').get_children()
 		for active_prop in active_props:
 			if (active_prop.get_parent() != null):
 				var prev_parent = active_prop.get_parent()
@@ -69,9 +69,11 @@ func _rebel_new_position_state_received(new_rebel_position, for_rebel_state):
 	G.node_active_rebel.global_position = new_rebel_position
 	
 func _rebel_leaving_chunk(chunk_idx, rebel_facing):
+	LOG.info("rebel LEAVING chunk %s, facing %s", [chunk_idx, rebel_facing])
 	pass
 	
 func _rebel_entering_chunk(chunk_idx, rebel_facing):
+	LOG.info("rebel ENTERING chunk %s, facing %s", [chunk_idx, rebel_facing])
 	pass
 	
 func _turn_around_offscreen_rebel():

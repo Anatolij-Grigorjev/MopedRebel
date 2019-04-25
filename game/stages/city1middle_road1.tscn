@@ -14,7 +14,7 @@ extents = Vector2( 50, 448 )
 custom_solver_bias = 0.0
 extents = Vector2( 50, 448 )
 
-[node name="city1middle_road1" type="Node2D"]
+[node name="city1middle_road1" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
@@ -156,47 +156,61 @@ _sections_unfolded = [ "Transform" ]
 
 _sections_unfolded = [ "Sort" ]
 
-[node name="bench_pos1" type="Position2D" parent="prop_positions" index="0" groups=[
-"bench_position",
-]]
+[node name="benches" type="Node2D" parent="prop_positions" index="0"]
+
+[node name="bench_pos1" type="Position2D" parent="prop_positions/benches" index="0"]
 
 position = Vector2( 200, 205 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="bench_pos2" type="Position2D" parent="prop_positions" index="1" groups=[
-"bench_position",
-]]
+[node name="bench_pos2" type="Position2D" parent="prop_positions/benches" index="1"]
 
 position = Vector2( 400, 140 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="bench_pos3" type="Position2D" parent="prop_positions" index="2" groups=[
-"bench_position",
-]]
+[node name="bench_pos3" type="Position2D" parent="prop_positions/benches" index="2"]
 
 position = Vector2( 600, 220 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="bench_pos5" type="Position2D" parent="prop_positions" index="3" groups=[
-"bench_position",
-]]
+[node name="bench_pos4" type="Position2D" parent="prop_positions/benches" index="3"]
 
 position = Vector2( 750, 100 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="bench_pos8" type="Position2D" parent="prop_positions" index="4" groups=[
-"bench_position",
-]]
+[node name="bench_pos5" type="Position2D" parent="prop_positions/benches" index="4"]
 
 position = Vector2( 1200, 200 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="bench_pos10" type="Position2D" parent="prop_positions" index="5" groups=[
-"bench_position",
-]]
+[node name="bench_pos6" type="Position2D" parent="prop_positions/benches" index="5"]
 
 position = Vector2( 1500, 210 )
 _sections_unfolded = [ "Transform" ]
+
+[node name="citizens" type="Node2D" parent="prop_positions" index="1"]
+
+[node name="citizen_position1" type="Position2D" parent="prop_positions/citizens" index="0"]
+
+position = Vector2( 240.029, 103.001 )
+
+[node name="citizen_position2" type="Position2D" parent="prop_positions/citizens" index="1"]
+
+position = Vector2( 544.434, 126.912 )
+
+[node name="citizen_position3" type="Position2D" parent="prop_positions/citizens" index="2"]
+
+position = Vector2( 777.107, 102.081 )
+
+[node name="citizen_position4" type="Position2D" parent="prop_positions/citizens" index="3"]
+
+position = Vector2( 1061.28, 202.324 )
+
+[node name="citizen_position5" type="Position2D" parent="prop_positions/citizens" index="4"]
+
+position = Vector2( 1339.01, 179.332 )
+
+[node name="chunk_props" type="Node2D" parent="." index="4"]
 
 [connection signal="body_entered" from="chunk_left" to="." method="_on_body_entered_chunk_left"]
 

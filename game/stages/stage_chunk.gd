@@ -2,11 +2,12 @@ extends Node2D
 
 var LOG = preload("res://globals/logger.gd").new(self)
 var Bench = preload("res://stages/props/bench.tscn")
+var WhiteWorker = preload("res://enemy/citizens/white_worker/white_worker1.tscn")
 
 var stage_chunk_bounds = Rect2()
 var tileset
 var chunk_idx = 0
-var bench_density = 0.5
+var num_benches = 2
 
 var chunk_left
 var chunk_right
@@ -31,18 +32,28 @@ func _ready():
 	S.connect_signal_to(S.SIGNAL_REBEL_JUMP_CURB_ON_MOPED, self, "move_moped_rebel_over_curb")
 	
 	_generate_random_benches()
+	_generate_white_worker()
 
 func _generate_random_benches():
-	var potential_bench_positions = get_tree().get_nodes_in_group(C.GROUP_BENCH_POS)
+	var potential_bench_positions = $prop_positions/benches.get_children()
 	var bench_positions = F.get_N_rand_array_elems(
-		potential_bench_positions.size() * bench_density,
+		num_benches,
 		potential_bench_positions
 	)
 	for position in bench_positions:
 		var bench = Bench.instance()
 		bench.global_position = position.global_position
 		bench.add_to_group(C.GROUP_PROPS)
-		$prop_positions.add_child(bench)
+		$chunk_props.add_child(bench)
+		
+func _generate_white_worker():
+	var potential_worker_positions = $prop_positions/citizens.get_children()
+	var chosen_white_worker_position = F.get_rand_array_elem(potential_worker_positions)
+	
+	var worker = WhiteWorker.instance()
+	worker.global_position = chosen_white_worker_position.global_position
+	worker.add_to_group(C.GROUP_CITIZENS)
+	$chunk_props.add_child(worker)
 
 
 func _on_body_entered_chunk_left(body):

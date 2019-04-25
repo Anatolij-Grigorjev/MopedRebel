@@ -9,17 +9,13 @@ var rebel_current_stage_chunk_idx = 0
 ########
 ##FOOT##
 ########
-var node_rebel_on_foot = {
-	"global_position": Vector2()
-}
+var node_rebel_on_foot 
 var foot_config_walk_speed = 50
 
 #########
 ##MOPED##
 #########
-var node_rebel_on_moped = {
-	"global_position": Vector2()
-}
+var node_rebel_on_moped 
 var node_active_rebel = {}
 var active_rebel_state = C.REBEL_STATES.ON_FOOT
 var node_current_stage_root = {}
