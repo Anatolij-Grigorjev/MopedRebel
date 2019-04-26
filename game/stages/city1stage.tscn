@@ -32,7 +32,6 @@ sort_enabled = true
 
 [node name="rebel_on_foot" parent="sorted_sprites" index="0" instance=ExtResource( 3 )]
 
-editor/display_folded = true
 position = Vector2( 227.433, 154.654 )
 
 [node name="action_after_offscreen" parent="sorted_sprites/rebel_on_foot" index="2" instance=ExtResource( 4 )]
@@ -40,19 +39,18 @@ position = Vector2( 227.433, 154.654 )
 position = Vector2( 6.82312, 352.521 )
 rect = Rect2( -64, -64, 128, 128 )
 action_type = 1
-custom_action_owner = NodePath("../..")
+custom_action_owner = NodePath("../../..")
 custom_action_name = "_turn_around_offscreen_rebel"
 
 [node name="rebel_on_moped" parent="sorted_sprites" index="1" instance=ExtResource( 5 )]
 
-editor/display_folded = true
 position = Vector2( 234.256, 507.176 )
 
 [node name="action_after_offscreen" parent="sorted_sprites/rebel_on_moped" index="6" instance=ExtResource( 4 )]
 
 rect = Rect2( -64, -64, 128, 128 )
 action_type = 1
-custom_action_owner = NodePath("../..")
+custom_action_owner = NodePath("../../..")
 custom_action_name = "_turn_around_offscreen_rebel"
 
 

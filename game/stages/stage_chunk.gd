@@ -60,7 +60,7 @@ func _on_body_entered_chunk_left(body):
 	if (F.is_body_active_rebel(body)):
 		if (_body_at_area_left(chunk_left, body)):
 			#rebel entered this chunk
-			S.emit_signal2(S.SIGNAL_REBEL_ENTERED_CHUNK, chunk_idx, C.FACING.RIGHT)
+			S.emit_signal2(S.SIGNAL_REBEL_ENTERING_CHUNK, chunk_idx, C.FACING.RIGHT)
 		else:
 			#rebel exiting chunk
 			S.emit_signal2(S.SIGNAL_REBEL_LEAVING_CHUNK, chunk_idx, C.FACING.LEFT)
@@ -73,7 +73,7 @@ func _on_body_entered_chunk_right(body):
 			S.emit_signal2(S.SIGNAL_REBEL_LEAVING_CHUNK, chunk_idx, C.FACING.RIGHT)
 		else:
 			#rebel entered this chunk
-			S.emit_signal2(S.SIGNAL_REBEL_ENTERED_CHUNK, chunk_idx, C.FACING.LEFT)
+			S.emit_signal2(S.SIGNAL_REBEL_ENTERING_CHUNK, chunk_idx, C.FACING.LEFT)
 
 
 func emit_closest_road_position():
@@ -138,7 +138,9 @@ func _get_lowest_sidewalk_position_above_road(on_road_position):
 	
 	
 func _body_at_area_left(area, body):
+	var area_collider = area.get_node('collider')
 	var area_shape_center_position = (
-		area.get_node('collider').shape.global_position
+		area_collider.global_position + 
+		area_collider.shape.extents
 	)
 	return body.global_position.x < area_shape_center_position.x

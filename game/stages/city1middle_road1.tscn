@@ -14,7 +14,7 @@ extents = Vector2( 50, 448 )
 custom_solver_bias = 0.0
 extents = Vector2( 50, 448 )
 
-[node name="city1middle_road1" type="Node2D" index="0"]
+[node name="city1middle_road1" type="Node2D"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
@@ -124,8 +124,11 @@ gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+collision_layer = 0
+collision_mask = 184
 audio_bus_override = false
 audio_bus_name = "Master"
+_sections_unfolded = [ "Collision" ]
 
 [node name="collider" type="CollisionShape2D" parent="chunk_left" index="0"]
 
@@ -142,9 +145,11 @@ gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+collision_layer = 0
+collision_mask = 184
 audio_bus_override = false
 audio_bus_name = "Master"
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Audio Bus", "Collision", "Transform" ]
 
 [node name="collider" type="CollisionShape2D" parent="chunk_right" index="0"]
 
@@ -154,6 +159,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="prop_positions" type="Node2D" parent="." index="3"]
 
+editor/display_folded = true
 _sections_unfolded = [ "Sort" ]
 
 [node name="benches" type="Node2D" parent="prop_positions" index="0"]
