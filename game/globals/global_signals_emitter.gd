@@ -1,6 +1,7 @@
 extends Node
 
-var LOG = preload("res://globals/logger.gd").new(self)
+var Logger = preload("res://globals/logger.gd")
+var LOG
 
 signal mounting_moped
 signal unmounting_moped
@@ -45,7 +46,8 @@ const known_singals = [
 
 
 func _ready():
-	print("Loaded global signals emitter node S!")
+	LOG = Logger.new('S')
+	LOG.info("Loaded global signals emitter node S!")
 	pass
 
 

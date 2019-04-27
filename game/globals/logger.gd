@@ -6,16 +6,19 @@ var current_log_levels = C.LOG_LEVELS.keys()
 var entity_name
 var entity_type_descriptor
 
-func _init(owner_node):
-	F.assert_not_null(owner_node)
-	#logger for nodes only!
-	F.assert_is_true(
-		owner_node is Node, 
-		"supplied owner for logger %s was not a Node!" % owner_node
-	)
-	self.owner_node = owner_node
-	entity_name = owner_node.name
-	entity_type_descriptor = owner_node
+func _init(owner_descriptor):
+	F.assert_not_null(owner_descriptor)
+	
+	var descriptor_type = typeof(owner_descriptor)
+	match(descriptor_type):
+		TYPE_OBJECT:
+			entity_name = owner_descriptor.name
+			entity_type_descriptor = owner_descriptor
+		TYPE_STRING:
+			entity_name = '[%s]' % owner_descriptor
+			entity_type_descriptor = ''
+		_:
+			error('Supported owner types for logger only Node and String, got %s!', [descriptor_type])
 
 func debug(format, args = []):
 	_log_at_level(C.LOG_LEVELS.DEBUG, format, args)

@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
-var LOG = preload("res://globals/logger.gd").new(self)
+var Logger = preload("res://globals/logger.gd")
+var LOG
 
 var check_collision_layers = [
 	C.LAYERS_CURB,
@@ -40,6 +41,7 @@ var enabled = true
 var control_locked = false
 
 func _ready():
+	LOG = Logger.new('REBEL_MOPED')
 	facing_direction = C.FACING.RIGHT
 	G.node_rebel_on_moped = self
 	active_sprite = $sprite_on_moped

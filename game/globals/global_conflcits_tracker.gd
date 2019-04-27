@@ -1,6 +1,7 @@
 extends Node2D
 
-var LOG = preload("res://globals/logger.gd").new(self)
+var Logger = preload("res://globals/logger.gd")
+var LOG
 
 var ConflictRoot = preload("res://conflict/conflict_root.tscn")
 var InfoPopup = preload("res://conflict/info_popup.tscn")
@@ -10,6 +11,7 @@ var conflict_with_node = null
 var active_conflict_screen_node = null
 
 func _ready():
+	LOG = Logger.new('VS')
 	_reset_conflict_nodes()
 	S.connect_signal_to(
 		S.SIGNAL_REBEL_START_CONFLICT, 
@@ -26,7 +28,7 @@ func _ready():
 		self,
 		"_init_finish_conflict_state"
 	)
-	print("Loaded gloal conflict tracker node VS!")
+	LOG.info("Loaded gloal conflict tracker node VS!")
 
 func _init_rebel_other_conflict_screen(enemy_node, bribe_money, diss_min_sc, fight_toughness):
 	conflict_rebel_node = G.node_active_rebel

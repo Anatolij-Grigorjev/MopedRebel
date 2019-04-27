@@ -1,5 +1,8 @@
 extends Node
 
+var Logger = preload("res://globals/logger.gd")
+var LOG
+
 #global state node, stubbed props for testing individual scenes
 
 ###GENERAL REBEL STATE###
@@ -36,16 +39,17 @@ var moped_config_max_flat_velocity_sq = Vector2(
 var PRESSED_ACTIONS_TRACKER = {}
 
 func _ready():
-	print("Loaded global game state node G!")
-	print('moped_config_max_speed: %s' % moped_config_max_speed)
-	print('moped_config_min_speed: %s' % moped_config_min_speed)
-	print('moped_config_max_acceleration_reach_time: %s' % moped_config_max_acceleration_reach_time)
-	print('moped_config_max_acceleration_rate: %s' % moped_config_max_acceleration_rate)
-	print('moped_config_brake_intensity: %s' % moped_config_brake_intensity)
-	print('moped_config_swerve_speed: %s' % moped_config_swerve_speed)
-	print('moped_config_swerve_acceleration_rate: %s' % moped_config_swerve_acceleration_rate)
-	print('moped_config_crash_recovery_time: %s' % moped_config_crash_recovery_time)
-	print('moped_config_max_flat_velocity_sq: %s' % moped_config_max_flat_velocity_sq)
+	LOG = Logger.new('G')
+	LOG.info("Loaded global game state node G!")
+	LOG.info('moped_config_max_speed: %s' % moped_config_max_speed)
+	LOG.info('moped_config_min_speed: %s' % moped_config_min_speed)
+	LOG.info('moped_config_max_acceleration_reach_time: %s' % moped_config_max_acceleration_reach_time)
+	LOG.info('moped_config_max_acceleration_rate: %s' % moped_config_max_acceleration_rate)
+	LOG.info('moped_config_brake_intensity: %s' % moped_config_brake_intensity)
+	LOG.info('moped_config_swerve_speed: %s' % moped_config_swerve_speed)
+	LOG.info('moped_config_swerve_acceleration_rate: %s' % moped_config_swerve_acceleration_rate)
+	LOG.info('moped_config_crash_recovery_time: %s' % moped_config_crash_recovery_time)
+	LOG.info('moped_config_max_flat_velocity_sq: %s' % moped_config_max_flat_velocity_sq)
 	PRESSED_ACTIONS_TRACKER.clear()
 	pass
 	

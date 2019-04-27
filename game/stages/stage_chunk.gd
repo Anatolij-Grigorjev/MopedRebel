@@ -18,6 +18,10 @@ var sidewalk_tileset
 
 
 func _ready():
+	#sensibly named logging 
+	LOG.entity_name = '[%s]' % self.name
+	LOG.entity_type_descriptor = ''
+	
 	tileset = $tileset
 	chunk_left = $chunk_left
 	chunk_right = $chunk_right

@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
-var LOG = preload("res://globals/logger.gd").new(self)
+var Logger = preload("res://globals/logger.gd")
+var LOG
 
 var velocity = Vector2()
 var dissing_zone_node_scene = preload("res://rebel/dissing_zone.tscn")
@@ -15,6 +16,7 @@ var enabled = true
 var control_locked = false
 
 func _ready():
+	LOG = Logger.new('REBEL_FOOT')
 	G.node_rebel_on_foot = self
 	active_sprite = $sprite
 	diss_positions_control = $diss_positions

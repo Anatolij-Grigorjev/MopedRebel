@@ -1,16 +1,19 @@
 extends Node2D
 
-var LOG = preload("res://globals/logger.gd").new(self)
+var Logger = preload("res://globals/logger.gd")
+var LOG
 var ShoutPopup = preload("res://common/shout_popup.tscn")
+var CityMiddleChunk = preload("res://stages/city1middle_road1.tscn")
 
 var rebel_on_foot_node
 var rebel_on_moped_node
 
-
-var bounding_rects_to_tilemaps = {}
+var curr_num_chunks = 0
+var next_chunk_position = Vector2()
 
 
 func _ready():
+	LOG = Logger.new(self.name)
 	G.node_current_stage_root = self
 	rebel_on_foot_node = $sorted_sprites/rebel_on_foot
 	rebel_on_moped_node = $sorted_sprites/rebel_on_moped
@@ -18,24 +21,10 @@ func _ready():
 	G.node_rebel_on_foot = rebel_on_foot_node
 	G.node_active_rebel = G.node_rebel_on_foot
 	
-	
-	var latest_chunk_idx = 0
-	
 	for stage_chunk in get_tree().get_nodes_in_group(C.GROUP_STAGE_CHUNK):
 		
-		var stage_maps = stage_chunk.get_node('tileset')
-		var bounds = F.get_tilemap_bounding_rect(stage_maps)
-		bounds.position += stage_chunk.global_position
-		
-		stage_chunk.chunk_idx = latest_chunk_idx
-		latest_chunk_idx += 1
-		
-		LOG.info("bounds for chunk %s: %s", [stage_chunk.name, bounds])
-		bounding_rects_to_tilemaps[bounds] = {
-			'curb': stage_maps.get_node('curb'),
-			'road': stage_maps.get_node('road'),
-			'sidewalk': stage_maps.get_node('sidewalk')
-		}
+		_index_new_chunk(stage_chunk)
+
 		#put all stage chunk props/enemies into YSORT thing
 		var active_props = stage_chunk.get_node('chunk_props').get_children()
 		for active_prop in active_props:
@@ -48,8 +37,19 @@ func _ready():
 	S.connect_signal_to(S.SIGNAL_REBEL_CHANGED_POSITION, self, "_rebel_new_position_state_received")
 	S.connect_signal_to(S.SIGNAL_REBEL_LEAVING_CHUNK, self, "_rebel_leaving_chunk")
 	S.connect_signal_to(S.SIGNAL_REBEL_ENTERING_CHUNK, self, "_rebel_entering_chunk")
+	
 	rebel_on_moped_node.disable()
 	init_rebel_on_moped()
+	
+func _index_new_chunk(chunk_node):
+	var stage_maps = chunk_node.get_node('tileset')
+	var bounds = F.get_tilemap_bounding_rect(stage_maps)
+	bounds.position += chunk_node.global_position
+	next_chunk_position = bounds.position + Vector2(bounds.size.x, 0)
+	LOG.info("next chunk position will be: %s", [next_chunk_position])
+	chunk_node.chunk_idx = curr_num_chunks
+	curr_num_chunks += 1
+	LOG.info('New chunks total: %s', [curr_num_chunks])
 	
 func init_rebel_on_foot():
 	_switch_rebel_node(rebel_on_moped_node, rebel_on_foot_node)
@@ -70,7 +70,19 @@ func _rebel_new_position_state_received(new_rebel_position, for_rebel_state):
 	
 func _rebel_leaving_chunk(chunk_idx, rebel_facing):
 	LOG.info("rebel LEAVING chunk %s, facing %s", [chunk_idx, rebel_facing])
+	#rebel facing right and leaving so must be headed right
+	if (rebel_facing == C.FACING.RIGHT):
+		#running out of chunks for rebel
+		if (chunk_idx + 2 > curr_num_chunks):
+			_append_stage_chunk_right(CityMiddleChunk)
 	pass
+	
+func _append_stage_chunk_right(ChunkType):
+	var new_chunk = ChunkType.instance()
+	add_child(new_chunk)
+	new_chunk.global_position = next_chunk_position
+	new_chunk.add_to_group(C.GROUP_STAGE_CHUNK)
+	_index_new_chunk(new_chunk)
 	
 func _rebel_entering_chunk(chunk_idx, rebel_facing):
 	LOG.info("rebel ENTERING chunk %s, facing %s", [chunk_idx, rebel_facing])
