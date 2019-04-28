@@ -148,3 +148,10 @@ func _body_at_area_left(area, body):
 		area_collider.shape.extents
 	)
 	return body.global_position.x < area_shape_center_position.x
+
+
+func _on_body_exited_chunk_left(body):
+	if (F.is_body_active_rebel(body) 
+		and (chunk_idx == 0
+		and body.facing_direction == C.FACING.LEFT)):
+		S.emit_signal1(S.SIGNAL_REBEL_EXITED_STAGE, body.facing_direction)

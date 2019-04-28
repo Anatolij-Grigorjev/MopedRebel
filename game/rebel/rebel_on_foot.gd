@@ -12,6 +12,8 @@ var low_position
 
 var active_sprite
 
+var facing_direction = C.FACING.RIGHT
+
 var enabled = true
 var control_locked = false
 
@@ -50,6 +52,8 @@ func _physics_process(delta):
 			velocity.y += 1
 		if Input.is_action_pressed('walk_up'):
 			velocity.y -= 1
+		if (velocity.x != 0):
+			facing_direction = velocity.x
 		velocity = velocity.normalized() * G.foot_config_walk_speed
 		
 		if Input.is_action_just_released('mount_moped'):

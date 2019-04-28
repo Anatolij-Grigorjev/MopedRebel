@@ -220,6 +220,8 @@ position = Vector2( 1339.01, 179.332 )
 
 [connection signal="body_entered" from="chunk_left" to="." method="_on_body_entered_chunk_left"]
 
+[connection signal="body_exited" from="chunk_left" to="." method="_on_body_exited_chunk_left"]
+
 [connection signal="body_entered" from="chunk_right" to="." method="_on_body_entered_chunk_right"]
 
 

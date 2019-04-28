@@ -37,6 +37,7 @@ func _ready():
 	S.connect_signal_to(S.SIGNAL_REBEL_CHANGED_POSITION, self, "_rebel_new_position_state_received")
 	S.connect_signal_to(S.SIGNAL_REBEL_LEAVING_CHUNK, self, "_rebel_leaving_chunk")
 	S.connect_signal_to(S.SIGNAL_REBEL_ENTERING_CHUNK, self, "_rebel_entering_chunk")
+	S.connect_signal_to(S.SIGNAL_REBEL_EXITED_STAGE, self, "_turn_around_offscreen_rebel")
 	
 	rebel_on_moped_node.disable()
 	init_rebel_on_moped()
@@ -88,15 +89,14 @@ func _rebel_entering_chunk(chunk_idx, rebel_facing):
 	LOG.info("rebel ENTERING chunk %s, facing %s", [chunk_idx, rebel_facing])
 	pass
 	
-func _turn_around_offscreen_rebel():
+func _turn_around_offscreen_rebel(rebel_facing):
 	LOG.info('rebel went offscreen long enough, turning around...')
 	
 	var rebel_node = G.node_active_rebel
 	rebel_node.control_locked = true
 	
 	#which direction rebel should face to comeback onscreen
-	var new_facing = (C.FACING.RIGHT if rebel_node.global_position.x < 0 
-					else C.FACING.LEFT)
+	var new_facing = F.flip_facing(rebel_facing)
 	
 	#turn around rebel on moped in case its still facing wrong way
 	if (F.is_rebel_state(C.REBEL_STATES.ON_MOPED)
