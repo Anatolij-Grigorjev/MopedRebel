@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://rebel/rebel_on_moped.gd" type="Script" id=1]
 [ext_resource path="res://rebel/rebel_on_moped.png" type="Texture" id=2]
 [ext_resource path="res://rebel/rebel_on_foot.png" type="Texture" id=3]
 [ext_resource path="res://rebel/diss_positions.tscn" type="PackedScene" id=4]
+[ext_resource path="res://common/action_after_offscreen.tscn" type="PackedScene" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -15,7 +16,7 @@ extents = Vector2( 62, 30 )
 custom_solver_bias = 0.0
 extents = Vector2( 60, 3 )
 
-[node name="rebel_on_moped" type="KinematicBody2D"]
+[node name="rebel_on_moped" type="KinematicBody2D" index="0"]
 
 input_pickable = false
 collision_layer = 16
@@ -92,5 +93,10 @@ _sections_unfolded = [ "Collision", "Transform" ]
 [node name="collider" type="CollisionShape2D" parent="rebel_wheels" index="0"]
 
 shape = SubResource( 2 )
+
+[node name="action_after_offscreen" parent="." index="7" instance=ExtResource( 5 )]
+
+action_type = 1
+custom_action_owner = NodePath("")
 
 

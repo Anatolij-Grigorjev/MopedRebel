@@ -4,6 +4,7 @@ var LOG = preload("res://globals/logger.gd").new(self)
 
 enum OFFSCREEN_ACTION_TYPES {
 	FREE_NODE,
+	SEND_SIGNAL,
 	CUSTOM
 }
 
@@ -19,6 +20,8 @@ func _ready():
 	match(action_type):
 		OFFSCREEN_ACTION_TYPES.FREE_NODE:
 			$wait_period.connect('timeout', self, '_offscreen_free_node')
+		OFFSCREEN_ACTION_TYPES.SEND_SIGNAL:
+			$wait_period.connect('timeout', self, '_offscreen_send_signal')
 		OFFSCREEN_ACTION_TYPES.CUSTOM:
 			var node_at_path = self.get_node(custom_action_owner)
 			if (node_at_path == null or custom_action_name == null):
@@ -46,3 +49,7 @@ func _offscreen_free_node():
 	if (owner != null):
 		free_target = owner
 	free_target.queue_free()
+	
+func _offscreen_send_signal():
+	S.emit_signal2(S.SIGNAL_ENTITY_OFFSCREEN_TIME, self.owner, $wait_period.wait_time)
+	pass

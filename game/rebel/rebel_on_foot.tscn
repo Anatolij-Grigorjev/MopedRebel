@@ -1,15 +1,16 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://rebel/rebel_on_foot.gd" type="Script" id=1]
 [ext_resource path="res://rebel/rebel_on_foot.png" type="Texture" id=2]
 [ext_resource path="res://rebel/diss_positions.tscn" type="PackedScene" id=3]
+[ext_resource path="res://common/action_after_offscreen.tscn" type="PackedScene" id=4]
 
 [sub_resource type="RectangleShape2D" id=2]
 
 custom_solver_bias = 0.0
 extents = Vector2( 34, 6 )
 
-[node name="rebel_on_foot" type="KinematicBody2D"]
+[node name="rebel_on_foot" type="KinematicBody2D" index="0"]
 
 input_pickable = false
 collision_layer = 72
@@ -55,5 +56,7 @@ _sections_unfolded = [ "Editor", "Limit" ]
 position = Vector2( 0, 58 )
 shape = SubResource( 2 )
 _sections_unfolded = [ "Collision", "Transform" ]
+
+[node name="action_after_offscreen" parent="." index="4" instance=ExtResource( 4 )]
 
 

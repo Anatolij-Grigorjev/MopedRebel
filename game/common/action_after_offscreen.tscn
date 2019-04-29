@@ -2,7 +2,7 @@
 
 [ext_resource path="res://common/dissapear_offscreen.gd" type="Script" id=1]
 
-[node name="action_after_offscreen" type="VisibilityNotifier2D"]
+[node name="action_after_offscreen" type="VisibilityNotifier2D" index="0"]
 
 rect = Rect2( -10, -10, 20, 20 )
 script = ExtResource( 1 )
