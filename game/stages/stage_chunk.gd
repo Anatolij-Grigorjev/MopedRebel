@@ -69,6 +69,14 @@ func _on_body_entered_chunk_left(body):
 			#rebel exiting chunk
 			S.emit_signal2(S.SIGNAL_REBEL_LEAVING_CHUNK, chunk_idx, C.FACING.LEFT)
 
+func _on_body_exited_chunk_left(body):
+	if (F.is_body_active_rebel(body)):
+		if (_body_at_area_left(chunk_left, body)):
+			#rebel fully exited chunk
+			S.emit_signal2(S.SIGNAL_REBEL_LEFT_CHUNK, chunk_idx, C.FACING.LEFT)
+		else:
+			#rebel fully entered chunk
+			S.emit_signal2(S.SIGNAL_REBEL_ENTERED_CHUNK, chunk_idx, C.FACING.RIGHT)
 
 func _on_body_entered_chunk_right(body):
 	if (F.is_body_active_rebel(body)):
@@ -78,6 +86,15 @@ func _on_body_entered_chunk_right(body):
 		else:
 			#rebel entered this chunk
 			S.emit_signal2(S.SIGNAL_REBEL_ENTERING_CHUNK, chunk_idx, C.FACING.LEFT)
+			
+func _on_body_exited_chunk_right(body):
+	if (F.is_body_active_rebel(body)):
+		if (_body_at_area_left(chunk_right, body)):
+			#rebel fully exited chunk
+			S.emit_signal2(S.SIGNAL_REBEL_ENTERED_CHUNK, chunk_idx, C.FACING.LEFT)
+		else:
+			#rebel fully entered chunk
+			S.emit_signal2(S.SIGNAL_REBEL_LEFT_CHUNK, chunk_idx, C.FACING.RIGHT)
 
 
 func emit_closest_road_position():
@@ -139,8 +156,6 @@ func _get_lowest_sidewalk_position_above_road(on_road_position):
 		Vector2(0, -road_tileset.cell_size.y)
 	)
 	
-	
-	
 func _body_at_area_left(area, body):
 	var area_collider = area.get_node('collider')
 	var area_shape_center_position = (
@@ -148,10 +163,3 @@ func _body_at_area_left(area, body):
 		area_collider.shape.extents
 	)
 	return body.global_position.x < area_shape_center_position.x
-
-
-func _on_body_exited_chunk_left(body):
-	if (F.is_body_active_rebel(body) 
-		and (chunk_idx == 0
-		and body.facing_direction == C.FACING.LEFT)):
-		S.emit_signal1(S.SIGNAL_REBEL_EXITED_STAGE, body.facing_direction)

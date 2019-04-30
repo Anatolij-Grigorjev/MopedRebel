@@ -13,9 +13,11 @@ signal conflict_info_popup_close
 signal rebel_gain_sc(added_sc_amount)
 signal moped_jump_curb
 signal rebel_leaving_chunk(chunk_idx, facing)
+signal rebel_left_chunk(chunk_idx, facing)
 signal rebel_entering_chunk(chunk_idx, facing)
+signal rebel_entered_chunk(chunk_idx, facing)
 signal rebel_position_changed(new_position, new_rebel_state)
-signal entity_ofscreen_for_time(node, time)
+signal entity_offscreen_for_time(node, time)
 
 const SIGNAL_REBEL_MOUNT_MOPED = "mounting_moped"
 const SIGNAL_REBEL_UNMOUNT_MOPED = "unmounting_moped"
@@ -27,9 +29,10 @@ const SIGNAL_INFO_POPUP_CLOSED = "conflict_info_popup_close"
 const SIGNAL_REBEL_GAIN_SC = "rebel_gain_sc"
 const SIGNAL_REBEL_JUMP_CURB_ON_MOPED = "moped_jump_curb"
 const SIGNAL_REBEL_LEAVING_CHUNK = "rebel_leaving_chunk"
+const SIGNAL_REBEL_LEFT_CHUNK = "rebel_left_chunk"
 const SIGNAL_REBEL_ENTERING_CHUNK = "rebel_entering_chunk"
+const SIGNAL_REBEL_ENTERED_CHUNK = "rebel_entered_chunk"
 const SIGNAL_REBEL_CHANGED_POSITION = "rebel_position_changed"
-const SIGNAL_ENTITY_OFFSCREEN_TIME = "entity_ofscreen_for_time"
 
 const known_singals = [
 	SIGNAL_REBEL_MOUNT_MOPED,
@@ -42,7 +45,9 @@ const known_singals = [
 	SIGNAL_REBEL_GAIN_SC,
 	SIGNAL_REBEL_JUMP_CURB_ON_MOPED,
 	SIGNAL_REBEL_LEAVING_CHUNK,
+	SIGNAL_REBEL_LEFT_CHUNK,
 	SIGNAL_REBEL_ENTERING_CHUNK,
+	SIGNAL_REBEL_ENTERED_CHUNK,
 	SIGNAL_REBEL_CHANGED_POSITION
 ]
 

@@ -9,6 +9,7 @@ var rebel_on_foot_node
 var rebel_on_moped_node
 
 var curr_num_chunks = 0
+var last_added_chunk_node
 var next_chunk_position = Vector2()
 
 
@@ -20,7 +21,8 @@ func _ready():
 	G.node_rebel_on_moped = rebel_on_moped_node
 	G.node_rebel_on_foot = rebel_on_foot_node
 	G.node_active_rebel = G.node_rebel_on_foot
-	
+	#save for more targeted adding of new chunks
+	last_added_chunk_node = $city1middle_road3
 	for stage_chunk in get_tree().get_nodes_in_group(C.GROUP_STAGE_CHUNK):
 		
 		_index_new_chunk(stage_chunk)
@@ -37,6 +39,8 @@ func _ready():
 	S.connect_signal_to(S.SIGNAL_REBEL_CHANGED_POSITION, self, "_rebel_new_position_state_received")
 	S.connect_signal_to(S.SIGNAL_REBEL_LEAVING_CHUNK, self, "_rebel_leaving_chunk")
 	S.connect_signal_to(S.SIGNAL_REBEL_ENTERING_CHUNK, self, "_rebel_entering_chunk")
+	S.connect_signal_to(S.SIGNAL_REBEL_ENTERED_CHUNK, self, "_rebel_entered_chunk")
+	S.connect_signal_to(S.SIGNAL_REBEL_LEFT_CHUNK, self, "_rebel_left_chunk")
 	
 	rebel_on_moped_node.disable()
 	init_rebel_on_moped()
@@ -44,7 +48,7 @@ func _ready():
 func _index_new_chunk(chunk_node):
 	var stage_maps = chunk_node.get_node('tileset')
 	var bounds = F.get_tilemap_bounding_rect(stage_maps)
-	bounds.position += chunk_node.global_position
+	bounds.position = chunk_node.global_position
 	next_chunk_position = bounds.position + Vector2(bounds.size.x, 0)
 	LOG.info("next chunk position will be: %s", [next_chunk_position])
 	chunk_node.chunk_idx = curr_num_chunks
@@ -73,13 +77,18 @@ func _rebel_leaving_chunk(chunk_idx, rebel_facing):
 	#rebel facing right and leaving so must be headed right
 	if (rebel_facing == C.FACING.RIGHT):
 		#running out of chunks for rebel
-		if (chunk_idx + 2 > curr_num_chunks):
+		if (chunk_idx + 2 >= curr_num_chunks):
+			LOG.info("rebel leaving chunk %s, total was %s so adding more chunks!", [chunk_idx, curr_num_chunks])
 			_append_stage_chunk_right(CityMiddleChunk)
-	pass
+	
+func _rebel_left_chunk(chunk_idx, rebel_facing):
+	LOG.info("rebel LEFT chunk %s, facing %s", [chunk_idx, rebel_facing])
+	if (chunk_idx == 0 and rebel_facing == C.FACING.LEFT):
+		_turn_around_offscreen_rebel(rebel_facing)
 	
 func _append_stage_chunk_right(ChunkType):
 	var new_chunk = ChunkType.instance()
-	add_child(new_chunk)
+	add_child_below_node(last_added_chunk_node, new_chunk)
 	new_chunk.global_position = next_chunk_position
 	new_chunk.add_to_group(C.GROUP_STAGE_CHUNK)
 	_index_new_chunk(new_chunk)
@@ -87,6 +96,9 @@ func _append_stage_chunk_right(ChunkType):
 func _rebel_entering_chunk(chunk_idx, rebel_facing):
 	LOG.info("rebel ENTERING chunk %s, facing %s", [chunk_idx, rebel_facing])
 	pass
+
+func _rebel_entered_chunk(chunk_idx, rebel_facing):
+	LOG.info("rebel ENTERED chunk %s, facing %s", [chunk_idx, rebel_facing])
 	
 func _turn_around_offscreen_rebel(rebel_facing):
 	LOG.info('rebel went offscreen long enough, turning around...')
@@ -125,7 +137,6 @@ func _show_shout_dialog(shout_line, for_seconds):
 	shout_dialog.visible_time = for_seconds
 	add_child(shout_dialog)
 	shout_dialog.show_popup()
-	
 
 func _restore_rebel_control():
 	G.node_active_rebel.control_locked = false
