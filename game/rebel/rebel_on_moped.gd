@@ -1,15 +1,12 @@
-extends KinematicBody2D
-
-var Logger = preload("res://globals/logger.gd")
-var LOG
+extends "rebel_base.gd"
 
 var check_collision_layers = [
 	C.LAYERS_CURB,
 	C.LAYERS_TRANSPORT_ROAD
 ]
+var last_enabled_collision_layer_state = []
 
 const MOPED_SUDDEN_STOP_COEF = 3.75
-var dissing_zone_node_scene = preload("res://rebel/dissing_zone.tscn")
 
 enum MOPED_GROUND_TYPES {
 	ROAD = 0,
@@ -17,7 +14,6 @@ enum MOPED_GROUND_TYPES {
 }
 
 var moped_ground_type = MOPED_GROUND_TYPES.ROAD
-var velocity = Vector2()
 
 var current_speed = 0
 var speed_alter_direction = 0
@@ -27,27 +23,13 @@ var swerve_direction = 0
 var is_unmounting_moped = false
 var remaining_collision_recovery = 0
 
-var facing_direction
-
-var active_sprite
-var low_position
-
-var diss_positions_control
-var active_dissing_zone
-
 var moped_engine_tween
-
-var enabled = true
-var control_locked = false
 
 func _ready():
 	LOG = Logger.new('REBEL_MOPED')
-	facing_direction = C.FACING.RIGHT
 	G.node_rebel_on_moped = self
-	active_sprite = $sprite_on_moped
-	diss_positions_control = $diss_positions
+	._ready()
 	moped_engine_tween = $moped_engine_tween
-	low_position = $rebel_wheels
 	last_enabled_collision_layer_state = F.get_node_collision_layer_state(self)
 	G.track_action_press_release('accelerate_right')
 	G.track_action_press_release('accelerate_left')
@@ -64,34 +46,21 @@ func _reset_swerve():
 	
 func _reset_acceleration():
 	speed_alter_direction = 0
+		
+func _disable_collision_layers():
+	last_enabled_collision_layer_state = F.get_node_collision_layer_state(self)
+	F.set_node_collision_layer_bits(self, false)
+	for mask_layer in check_collision_layers:
+		set_collision_mask_bit(mask_layer, false)
 
-var last_enabled_collision_layer_state = []
-	
-func disable():
-	if (enabled):
-		last_enabled_collision_layer_state = F.get_node_collision_layer_state(self)
-		F.set_node_collision_layer_bits(self, false)
-		for mask_layer in check_collision_layers:
-			set_collision_mask_bit(mask_layer, false)
-		set_physics_process(false)
-		visible = false
-		enabled = false
-		$camera.clear_current()
-	
-func enable():
-	if (not enabled):
-		var enabled_bits = []
-		for idx in range(0, last_enabled_collision_layer_state.size()):
-			if (last_enabled_collision_layer_state[idx]):
-				enabled_bits.append(idx)
-		F.set_node_collision_layer_bits(self, true, enabled_bits)
-		for mask_layer in check_collision_layers:
-			set_collision_mask_bit(mask_layer, true)
-		set_physics_process(true)
-		visible = true
-		enabled = true
-		$camera.make_current()
-		LOG.info("current rebel enabled MOPED")
+func _enable_collision_layers():
+	var enabled_bits = []
+	for idx in range(0, last_enabled_collision_layer_state.size()):
+		if (last_enabled_collision_layer_state[idx]):
+			enabled_bits.append(idx)
+	F.set_node_collision_layer_bits(self, true, enabled_bits)
+	for mask_layer in check_collision_layers:
+		set_collision_mask_bit(mask_layer, true)
 	
 func _physics_process(delta):
 	
@@ -136,7 +105,8 @@ func _bounce_from_colliding_heavy(collision):
 	remaining_collision_recovery = _get_moped_recovery_for_bounce(velocity)
 	current_speed = velocity.x
 	current_swerve = velocity.y
-			
+
+
 func _get_moped_recovery_for_bounce(bounce_velocity):
 	var bounce_sq = bounce_velocity.length_squared()
 	# max recovery time reserved only for travelling max speed.
@@ -158,6 +128,7 @@ func _collider_has_conflict_collision_node(collision):
 func _collision_receiver_react_collision(collision):
 	collision.collider.conflict_collision_receiver.react_collision(collision)
 
+
 func _perform_sudden_stop(delta):
 	var reduce_speed_by = (delta * G.moped_config_brake_intensity * MOPED_SUDDEN_STOP_COEF)
 	current_speed = current_speed + (-sign(current_speed) * reduce_speed_by)
@@ -178,7 +149,7 @@ func _process_not_collided(delta):
 			_handle_facing_direction()
 			_handle_swerve_control()
 			_handle_forward_acceleration()
-			_handle_diss_zone()
+			_process_dissing_zone()
 		current_speed = clamp(
 			current_speed, 
 			G.moped_config_min_speed, 
@@ -216,7 +187,7 @@ func _handle_facing_direction():
 		
 func _turn_around_moped():
 	facing_direction = F.flip_facing(facing_direction)
-	$sprite_on_moped.scale.x = abs($sprite_on_moped.scale.x) * facing_direction
+	active_sprite.scale.x = abs(active_sprite.scale.x) * facing_direction
 	reset_velocity()
 
 func _handle_swerve_control():
@@ -315,21 +286,3 @@ func _start_new_acceleration_tween(final_speed, speed_shift_duration):
 			Tween.EASE_OUT_IN
 		)
 		moped_engine_tween.start()
-	
-func _handle_diss_zone():
-	if Input.is_action_pressed('flip_bird'):
-		if (active_dissing_zone == null):
-			active_dissing_zone = dissing_zone_node_scene.instance()
-			add_child(active_dissing_zone)
-		_set_dissing_zone_position()
-	else:
-		if (active_dissing_zone != null):
-			active_dissing_zone.clear_present_nodes()
-			active_dissing_zone.queue_free()
-			active_dissing_zone = null
-			
-func _set_dissing_zone_position():
-	var active_position_node = diss_positions_control.active_diss_position_node
-	if (active_position_node != null):
-		active_dissing_zone.global_position = active_position_node.global_position
-		active_dissing_zone.rotation_degrees = diss_positions_control.active_diss_zone_angle

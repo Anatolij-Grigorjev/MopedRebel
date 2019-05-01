@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://rebel/rebel_on_moped.gd" type="Script" id=1]
 [ext_resource path="res://rebel/rebel_on_moped.png" type="Texture" id=2]
-[ext_resource path="res://rebel/rebel_on_foot.png" type="Texture" id=3]
-[ext_resource path="res://rebel/diss_positions.tscn" type="PackedScene" id=4]
+[ext_resource path="res://rebel/diss_positions.tscn" type="PackedScene" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -30,19 +29,14 @@ position = Vector2( 3, 30 )
 shape = SubResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="sprite_on_moped" type="Sprite" parent="." index="1"]
+[node name="sprite" type="Sprite" parent="." index="1"]
 
 position = Vector2( 0, 1.5 )
 scale = Vector2( 0.45, 0.45 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="sprite_on_foot" type="Sprite" parent="." index="2"]
-
-visible = false
-texture = ExtResource( 3 )
-
-[node name="camera" type="Camera2D" parent="." index="3"]
+[node name="camera" type="Camera2D" parent="." index="2"]
 
 anchor_mode = 1
 rotating = false
@@ -68,9 +62,9 @@ editor_draw_limits = false
 editor_draw_drag_margin = false
 _sections_unfolded = [ "Limit" ]
 
-[node name="diss_positions" parent="." index="4" instance=ExtResource( 4 )]
+[node name="diss_positions" parent="." index="3" instance=ExtResource( 3 )]
 
-[node name="moped_engine_tween" type="Tween" parent="." index="5"]
+[node name="moped_engine_tween" type="Tween" parent="." index="4"]
 
 repeat = false
 playback_process_mode = 1
@@ -79,7 +73,7 @@ playback/active = false
 playback/repeat = false
 playback/speed = 1.0
 
-[node name="rebel_wheels" type="KinematicBody2D" parent="." index="6"]
+[node name="low_collider" type="KinematicBody2D" parent="." index="5"]
 
 editor/display_folded = true
 position = Vector2( 3, 55 )
@@ -89,7 +83,7 @@ collision_mask = 2
 collision/safe_margin = 0.08
 _sections_unfolded = [ "Collision", "Transform" ]
 
-[node name="collider" type="CollisionShape2D" parent="rebel_wheels" index="0"]
+[node name="collider" type="CollisionShape2D" parent="low_collider" index="0"]
 
 shape = SubResource( 2 )
 
