@@ -3,16 +3,20 @@ extends KinematicBody2D
 var LOG = preload("res://globals/logger.gd").new(self)
 
 export(float) var max_visible_diss_distance = 450
+
 var sprite
 var should_move = false
 var velocity = Vector2()
 var walk_speed = 25
 var run_speed = 40
+var destination_proximity_variance = 15 
 
 var diss_receiver
 var conflict_collision_receiver
 var moped_detect_area
 
+var standing_position
+var move_destination = null
 
 func _ready():
 	add_to_group(C.GROUP_CITIZENS)
@@ -20,6 +24,7 @@ func _ready():
 	moped_detect_area = $moped_detect_area
 	diss_receiver = $diss_receiver
 	conflict_collision_receiver = $conflict_collision_receiver
+	standing_position = global_position
 	diss_receiver.diss_success_action_name = '_start_diss_response'
 	diss_receiver.diss_reduction_predicate_name = 'is_rebel_too_far'
 	diss_receiver.diss_calmdown_action_name = '_stop_diss_response'
@@ -41,6 +46,12 @@ func _process(delta):
 		var collision = move_and_collide(velocity * delta)
 		if (collision):
 			conflict_collision_receiver.react_collision(collision)
+		if (move_destination != null):
+			var destination_distance = global_position.distance_to(move_destination)
+			if (destination_distance < destination_proximity_variance):
+				should_move = false
+				move_destination = null
+			
 	pass
 
 func _start_diss_response():
@@ -55,8 +66,9 @@ func _prepare_aggressive_response():
 func _stop_diss_response():
 	diss_receiver.finish_being_dissed()
 	$check_rebel_direction_timer.stop()
-	velocity = Vector2(0, 0)
-	should_move = false
+	should_move = true
+	move_destination = standing_position
+	velocity = (move_destination - global_position).normalized() * walk_speed
 	set_collision_mask_bit(C.LAYERS_REBEL_SIDEWALK, false)
 	conflict_collision_receiver.reset_collision()
 	
