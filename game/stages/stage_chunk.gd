@@ -1,4 +1,4 @@
-extends Node2D
+extends "stage_chunk_base.gd"
 
 var LOG = preload("res://globals/logger.gd").new(self)
 var Bench = preload("res://stages/props/bench.tscn")
@@ -9,9 +9,6 @@ var tileset
 var chunk_idx = 0
 var num_benches = 2
 
-var chunk_left
-var chunk_right
-
 var road_tileset
 var curb_tileset
 var sidewalk_tileset
@@ -21,10 +18,11 @@ func _ready():
 	#sensibly named logging 
 	LOG.entity_name = '[%s]' % self.name
 	LOG.entity_type_descriptor = ''
-	
+	chunk_edge_left = $chunk_left
+	chunk_edge_right = $chunk_right
+	#connect body signals after stage chunks are setup
+	._ready()	
 	tileset = $tileset
-	chunk_left = $chunk_left
-	chunk_right = $chunk_right
 	stage_chunk_bounds = F.get_tilemap_bounding_rect(tileset)
 	LOG.info("Calculated chunk bounds: %s", [stage_chunk_bounds])
 	road_tileset = $tileset/road
@@ -70,44 +68,6 @@ func _generate_white_worker():
 	worker.global_position = chosen_white_worker_position.global_position
 	worker.add_to_group(C.GROUP_CITIZENS)
 	$chunk_props.add_child(worker)
-
-
-func _on_body_entered_chunk_left(body):
-	if (F.is_body_active_rebel(body)):
-		if (_body_at_area_left(chunk_left, body)):
-			#rebel entered this chunk
-			S.emit_signal2(S.SIGNAL_REBEL_ENTERING_CHUNK, chunk_idx, C.FACING.RIGHT)
-		else:
-			#rebel exiting chunk
-			S.emit_signal2(S.SIGNAL_REBEL_LEAVING_CHUNK, chunk_idx, C.FACING.LEFT)
-
-func _on_body_exited_chunk_left(body):
-	if (F.is_body_active_rebel(body)):
-		if (_body_at_area_left(chunk_left, body)):
-			#rebel fully exited chunk
-			S.emit_signal2(S.SIGNAL_REBEL_LEFT_CHUNK, chunk_idx, C.FACING.LEFT)
-		else:
-			#rebel fully entered chunk
-			S.emit_signal2(S.SIGNAL_REBEL_ENTERED_CHUNK, chunk_idx, C.FACING.RIGHT)
-
-func _on_body_entered_chunk_right(body):
-	if (F.is_body_active_rebel(body)):
-		if (_body_at_area_left(chunk_right, body)):
-			#rebel exiting chunk
-			S.emit_signal2(S.SIGNAL_REBEL_LEAVING_CHUNK, chunk_idx, C.FACING.RIGHT)
-		else:
-			#rebel entered this chunk
-			S.emit_signal2(S.SIGNAL_REBEL_ENTERING_CHUNK, chunk_idx, C.FACING.LEFT)
-			
-func _on_body_exited_chunk_right(body):
-	if (F.is_body_active_rebel(body)):
-		if (_body_at_area_left(chunk_right, body)):
-			#rebel fully exited chunk
-			S.emit_signal2(S.SIGNAL_REBEL_ENTERED_CHUNK, chunk_idx, C.FACING.LEFT)
-		else:
-			#rebel fully entered chunk
-			S.emit_signal2(S.SIGNAL_REBEL_LEFT_CHUNK, chunk_idx, C.FACING.RIGHT)
-
 
 func emit_closest_road_position():
 	if (not _is_rebel_on_this_chunk()):
@@ -167,11 +127,3 @@ func _get_lowest_sidewalk_position_above_road(on_road_position):
 		sidewalk_tileset,
 		Vector2(0, -road_tileset.cell_size.y)
 	)
-	
-func _body_at_area_left(area, body):
-	var area_collider = area.get_node('collider')
-	var area_shape_center_position = (
-		area_collider.global_position + 
-		area_collider.shape.extents
-	)
-	return body.global_position.x < area_shape_center_position.x

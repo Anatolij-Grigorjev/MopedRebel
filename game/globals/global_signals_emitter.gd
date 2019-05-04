@@ -12,10 +12,10 @@ signal conflict_chose_resolution(choice_type, choice_param)
 signal conflict_info_popup_close
 signal rebel_gain_sc(added_sc_amount)
 signal moped_jump_curb
-signal rebel_leaving_chunk(chunk_idx, facing)
-signal rebel_left_chunk(chunk_idx, facing)
-signal rebel_entering_chunk(chunk_idx, facing)
-signal rebel_entered_chunk(chunk_idx, facing)
+signal body_leaving_chunk(body, chunk_idx, facing)
+signal body_left_chunk(body, chunk_idx, facing)
+signal body_entering_chunk(body, chunk_idx, facing)
+signal body_entered_chunk(body, chunk_idx, facing)
 signal rebel_position_changed(new_position, new_rebel_state)
 signal entity_offscreen_for_time(node, time)
 
@@ -28,10 +28,10 @@ const SIGNAL_CONFLICT_CHOSE_RESOLUTION = "conflict_chose_resolution"
 const SIGNAL_INFO_POPUP_CLOSED = "conflict_info_popup_close"
 const SIGNAL_REBEL_GAIN_SC = "rebel_gain_sc"
 const SIGNAL_REBEL_JUMP_CURB_ON_MOPED = "moped_jump_curb"
-const SIGNAL_REBEL_LEAVING_CHUNK = "rebel_leaving_chunk"
-const SIGNAL_REBEL_LEFT_CHUNK = "rebel_left_chunk"
-const SIGNAL_REBEL_ENTERING_CHUNK = "rebel_entering_chunk"
-const SIGNAL_REBEL_ENTERED_CHUNK = "rebel_entered_chunk"
+const SIGNAL_BODY_LEAVING_CHUNK = "body_leaving_chunk"
+const SIGNAL_BODY_LEFT_CHUNK = "body_left_chunk"
+const SIGNAL_BODY_ENTERING_CHUNK = "body_entering_chunk"
+const SIGNAL_BODY_ENTERED_CHUNK = "body_entered_chunk"
 const SIGNAL_REBEL_CHANGED_POSITION = "rebel_position_changed"
 
 const known_singals = [
@@ -44,10 +44,10 @@ const known_singals = [
 	SIGNAL_INFO_POPUP_CLOSED,
 	SIGNAL_REBEL_GAIN_SC,
 	SIGNAL_REBEL_JUMP_CURB_ON_MOPED,
-	SIGNAL_REBEL_LEAVING_CHUNK,
-	SIGNAL_REBEL_LEFT_CHUNK,
-	SIGNAL_REBEL_ENTERING_CHUNK,
-	SIGNAL_REBEL_ENTERED_CHUNK,
+	SIGNAL_BODY_LEAVING_CHUNK,
+	SIGNAL_BODY_LEFT_CHUNK,
+	SIGNAL_BODY_ENTERING_CHUNK,
+	SIGNAL_BODY_ENTERED_CHUNK,
 	SIGNAL_REBEL_CHANGED_POSITION
 ]
 

@@ -37,10 +37,10 @@ func _ready():
 			active_prop.set_owner($sorted_sprites)
 	
 	S.connect_signal_to(S.SIGNAL_REBEL_CHANGED_POSITION, self, "_rebel_new_position_state_received")
-	S.connect_signal_to(S.SIGNAL_REBEL_LEAVING_CHUNK, self, "_rebel_leaving_chunk")
-	S.connect_signal_to(S.SIGNAL_REBEL_ENTERING_CHUNK, self, "_rebel_entering_chunk")
-	S.connect_signal_to(S.SIGNAL_REBEL_ENTERED_CHUNK, self, "_rebel_entered_chunk")
-	S.connect_signal_to(S.SIGNAL_REBEL_LEFT_CHUNK, self, "_rebel_left_chunk")
+	S.connect_signal_to(S.SIGNAL_BODY_LEAVING_CHUNK, self, "_rebel_leaving_chunk")
+	S.connect_signal_to(S.SIGNAL_BODY_ENTERING_CHUNK, self, "_rebel_entering_chunk")
+	S.connect_signal_to(S.SIGNAL_BODY_ENTERED_CHUNK, self, "_rebel_entered_chunk")
+	S.connect_signal_to(S.SIGNAL_BODY_LEFT_CHUNK, self, "_rebel_left_chunk")
 	
 	rebel_on_moped_node.disable()
 	init_rebel_on_moped()
