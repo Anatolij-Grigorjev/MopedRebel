@@ -1,12 +1,14 @@
 extends Node2D
 
-
+var chunk_idx = 0
 var chunk_edge_left
 var chunk_edge_right
 
 
 func _ready():
+	pass
 	
+func _connect_chunk_edge_signals():
 	F.assert_not_null(chunk_edge_left)
 	F.assert_not_null(chunk_edge_right)
 	
@@ -14,7 +16,6 @@ func _ready():
 	chunk_edge_left.connect("body_exited", self, "_on_body_exited_chunk_edge_left")
 	chunk_edge_right.connect("body_entered", self, "_on_body_entered_chunk_edge_right")
 	chunk_edge_right.connect("body_exited", self, "_on_body_exited_chunk_edge_right")
-	pass
 	
 	
 func _on_body_entered_chunk_edge_left(body):

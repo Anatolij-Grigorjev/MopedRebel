@@ -6,7 +6,6 @@ var WhiteWorker = preload("res://enemy/citizens/white_worker/white_worker1.tscn"
 
 var stage_chunk_bounds = Rect2()
 var tileset
-var chunk_idx = 0
 var num_benches = 2
 
 var road_tileset
@@ -21,7 +20,7 @@ func _ready():
 	chunk_edge_left = $chunk_left
 	chunk_edge_right = $chunk_right
 	#connect body signals after stage chunks are setup
-	._ready()	
+	_connect_chunk_edge_signals()
 	tileset = $tileset
 	stage_chunk_bounds = F.get_tilemap_bounding_rect(tileset)
 	LOG.info("Calculated chunk bounds: %s", [stage_chunk_bounds])
