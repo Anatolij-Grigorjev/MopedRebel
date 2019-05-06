@@ -14,7 +14,7 @@ extents = Vector2( 50, 448 )
 custom_solver_bias = 0.0
 extents = Vector2( 50, 448 )
 
-[node name="city1middle_road1" type="Node2D"]
+[node name="city1middle_road1" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
@@ -217,5 +217,15 @@ position = Vector2( 1061.28, 202.324 )
 position = Vector2( 1339.01, 179.332 )
 
 [node name="chunk_props" type="Node2D" parent="." index="4"]
+
+[node name="car_left_lane" type="Position2D" parent="." index="5"]
+
+position = Vector2( 800, 420 )
+_sections_unfolded = [ "Transform", "Z Index" ]
+
+[node name="car_right_lane" type="Position2D" parent="." index="6"]
+
+position = Vector2( 800, 700 )
+_sections_unfolded = [ "Transform" ]
 
 

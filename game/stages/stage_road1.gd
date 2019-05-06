@@ -53,3 +53,31 @@ func _rebel_new_position_state_received(new_rebel_position, for_rebel_state):
 	
 func _get_append_chunk_scene():
 	return CityMiddleChunk
+	
+func _body_entered_chunk(body, chunk_idx, facing):
+	._body_entered_chunk(body, chunk_idx, facing)
+	if (F.is_body_active_rebel(body)):
+		var spawn_car_chance = randf()
+		if (0.33 <= spawn_car_chance and spawn_car_chance <= 0.66):
+			_try_generate_car_behind(chunk_idx, facing)
+		elif (spawn_car_chance > 0.66):
+			_try_generate_car_infront(chunk_idx, facing)
+			
+func _try_generate_car_behind(current_chunk_idx, facing):
+	if (_is_edge_chunk_for_facing(current_chunk_idx, facing)):
+		return
+	var offset = -2 if facing == C.FACING.RIGHT else 2
+	var chunk_idx_behind = clamp(current_chunk_idx + offset, 0, curr_num_chunks - 1)
+	var chunk_node = _get_chunk_at_idx(chunk_idx_behind)
+	if (chunk_node.has_method("generate_car")):
+		chunk_node.generate_car(facing)
+
+func _is_edge_chunk_for_facing(chunk_idx, facing):
+	return (
+	(chunk_idx == 0 and facing == C.FACING.RIGHT)
+		or (chunk_idx == curr_num_chunks - 1 and facing == C.FACING.LEFT)
+	)
+	
+func _get_chunk_at_idx(chunk_idx):
+	return get_tree().get_nodes_in_group(C.GROUP_STAGE_CHUNK)[chunk_idx]
+	

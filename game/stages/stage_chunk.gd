@@ -3,6 +3,7 @@ extends "stage_chunk_base.gd"
 var LOG = preload("res://globals/logger.gd").new(self)
 var Bench = preload("res://stages/props/bench.tscn")
 var WhiteWorker = preload("res://enemy/citizens/white_worker/white_worker1.tscn")
+var BlueCar = preload("res://enemy/transport/car_blue/car_blue1.tscn")
 
 var stage_chunk_bounds = Rect2()
 var tileset
@@ -67,6 +68,7 @@ func _generate_white_worker():
 	worker.global_position = chosen_white_worker_position.global_position
 	worker.add_to_group(C.GROUP_CITIZENS)
 	$chunk_props.add_child(worker)
+
 
 func emit_closest_road_position():
 	if (not _is_rebel_on_this_chunk()):
