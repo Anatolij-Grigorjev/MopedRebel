@@ -67,17 +67,23 @@ func _try_generate_car_behind(current_chunk_idx, facing):
 	if (_is_edge_chunk_for_facing(current_chunk_idx, facing)):
 		return
 	var offset = -2 if facing == C.FACING.RIGHT else 2
-	var chunk_idx_behind = clamp(current_chunk_idx + offset, 0, curr_num_chunks - 1)
-	var chunk_node = _get_chunk_at_idx(chunk_idx_behind)
+	_add_car_to_chunk_offset(current_chunk_idx, offset, facing)
+
+func _add_car_to_chunk_offset(current_chunk_idx, offset, facing):
+	var chunk_idx_offset = clamp(current_chunk_idx + offset, 0, curr_added_chunks.size() - 1)
+	var chunk_node = curr_added_chunks[chunk_idx_offset]
 	if (chunk_node.has_method("generate_car")):
-		chunk_node.generate_car(facing)
+		chunk_node.generate_car($sorted_sprites, facing)
+		
+func _try_generate_car_infront(current_chunk_idx, facing):
+	if (_is_edge_chunk_for_facing(current_chunk_idx, facing)):
+		return
+	var offset = -2 if facing == C.FACING.LEFT else 2
+	_add_car_to_chunk_offset(current_chunk_idx, offset, F.flip_facing(facing))
 
 func _is_edge_chunk_for_facing(chunk_idx, facing):
 	return (
 	(chunk_idx == 0 and facing == C.FACING.RIGHT)
-		or (chunk_idx == curr_num_chunks - 1 and facing == C.FACING.LEFT)
+		or (chunk_idx == curr_added_chunks.size() - 1 and facing == C.FACING.LEFT)
 	)
-	
-func _get_chunk_at_idx(chunk_idx):
-	return get_tree().get_nodes_in_group(C.GROUP_STAGE_CHUNK)[chunk_idx]
 	

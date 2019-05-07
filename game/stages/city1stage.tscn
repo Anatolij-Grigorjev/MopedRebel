@@ -27,6 +27,7 @@ position = Vector2( 3328, 0 )
 
 [node name="sorted_sprites" type="YSort" parent="." index="3"]
 
+editor/display_folded = true
 sort_enabled = true
 
 [node name="rebel_on_foot" parent="sorted_sprites" index="0" instance=ExtResource( 3 )]

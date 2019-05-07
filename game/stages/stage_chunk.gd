@@ -128,3 +128,15 @@ func _get_lowest_sidewalk_position_above_road(on_road_position):
 		sidewalk_tileset,
 		Vector2(0, -road_tileset.cell_size.y)
 	)
+	
+func generate_car(parent, facing):
+	LOG.info("generating new car facing %s", [facing])
+	var car_start_position
+	if (facing == C.FACING.LEFT):
+		car_start_position = $car_go_left_start.global_position
+	else:
+		car_start_position = $car_go_right_start.global_position
+	var new_car = BlueCar.instance()
+	new_car.global_position = car_start_position
+	new_car.maintains_direction = Vector2(facing, 0)
+	parent.add_child(new_car)

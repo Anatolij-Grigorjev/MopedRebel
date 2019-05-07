@@ -9,6 +9,8 @@ var curr_num_chunks = 0
 var last_added_chunk_node
 var next_chunk_position = Vector2()
 
+var curr_added_chunks = []
+
 func _ready():
 	
 	S.connect_signal_to(S.SIGNAL_BODY_LEAVING_CHUNK, self, "_body_leaving_chunk")
@@ -51,9 +53,9 @@ func _index_new_chunk(chunk_node):
 	bounds.position = chunk_node.global_position
 	next_chunk_position = bounds.position + Vector2(bounds.size.x, 0)
 	LOG.info("next chunk position will be: %s", [next_chunk_position])
-	chunk_node.chunk_idx = curr_num_chunks
-	curr_num_chunks += 1
-	LOG.info('New chunks total: %s', [curr_num_chunks])
+	chunk_node.chunk_idx = curr_added_chunks.size()
+	curr_added_chunks.append(chunk_node)
+	LOG.info('New chunks total: %s', [curr_added_chunks.size()])
 	
 func _body_left_chunk(body, chunk_idx, facing):
 	LOG.info("body %s LEFT chunk %s, facing %s", [body.name, chunk_idx, facing])
