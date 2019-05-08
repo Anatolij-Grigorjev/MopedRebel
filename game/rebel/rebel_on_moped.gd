@@ -24,12 +24,14 @@ var is_unmounting_moped = false
 var remaining_collision_recovery = 0
 
 var moped_engine_tween
+var anim
 
 func _ready():
 	LOG = Logger.new('REBEL_MOPED')
 	G.node_rebel_on_moped = self
 	._ready()
 	moped_engine_tween = $moped_engine_tween
+	anim = $anim
 	last_enabled_collision_layer_state = F.get_node_collision_layer_state(self)
 	G.track_action_press_release('accelerate_right')
 	G.track_action_press_release('accelerate_left')
@@ -180,14 +182,26 @@ func _handle_facing_direction():
 	var double_tap_direction = (Input.is_action_pressed(brake_action) 
 		and G.PRESSED_ACTIONS_TRACKER[brake_action].last_released_time < C.DOUBLE_TAP_LIMIT)
 	
-	if (double_tap_direction 
-		or Input.is_action_just_released('turn_around')
+	var relevant_anim = "flip_moped_"
+	if (facing_direction == C.FACING.RIGHT):
+		relevant_anim += "r2l"
+	else:
+		relevant_anim += "l2r"
+	
+	if (
+		(double_tap_direction 
+		or Input.is_action_just_released('turn_around'))
+		and _not_playing_anim(relevant_anim)
 	):
-		_turn_around_moped()
+		reset_velocity()
+		anim.play(relevant_anim)
 		
+func _not_playing_anim(animation_name):
+	return (not anim.is_playing() 
+			or anim.current_animation != animation_name)
+	
 func _turn_around_moped():
 	facing_direction = F.flip_facing(facing_direction)
-	active_sprite.scale.x = abs(active_sprite.scale.x) * facing_direction
 	reset_velocity()
 
 func _handle_swerve_control():
