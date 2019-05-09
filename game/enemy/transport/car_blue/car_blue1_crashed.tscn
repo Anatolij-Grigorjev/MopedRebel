@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://enemy/transport/car_blue/car_blue.png" type="Texture" id=1]
 [ext_resource path="res://common/action_after_offscreen.tscn" type="PackedScene" id=2]
@@ -8,8 +8,64 @@
 custom_solver_bias = 0.0
 extents = Vector2( 192, 64 )
 
+[sub_resource type="Animation" id=2]
+
+resource_name = "entry"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.8, 0.4 ), Vector2( -0.8, 0.4 ), Vector2( 0.8, 0.4 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("sprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( -50, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("body:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( -50, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("dissapear_offscreen:rect")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Rect2( -190, -64, 380, 128 ), Rect2( -240, -64, 380, 128 ) ]
+}
+
 [node name="car_blue1_crashed" type="StaticBody2D"]
 
+position = Vector2( -50, 0 )
 input_pickable = false
 collision_layer = 32
 collision_mask = 51
@@ -21,8 +77,8 @@ _sections_unfolded = [ "Collision", "Transform", "collision" ]
 
 [node name="sprite" type="Sprite" parent="." index="0"]
 
-position = Vector2( 1, 1 )
-scale = Vector2( 0.813072, 0.399109 )
+position = Vector2( -50, 0 )
+scale = Vector2( 0.8, 0.4 )
 texture = ExtResource( 1 )
 flip_h = true
 region_rect = Rect2( 0, 0, 384, 128 )
@@ -30,13 +86,25 @@ _sections_unfolded = [ "Animation", "Offset", "Region", "Transform" ]
 
 [node name="body" type="CollisionShape2D" parent="." index="1"]
 
+position = Vector2( -50, 0 )
 shape = SubResource( 1 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="dissapear_offscreen" parent="." index="2" instance=ExtResource( 2 )]
 
 position = Vector2( 1, 1 )
-rect = Rect2( -190, -64, 380, 128 )
+rect = Rect2( -240, -64, 380, 128 )
 _sections_unfolded = [ "Transform" ]
-action_type = null
+custom_action_owner = NodePath("")
+
+[node name="anim" type="AnimationPlayer" parent="." index="3"]
+
+root_node = NodePath("..")
+autoplay = "entry"
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/entry = SubResource( 2 )
+blend_times = [  ]
 
 
