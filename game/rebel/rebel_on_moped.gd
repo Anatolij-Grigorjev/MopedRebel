@@ -202,6 +202,9 @@ func _not_playing_anim(animation_name):
 	
 func _turn_around_moped():
 	facing_direction = F.flip_facing(facing_direction)
+	#flip sprite to match facing
+	if (facing_direction != sign(active_sprite.scale.x)):
+		active_sprite.scale.x *= -1
 	reset_velocity()
 
 func _handle_swerve_control():

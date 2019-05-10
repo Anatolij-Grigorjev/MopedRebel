@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 var LOG = preload("res://globals/logger.gd").new(self)
 
-var stub_scene = preload("res://enemy/transport/car_blue/car_blue1_crashed.tscn")
+var CarCrashed = preload("res://enemy/transport/car_blue/car_blue1_crashed.tscn")
 
 export(float) var maintains_speed = 100
 export(float) var max_visible_diss_distance = 600
@@ -117,8 +117,9 @@ func _align_new_rebel_direction(new_direction):
 	
 	
 func _post_conflict():
-	var crashed_stub = stub_scene.instance()
-	crashed_stub.global_position = global_position
+	var crashed_stub = CarCrashed.instance()
+	crashed_stub.crash_position = global_position
+	LOG.info("setting crashed car to be at %s", [crashed_stub.crash_position])
 	var stub_sprite = crashed_stub.get_node('sprite')
 	stub_sprite.scale.x = abs(stub_sprite.scale.x) * sign(target_direction.x)
 	get_parent().add_child(crashed_stub)
