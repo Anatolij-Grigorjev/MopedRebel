@@ -5,7 +5,6 @@ var LOG
 var ShoutPopup = preload("res://common/shout_popup.tscn")
 var OffscreenAction = preload("res://common/action_after_offscreen.tscn")
 
-var curr_num_chunks = 0
 var last_added_chunk_node
 var next_chunk_position = Vector2()
 
@@ -27,6 +26,7 @@ func _body_leaving_chunk(body, chunk_idx, facing):
 func _rebel_leaving_chunk(chunk_idx, rebel_facing):
 	#rebel facing right and leaving so must be headed right
 	if (rebel_facing == C.FACING.RIGHT):
+		var curr_num_chunks = curr_added_chunks.size()
 		#running out of chunks for rebel
 		if (chunk_idx + 2 >= curr_num_chunks):
 			LOG.info("rebel leaving chunk %s, total was %s so adding more chunks!", [chunk_idx, curr_num_chunks])

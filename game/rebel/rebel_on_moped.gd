@@ -210,11 +210,15 @@ func _turn_around_moped():
 func _handle_swerve_control():
 
 	var new_swerve_direction = 0
-	
+	var anim_to_play = null
 	if Input.is_action_pressed('swerve_up'):
 		new_swerve_direction = -1
+		anim_to_play = "moped_swerve_up"
 	if Input.is_action_pressed('swerve_down'):
 		new_swerve_direction = 1
+		anim_to_play = "moped_swerve_down"
+	if (anim_to_play):
+		anim_to_play = F.add_facing_to_string(facing_direction, anim_to_play)
 		
 	if (new_swerve_direction != swerve_direction):
 		var swerve_target_speed = G.moped_config_swerve_speed * new_swerve_direction
@@ -222,9 +226,21 @@ func _handle_swerve_control():
 		if (swerve_target_speed == 0):
 			#breaking is FACTOR times faster than accelerating
 			complete_swerve_time /= MOPED_SUDDEN_STOP_COEF
+			#unplay the current swerve animation
+			var prev_swerve_anim = null
+			if (swerve_direction == 1):
+				prev_swerve_anim = "moped_swerve_down"
+			else:
+				prev_swerve_anim = "moped_swerve_up"
+			prev_swerve_anim = F.add_facing_to_string(facing_direction, prev_swerve_anim)
+			anim.play_backwards(prev_swerve_anim)
 		#ensure swerve tween from current
 		_start_new_swerve_tween(swerve_target_speed, complete_swerve_time)
 		swerve_direction = new_swerve_direction
+		if (swerve_direction != 0):
+			#play new swerve animation
+			anim.play(anim_to_play)
+
 		
 func _start_new_swerve_tween(final_swerve_speed, swerve_duration):
 	moped_engine_tween.remove(self, 'current_swerve')

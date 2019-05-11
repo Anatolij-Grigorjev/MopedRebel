@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://rebel/rebel_on_moped.gd" type="Script" id=1]
 [ext_resource path="res://rebel/rebel_on_moped.png" type="Texture" id=2]
@@ -17,7 +17,7 @@ extents = Vector2( 60, 3 )
 [sub_resource type="Animation" id=4]
 
 resource_name = "flip_moped_l2r"
-length = 1.0
+length = 0.6
 loop = false
 step = 0.1
 tracks/0/type = "value"
@@ -27,7 +27,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
+"times": PoolRealArray( 0, 0.6 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( -0.45, 0.45 ), Vector2( 0.45, 0.45 ) ]
@@ -39,7 +39,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 1 ),
+"times": PoolRealArray( 0.6 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
@@ -50,7 +50,7 @@ tracks/1/keys = {
 [sub_resource type="Animation" id=3]
 
 resource_name = "flip_moped_r2l"
-length = 1.0
+length = 0.6
 loop = false
 step = 0.1
 tracks/0/type = "value"
@@ -60,7 +60,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
+"times": PoolRealArray( 0, 0.6 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0.45, 0.45 ), Vector2( -0.45, 0.45 ) ]
@@ -72,7 +72,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 1 ),
+"times": PoolRealArray( 0.6 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
@@ -80,7 +80,131 @@ tracks/1/keys = {
 } ]
 }
 
-[node name="rebel_on_moped" type="KinematicBody2D"]
+[sub_resource type="Animation" id=8]
+
+resource_name = "moped_swerve_down_left"
+length = 0.25
+loop = false
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, -5.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("sprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -0.45, 0.45 ), Vector2( -0.35, 0.45 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+
+resource_name = "moped_swerve_down_right"
+length = 0.25
+loop = false
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 5.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("sprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.45, 0.45 ), Vector2( 0.35, 0.45 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+
+resource_name = "moped_swerve_up_left"
+length = 0.25
+loop = false
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 5.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("sprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -0.45, 0.45 ), Vector2( -0.35, 0.45 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+
+resource_name = "moped_swerve_up_right"
+length = 0.25
+loop = false
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, -5.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("sprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.45, 0.45 ), Vector2( 0.35, 0.45 ) ]
+}
+
+[node name="rebel_on_moped" type="KinematicBody2D" index="0"]
 
 input_pickable = false
 collision_layer = 16
@@ -162,6 +286,10 @@ playback_default_blend_time = 0.0
 playback_speed = 1.0
 anims/flip_moped_l2r = SubResource( 4 )
 anims/flip_moped_r2l = SubResource( 3 )
+anims/moped_swerve_down_left = SubResource( 8 )
+anims/moped_swerve_down_right = SubResource( 6 )
+anims/moped_swerve_up_left = SubResource( 7 )
+anims/moped_swerve_up_right = SubResource( 5 )
 blend_times = [  ]
 
 

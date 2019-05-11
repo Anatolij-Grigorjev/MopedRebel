@@ -265,6 +265,14 @@ func get_facing_for_velocity(velocity):
 		return sign(velocity.x)
 	else: 
 		return sign(velocity)
+		
+func add_facing_to_string(facing, prefix_string):
+	var result = prefix_string
+	if (facing == C.FACING.RIGHT):
+		result += "_right"
+	else:
+		result += "_left"
+	return result
 	
 func parse_json_file_as_var(filepath):
 	#also sanity-checks string internally
