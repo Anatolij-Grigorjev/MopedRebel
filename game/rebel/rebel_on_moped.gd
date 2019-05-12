@@ -32,6 +32,7 @@ func _ready():
 	._ready()
 	moped_engine_tween = $moped_engine_tween
 	anim = $anim
+	anim.connect('animation_finished', self, '_handle_post_anim')
 	last_enabled_collision_layer_state = F.get_node_collision_layer_state(self)
 	G.track_action_press_release('accelerate_right')
 	G.track_action_press_release('accelerate_left')
@@ -138,12 +139,13 @@ func _perform_sudden_stop(delta):
 
 func _process_not_collided(delta):
 	if (is_unmounting_moped):
-		if (current_speed > 0):
-			_perform_sudden_stop(delta)
-		else:
-			current_speed = 0
-			is_unmounting_moped = false
-			S.emit_signal0(S.SIGNAL_REBEL_UNMOUNT_MOPED)
+		pass
+#		if (current_speed > 0):
+#			_perform_sudden_stop(delta)
+#		else:
+#			current_speed = 0
+#			is_unmounting_moped = false
+#			S.emit_signal0(S.SIGNAL_REBEL_UNMOUNT_MOPED)
 	else:
 		if (not control_locked):
 			_handle_unmounting_moped()
@@ -158,11 +160,16 @@ func _process_not_collided(delta):
 			G.moped_config_max_speed
 		)
 
+#dynamic animation from road to lead moped up to curb and then 
+#1.dismount
+#2.jump curb
+#curb from below is px up to first curb tile +(64+30)px/scale for center + collider start
 
 func _handle_unmounting_moped():
 	if (not is_unmounting_moped):
 		if (Input.is_action_pressed('unmount_moped')):
 			is_unmounting_moped = true
+			anim.play(F.add_facing_to_string(facing_direction, 'moped_swerve_up'))
 			
 func _handle_jumping_curb():
 	if (Input.is_action_just_released('jump_curb')):
@@ -176,7 +183,6 @@ func _set_moped_ground_layers():
 	set_collision_layer_bit(C.LAYERS_REBEL_SIDEWALK, not moped_on_road)
 
 func _handle_facing_direction():
-	
 	var facing_speed_actions = _get_speed_actions_for_facing()
 	var brake_action = facing_speed_actions[1]
 	var double_tap_direction = (Input.is_action_pressed(brake_action) 
@@ -319,3 +325,12 @@ func _start_new_acceleration_tween(final_speed, speed_shift_duration):
 			Tween.EASE_OUT_IN
 		)
 		moped_engine_tween.start()
+		
+func _handle_post_anim(anim_name):
+	#might have been a swerve over the curb
+	if (anim_name.begins_with('moped_swerve_')):
+		#unmounting moped stuff
+		if (is_unmounting_moped):
+			#make engine tween engage swerve speed
+			#reduce engine tween forward speed
+			#when curb collider hits wheels collider, things will happen
