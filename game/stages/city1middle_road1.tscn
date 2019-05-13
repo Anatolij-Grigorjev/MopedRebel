@@ -43,7 +43,9 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="curb" type="TileMap" parent="tileset" index="0"]
+[node name="curb" type="TileMap" parent="tileset" index="0" groups=[
+"curb_tiles",
+]]
 
 visible = false
 mode = 0

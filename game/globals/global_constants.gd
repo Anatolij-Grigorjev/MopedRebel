@@ -30,6 +30,7 @@ const CURRENT_LOG_LEVEL = LOG_LEVELS.INFO
 const MAX_WORLD_Y = 100000
 const GROUP_STAGE_CHUNK = "stage_chunk"
 const GROUP_PROPS = "props"
+const GROUP_CURB = "curb_tiles"
 
 const GUI_SELECTED_OPT_MARKER = "->"
 const GUI_AVAILABLE_OPTION_COLOR = Color(1, 1, 1)

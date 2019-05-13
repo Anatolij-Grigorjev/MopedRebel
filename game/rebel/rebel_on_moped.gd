@@ -32,7 +32,6 @@ func _ready():
 	._ready()
 	moped_engine_tween = $moped_engine_tween
 	anim = $anim
-	anim.connect('animation_finished', self, '_handle_post_anim')
 	last_enabled_collision_layer_state = F.get_node_collision_layer_state(self)
 	G.track_action_press_release('accelerate_right')
 	G.track_action_press_release('accelerate_left')
@@ -90,18 +89,34 @@ func _physics_process(delta):
 	var collision = move_and_collide(velocity * delta)
 	if (collision):
 		LOG.info("new collision: %s", [collision])
-		
-		#bump around by heavy collision (car)
-		if (collision.collider.is_in_group(C.GROUP_CARS)):
-			_bounce_from_colliding_heavy(collision)
-			
-		#do conflict if the collider can manage it
-		if (_collider_has_conflict_collision_node(collision)):
-			_collision_receiver_react_collision(collision)
+		var collider = collision.collider
+		if (collider is TileMap):
+			if (is_unmounting_moped and collider.is_in_group(C.GROUP_CURB)):
+				var animation_name = 'unmount_moped'
+				var animation_length = anim.get_animation(animation_name).length
+				anim.play(animation_name)
+				#remove swerve in half anim length
+				_start_new_swerve_tween(0, animation_length)
+				pass
+			pass
+		else:	
+			#bump around by heavy collision (car)
+			if (collider.is_in_group(C.GROUP_CARS)):
+				_bounce_from_colliding_heavy(collision)
+				
+			#do conflict if the collider can manage it
+			if (collider.has_node('conflict_collision_receiver')):
+				var collision_receiver = collider.conflict_collision_receiver
+				collision_receiver.react_collision(collision)
 
 func _is_moped_swerving():
 	return current_swerve != 0 and current_speed > 0
-
+	
+func _finish_unmounting():
+	rotation = 0
+	is_unmounting_moped = false
+	reset_velocity()
+	S.emit_signal0(S.SIGNAL_REBEL_UNMOUNT_MOPED)
 
 func _bounce_from_colliding_heavy(collision):
 	velocity = velocity.bounce(collision.normal)
@@ -124,12 +139,6 @@ func _get_moped_recovery_for_bounce(bounce_velocity):
 		/ 
 		G.moped_config_max_flat_velocity_sq
 	)
-	
-func _collider_has_conflict_collision_node(collision):
-	return collision.collider.has_node('conflict_collision_receiver')
-	
-func _collision_receiver_react_collision(collision):
-	collision.collider.conflict_collision_receiver.react_collision(collision)
 
 
 func _perform_sudden_stop(delta):
@@ -169,7 +178,15 @@ func _handle_unmounting_moped():
 	if (not is_unmounting_moped):
 		if (Input.is_action_pressed('unmount_moped')):
 			is_unmounting_moped = true
-			anim.play(F.add_facing_to_string(facing_direction, 'moped_swerve_up'))
+			var anim_name = F.add_facing_to_string(facing_direction, 'moped_swerve_up')
+			var animation_length = anim.get_animation(anim_name).length
+			#play animation
+			anim.play(anim_name)
+			#dont go forward
+			_start_new_acceleration_tween(0.0, animation_length)
+			#go up halfspeed
+			_start_new_swerve_tween(-G.moped_config_swerve_speed / 2, animation_length)
+			
 			
 func _handle_jumping_curb():
 	if (Input.is_action_just_released('jump_curb')):
@@ -325,12 +342,3 @@ func _start_new_acceleration_tween(final_speed, speed_shift_duration):
 			Tween.EASE_OUT_IN
 		)
 		moped_engine_tween.start()
-		
-func _handle_post_anim(anim_name):
-	#might have been a swerve over the curb
-	if (anim_name.begins_with('moped_swerve_')):
-		#unmounting moped stuff
-		if (is_unmounting_moped):
-			#make engine tween engage swerve speed
-			#reduce engine tween forward speed
-			#when curb collider hits wheels collider, things will happen
