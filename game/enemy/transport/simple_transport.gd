@@ -19,6 +19,7 @@ var target_direction
 var target_speed
 
 var conflict_collision_receiver
+var velocity_tween
 
 func _ready():
 	start_position = global_position
@@ -41,18 +42,9 @@ func _ready():
 		self, 
 		"_pre_collide"
 	)
-	_config_acceleration_tween(0.0)
-	_config_deacceleration_tween(maintains_speed)
+	velocity_tween = $velocity_tween
 	add_to_group(C.GROUP_CARS)
 	reset_transport()
-	
-func _config_acceleration_tween(starting_speed):
-	$accelerate_tween.remove(self, 'velocity:x')
-	$accelerate_tween.interpolate_property(self, 'velocity:x', starting_speed, maintains_speed, 1.5, Tween.TRANS_EXPO, Tween.EASE_IN_OUT)
-	
-func _config_deacceleration_tween(starting_speed):
-	$deaccelerate_tween.remove(self, 'velocity:x')
-	$deaccelerate_tween.interpolate_property(self, 'velocity:x', starting_speed, 0.0, 1.5, Tween.TRANS_EXPO, Tween.EASE_IN_OUT)
 	
 func _pre_collide():
 	should_stop = conflict_collision_receiver.collided
@@ -64,15 +56,6 @@ func _pre_collide():
 		diss_receiver.shutdown_receiver()
 
 func _physics_process(delta):
-	if (should_stop):
-		if (velocity.x > 0 and not $deaccelerate_tween.is_active()):
-			_config_deacceleration_tween(velocity.x)
-			$deaccelerate_tween.start()
-	else:
-		if (velocity.x < maintains_speed and not $accelerate_tween.is_active()):
-			_config_acceleration_tween(velocity.x)
-			$accelerate_tween.start()
-	
 	var collision = move_and_collide(delta * velocity * target_direction)
 	if (collision):
 		conflict_collision_receiver.react_collision(collision)
@@ -84,7 +67,16 @@ func reset_transport():
 	conflict_collision_receiver.reset_collision()
 	diss_receiver.startup_receiver()
 	diss_receiver.finish_being_dissed()
-	$accelerate_tween.start()
+	_start_velocity_tween(maintains_speed, 1.5)
+
+func _start_velocity_tween(to_velocity, tween_time):
+	velocity_tween.remove(self, 'velocity:x')
+	velocity_tween.interpolate_property(self, 'velocity:x', 
+		velocity.x, to_velocity, 
+		tween_time, 
+		Tween.TRANS_EXPO, Tween.EASE_IN_OUT
+	)
+	velocity_tween.start()
 	
 func _set_target_direction(direction):
 	target_direction = direction
@@ -93,14 +85,17 @@ func _set_target_direction(direction):
 func enter_diss_zone():
 	if (not conflict_collision_receiver.collided):
 		should_stop = true
+		_start_velocity_tween(0, 1.5)
 
 func exit_diss_zone():
 	if (not conflict_collision_receiver.collided):
 		should_stop = false
+		_start_velocity_tween(maintains_speed, 1.5)
 	
 func chase_while_dissed():
 	if (not conflict_collision_receiver.collided):
 		should_stop = false
+		_start_velocity_tween(maintains_speed, 1.5)
 		$check_rebel_direction_timer.start()
 	
 func is_rebel_too_far():
@@ -119,7 +114,6 @@ func _align_new_rebel_direction(new_direction):
 func _post_conflict():
 	var crashed_stub = CarCrashed.instance()
 	crashed_stub.crash_position = global_position
-	LOG.info("setting crashed car to be at %s", [crashed_stub.crash_position])
 	var stub_sprite = crashed_stub.get_node('sprite')
 	stub_sprite.scale.x = abs(stub_sprite.scale.x) * sign(target_direction.x)
 	get_parent().add_child(crashed_stub)
