@@ -33,6 +33,7 @@ func _ready():
 	
 	rebel_on_moped_node.disable()
 	init_rebel_on_moped()
+	_try_generate_car_infront(0, C.FACING.RIGHT)
 	
 func init_rebel_on_foot():
 	_switch_rebel_node(rebel_on_moped_node, rebel_on_foot_node)
@@ -83,7 +84,7 @@ func _try_generate_car_infront(current_chunk_idx, facing):
 
 func _is_edge_chunk_for_facing(chunk_idx, facing):
 	return (
-	(chunk_idx == 0 and facing == C.FACING.RIGHT)
-		or (chunk_idx == curr_added_chunks.size() - 1 and facing == C.FACING.LEFT)
+	(chunk_idx == 0 and facing == C.FACING.LEFT)
+		or (chunk_idx == curr_added_chunks.size() - 1 and facing == C.FACING.RIGHT)
 	)
 	

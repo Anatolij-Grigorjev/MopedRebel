@@ -21,7 +21,7 @@ extents = Vector2( 192, 64 )
 custom_solver_bias = 0.0
 extents = Vector2( 64, 64 )
 
-[node name="car_blue1" type="KinematicBody2D" index="0"]
+[node name="car_blue1" type="KinematicBody2D"]
 
 input_pickable = false
 collision_layer = 32
@@ -70,9 +70,11 @@ gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+collision_layer = 0
+collision_mask = 88
 audio_bus_override = false
 audio_bus_name = "Master"
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Collision", "Transform" ]
 
 [node name="body" type="CollisionShape2D" parent="obstacle_warning_zone" index="0"]
 
@@ -90,12 +92,22 @@ gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+collision_layer = 0
+collision_mask = 88
 audio_bus_override = false
 audio_bus_name = "Master"
-_sections_unfolded = [ "Transform", "Visibility" ]
+_sections_unfolded = [ "Collision", "Transform", "Visibility" ]
 
 [node name="body" type="CollisionShape2D" parent="obstacle_warning_zone/crash_warning_zone" index="0"]
 
 shape = SubResource( 3 )
+
+[connection signal="body_entered" from="obstacle_warning_zone" to="." method="_on_body_entered_obstacle_zone"]
+
+[connection signal="body_exited" from="obstacle_warning_zone" to="." method="_on_body_exited_obstacle_zone"]
+
+[connection signal="body_entered" from="obstacle_warning_zone/crash_warning_zone" to="." method="_on_body_entered_crash_zone"]
+
+[connection signal="body_exited" from="obstacle_warning_zone/crash_warning_zone" to="." method="_on_body_exited_crash_zone"]
 
 

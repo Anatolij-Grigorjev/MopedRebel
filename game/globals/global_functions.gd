@@ -260,6 +260,11 @@ func swap_collision_mask_bit(node, from_layer, to_layer):
 func flip_facing(facing_direction):
 	return C.FACING.LEFT if facing_direction == C.FACING.RIGHT else C.FACING.RIGHT
 	
+func is_rebel_in_area(area_node):
+	if (area_node == null):
+		return false
+	return area_node.overlaps_body(G.node_active_rebel)
+	
 func get_facing_for_velocity(velocity):
 	if (typeof(velocity) == TYPE_VECTOR2):
 		return sign(velocity.x)

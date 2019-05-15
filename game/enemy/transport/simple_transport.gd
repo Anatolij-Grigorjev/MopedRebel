@@ -80,7 +80,7 @@ func _start_velocity_tween(to_velocity, tween_time):
 	
 func _set_target_direction(direction):
 	target_direction = direction
-	sprite.scale.x = abs(sprite.scale.x) * sign(direction.x)
+	scale.x = abs(scale.x) * sign(direction.x)
 	
 func enter_diss_zone():
 	if (not conflict_collision_receiver.collided):
@@ -119,3 +119,30 @@ func _post_conflict():
 	get_parent().add_child(crashed_stub)
 	
 	queue_free()
+
+
+func _on_body_entered_obstacle_zone(body):
+	LOG.info("body in obstacle zone: %s", [body])
+	if (F.is_body_active_rebel(body) and body.facing_direction != maintains_direction.x):
+		#slow down a bit
+		_start_velocity_tween(maintains_speed / 2, 1.0)
+		#TODO: honk horn at rebel
+
+func _on_body_exited_obstacle_zone(body):
+	if (not F.is_rebel_in_area($obstacle_warning_zone)):
+		#speed back up
+		_start_velocity_tween(maintains_speed, 1.0)
+
+func _on_body_entered_crash_zone(body):
+	LOG.info("body in carsh zone: %s", [body])
+	if (F.is_body_active_rebel(body) and body.facing_direction != maintains_direction.x):
+		_start_velocity_tween(0.0, 0.5)
+		#TODO: keep hoking till they leave
+
+func _on_body_exited_crash_zone(body):
+	#TODO: stop honking incessantly
+	var new_speed = maintains_speed / 2
+	if (not F.is_rebel_in_area($obstacle_warning_zone)):
+		new_speed *= 2
+	#speed back up
+	_start_velocity_tween(new_speed, 1.5)
