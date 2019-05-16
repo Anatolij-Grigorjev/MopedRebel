@@ -123,6 +123,7 @@ func _bounce_from_colliding_heavy(collision):
 	remaining_collision_recovery = _get_moped_recovery_for_bounce(velocity)
 	current_speed = velocity.x
 	current_swerve = velocity.y
+	anim.play("crash_transport")
 
 
 func _get_moped_recovery_for_bounce(bounce_velocity):
@@ -178,7 +179,7 @@ func _handle_unmounting_moped():
 	if (not is_unmounting_moped):
 		if (Input.is_action_pressed('unmount_moped')):
 			is_unmounting_moped = true
-			var anim_name = F.add_facing_to_string(facing_direction, 'moped_swerve_up')
+			var anim_name = 'moped_swerve_up'
 			var animation_length = anim.get_animation(anim_name).length
 			#play animation
 			anim.play(anim_name)
@@ -224,10 +225,19 @@ func _not_playing_anim(animation_name):
 			or anim.current_animation != animation_name)
 	
 func _turn_around_moped():
+	LOG.info(
+		"PRE facing: %s, scale: %s, sprite scale: %s", 
+		[facing_direction, scale.x, active_sprite.scale.x])
 	facing_direction = F.flip_facing(facing_direction)
 	#flip sprite to match facing
-	if (facing_direction != sign(active_sprite.scale.x)):
-		active_sprite.scale.x *= -1
+	if (facing_direction != sign(scale.x)):
+		scale.x *= -1
+		active_sprite.scale.x = abs(active_sprite.scale.x)
+	#turn around animation flips sprite scale so have to unflip it
+	#to maintain same direction as transform
+	LOG.info(
+		"POST facing: %s, scale: %s, sprite scale: %s", 
+		[facing_direction, scale.x, active_sprite.scale.x])
 	reset_velocity()
 
 func _handle_swerve_control():
@@ -240,8 +250,6 @@ func _handle_swerve_control():
 	if Input.is_action_pressed('swerve_down'):
 		new_swerve_direction = 1
 		anim_to_play = "moped_swerve_down"
-	if (anim_to_play):
-		anim_to_play = F.add_facing_to_string(facing_direction, anim_to_play)
 		
 	if (new_swerve_direction != swerve_direction):
 		var swerve_target_speed = G.moped_config_swerve_speed * new_swerve_direction
@@ -255,7 +263,6 @@ func _handle_swerve_control():
 				prev_swerve_anim = "moped_swerve_down"
 			else:
 				prev_swerve_anim = "moped_swerve_up"
-			prev_swerve_anim = F.add_facing_to_string(facing_direction, prev_swerve_anim)
 			anim.play_backwards(prev_swerve_anim)
 		#ensure swerve tween from current
 		_start_new_swerve_tween(swerve_target_speed, complete_swerve_time)
