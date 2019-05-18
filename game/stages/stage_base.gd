@@ -51,9 +51,10 @@ func _index_new_chunk(chunk_node):
 	var stage_maps = chunk_node.get_node('tileset')
 	var bounds = F.get_tilemap_bounding_rect(stage_maps)
 	bounds.position = chunk_node.global_position
-	next_chunk_position = bounds.position + Vector2(bounds.size.x, 0)
+	next_chunk_position = bounds.position + Vector2(bounds.size.x - 1, 0)
 	LOG.info("next chunk position will be: %s", [next_chunk_position])
 	chunk_node.chunk_idx = curr_added_chunks.size()
+	chunk_node.stage_chunk_bounds = bounds
 	curr_added_chunks.append(chunk_node)
 	LOG.info('New chunks total: %s', [curr_added_chunks.size()])
 	

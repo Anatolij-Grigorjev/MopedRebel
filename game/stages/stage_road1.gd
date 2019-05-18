@@ -64,23 +64,33 @@ func _body_entered_chunk(body, chunk_idx, facing):
 		elif (spawn_car_chance > 0.66):
 			_try_generate_car_infront(chunk_idx, facing)
 			
-func _try_generate_car_behind(current_chunk_idx, facing):
-	if (_is_edge_chunk_for_facing(current_chunk_idx, facing)):
+func _try_generate_car_behind(current_chunk_idx, rebel_facing):
+	if (_is_edge_chunk_for_facing(current_chunk_idx, rebel_facing)):
 		return
-	var offset = -2 if facing == C.FACING.RIGHT else 2
-	_add_car_to_chunk_offset(current_chunk_idx, offset, facing)
+	var offset = -2 if rebel_facing == C.FACING.RIGHT else 2
+	_try_add_car_to_chunk_with_facing(current_chunk_idx + offset, rebel_facing)
 
-func _add_car_to_chunk_offset(current_chunk_idx, offset, facing):
-	var chunk_idx_offset = clamp(current_chunk_idx + offset, 0, curr_added_chunks.size() - 1)
-	var chunk_node = curr_added_chunks[chunk_idx_offset]
-	if (chunk_node.has_method("generate_car")):
-		chunk_node.generate_car($sorted_sprites, facing)
+func _try_add_car_to_chunk_with_facing(add_at_chunk_idx, car_facing):
+	var actual_chunk_idx = clamp(add_at_chunk_idx, 0, curr_added_chunks.size() - 1)
+	var chunk_node = curr_added_chunks[actual_chunk_idx]
+
+	if (not _chunk_has_car_with_facing(chunk_node, car_facing)):
+		if (chunk_node.has_method("generate_car")):
+			chunk_node.generate_car($sorted_sprites, car_facing)
+			
+func _chunk_has_car_with_facing(chunk_node, car_facing):
+	var chunk_bounds = chunk_node.stage_chunk_bounds
+	for car in get_tree().get_nodes_in_group(C.GROUP_CARS):
+		if (chunk_bounds.has_point(car.global_position)
+			and car.maintains_direction.x == car_facing):
+				return true
+	return false
 		
-func _try_generate_car_infront(current_chunk_idx, facing):
-	if (_is_edge_chunk_for_facing(current_chunk_idx, facing)):
+func _try_generate_car_infront(current_chunk_idx, rebel_facing):
+	if (_is_edge_chunk_for_facing(current_chunk_idx, rebel_facing)):
 		return
-	var offset = -2 if facing == C.FACING.LEFT else 2
-	_add_car_to_chunk_offset(current_chunk_idx, offset, F.flip_facing(facing))
+	var offset = -2 if rebel_facing == C.FACING.LEFT else 2
+	_try_add_car_to_chunk_with_facing(current_chunk_idx + offset, F.flip_facing(rebel_facing))
 
 func _is_edge_chunk_for_facing(chunk_idx, facing):
 	return (
