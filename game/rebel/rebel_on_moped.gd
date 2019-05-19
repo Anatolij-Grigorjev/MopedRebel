@@ -25,6 +25,7 @@ var remaining_collision_recovery = 0
 
 var moped_engine_tween
 var anim
+var last_saved_collision
 
 func _ready():
 	LOG = Logger.new('REBEL_MOPED')
@@ -103,14 +104,19 @@ func _physics_process(delta):
 			#bump around by heavy collision (car)
 			if (collider.is_in_group(C.GROUP_CARS)):
 				_bounce_from_colliding_heavy(collision)
+				if (collider.has_node('conflict_collision_receiver')):
+					last_saved_collision = collision
 				
-			#do conflict if the collider can manage it
-			if (collider.has_node('conflict_collision_receiver')):
-				var collision_receiver = collider.conflict_collision_receiver
-				collision_receiver.react_collision(collision)
+				
 
 func _is_moped_swerving():
 	return current_swerve != 0 and current_speed > 0
+	
+func _use_collider_collision_receiver():
+	var collider = last_saved_collision.collider
+	var collision_receiver = collider.conflict_collision_receiver
+	collision_receiver.react_collision(last_saved_collision)
+	last_saved_collision = null
 	
 func _finish_unmounting():
 	rotation = 0

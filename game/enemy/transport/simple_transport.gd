@@ -54,6 +54,7 @@ func _pre_collide():
 		_set_target_direction(maintains_direction)
 	else:
 		diss_receiver.shutdown_receiver()
+		$anim.play("crash")
 
 func _physics_process(delta):
 	var collision = move_and_collide(delta * velocity * target_direction)
@@ -113,9 +114,8 @@ func _align_new_rebel_direction(new_direction):
 	
 func _post_conflict():
 	var crashed_stub = CarCrashed.instance()
-	crashed_stub.crash_position = global_position
-	var stub_sprite = crashed_stub.get_node('sprite')
-	stub_sprite.scale.x = abs(stub_sprite.scale.x) * sign(target_direction.x)
+	crashed_stub.global_position = global_position
+#??? crashed_stub.scale = scale 
 	get_parent().add_child(crashed_stub)
 	
 	queue_free()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://enemy/transport/simple_transport.gd" type="Script" id=1]
 [ext_resource path="res://enemy/transport/car_blue/car_blue.png" type="Texture" id=2]
@@ -20,6 +20,73 @@ extents = Vector2( 192, 64 )
 
 custom_solver_bias = 0.0
 extents = Vector2( 64, 64 )
+
+[sub_resource type="Animation" id=4]
+
+resource_name = "crash"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.8, 0.4 ), Vector2( -0.8, 0.4 ), Vector2( 0.8, 0.4 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("sprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( -15, -15 ), Vector2( 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("body:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("obstacle_warning_zone/body:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("obstacle_warning_zone/crash_warning_zone/body:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [node name="car_blue1" type="KinematicBody2D"]
 
@@ -64,6 +131,7 @@ playback/speed = 1.0
 
 [node name="obstacle_warning_zone" type="Area2D" parent="." index="6"]
 
+editor/display_folded = true
 position = Vector2( 384, 0 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -84,7 +152,6 @@ _sections_unfolded = [ "Visibility" ]
 
 [node name="crash_warning_zone" type="Area2D" parent="obstacle_warning_zone" index="1"]
 
-editor/display_folded = true
 modulate = Color( 1, 0.00537634, 0.00537634, 1 )
 position = Vector2( -128, 0 )
 input_pickable = true
@@ -101,6 +168,16 @@ _sections_unfolded = [ "Collision", "Transform", "Visibility" ]
 [node name="body" type="CollisionShape2D" parent="obstacle_warning_zone/crash_warning_zone" index="0"]
 
 shape = SubResource( 3 )
+
+[node name="anim" type="AnimationPlayer" parent="." index="7"]
+
+root_node = NodePath("..")
+autoplay = ""
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/crash = SubResource( 4 )
+blend_times = [  ]
 
 [connection signal="body_entered" from="obstacle_warning_zone" to="." method="_on_body_entered_obstacle_zone"]
 
