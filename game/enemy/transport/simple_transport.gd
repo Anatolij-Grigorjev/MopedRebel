@@ -112,10 +112,10 @@ func _align_new_rebel_direction(new_direction):
 		_set_target_direction(new_direction)
 	
 	
-func _post_conflict():
+func _post_crash():
 	var crashed_stub = CarCrashed.instance()
 	crashed_stub.global_position = global_position
-#??? crashed_stub.scale = scale 
+	crashed_stub.scale = Vector2(maintains_direction.x, 1)
 	get_parent().add_child(crashed_stub)
 	
 	queue_free()

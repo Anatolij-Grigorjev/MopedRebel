@@ -87,6 +87,20 @@ tracks/4/keys = {
 "update": 1,
 "values": [ true ]
 }
+tracks/5/type = "method"
+tracks/5/path = NodePath(".")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "_post_crash"
+} ]
+}
 
 [node name="car_blue1" type="KinematicBody2D"]
 
@@ -131,7 +145,6 @@ playback/speed = 1.0
 
 [node name="obstacle_warning_zone" type="Area2D" parent="." index="6"]
 
-editor/display_folded = true
 position = Vector2( 384, 0 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -168,6 +181,7 @@ _sections_unfolded = [ "Collision", "Transform", "Visibility" ]
 [node name="body" type="CollisionShape2D" parent="obstacle_warning_zone/crash_warning_zone" index="0"]
 
 shape = SubResource( 3 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="anim" type="AnimationPlayer" parent="." index="7"]
 

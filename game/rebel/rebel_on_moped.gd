@@ -25,7 +25,6 @@ var remaining_collision_recovery = 0
 
 var moped_engine_tween
 var anim
-var last_saved_collision
 
 func _ready():
 	LOG = Logger.new('REBEL_MOPED')
@@ -105,18 +104,17 @@ func _physics_process(delta):
 			if (collider.is_in_group(C.GROUP_CARS)):
 				_bounce_from_colliding_heavy(collision)
 				if (collider.has_node('conflict_collision_receiver')):
-					last_saved_collision = collision
+					_use_collider_collision_receiver(collision)
 				
 				
 
 func _is_moped_swerving():
 	return current_swerve != 0 and current_speed > 0
 	
-func _use_collider_collision_receiver():
-	var collider = last_saved_collision.collider
+func _use_collider_collision_receiver(collision):
+	var collider = collision.collider
 	var collision_receiver = collider.conflict_collision_receiver
-	collision_receiver.react_collision(last_saved_collision)
-	last_saved_collision = null
+	collision_receiver.react_collision(collision)
 	
 func _finish_unmounting():
 	rotation = 0
@@ -156,12 +154,6 @@ func _perform_sudden_stop(delta):
 func _process_not_collided(delta):
 	if (is_unmounting_moped):
 		pass
-#		if (current_speed > 0):
-#			_perform_sudden_stop(delta)
-#		else:
-#			current_speed = 0
-#			is_unmounting_moped = false
-#			S.emit_signal0(S.SIGNAL_REBEL_UNMOUNT_MOPED)
 	else:
 		if (not control_locked):
 			_handle_unmounting_moped()
