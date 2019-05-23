@@ -114,7 +114,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=5]
 
 resource_name = "moped_swerve_down"
 length = 0.25
@@ -145,7 +145,7 @@ tracks/1/keys = {
 "values": [ Vector2( 0.45, 0.45 ), Vector2( 0.35, 0.45 ) ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=6]
 
 resource_name = "moped_swerve_up"
 length = 0.25
@@ -176,7 +176,7 @@ tracks/1/keys = {
 "values": [ Vector2( 0.45, 0.45 ), Vector2( 0.35, 0.45 ) ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=7]
 
 length = 1.0
 loop = false
@@ -232,7 +232,7 @@ tracks/3/keys = {
 "values": [ true, false ]
 }
 
-[node name="rebel_on_moped" type="KinematicBody2D"]
+[node name="rebel_on_moped" type="KinematicBody2D" index="0"]
 
 input_pickable = false
 collision_layer = 16
@@ -313,9 +313,9 @@ playback_default_blend_time = 0.0
 playback_speed = 1.0
 anims/crash_transport = SubResource( 3 )
 anims/flip_moped = SubResource( 4 )
-anims/moped_swerve_down = SubResource( 7 )
-anims/moped_swerve_up = SubResource( 9 )
-anims/unmount_moped = SubResource( 10 )
+anims/moped_swerve_down = SubResource( 5 )
+anims/moped_swerve_up = SubResource( 6 )
+anims/unmount_moped = SubResource( 7 )
 blend_times = [  ]
 
 

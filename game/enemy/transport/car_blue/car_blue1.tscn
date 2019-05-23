@@ -24,7 +24,7 @@ extents = Vector2( 64, 64 )
 [sub_resource type="Animation" id=4]
 
 resource_name = "crash"
-length = 1.0
+length = 2.5
 loop = false
 step = 0.1
 tracks/0/type = "value"
@@ -46,10 +46,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.5, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.5, 1, 1.5, 2.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( -15, -15 ), Vector2( 0, 0 ) ]
+"values": [ Vector2( 0, 0 ), Vector2( -15, -15 ), Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 0, -750 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("body:disabled")
@@ -94,11 +94,11 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 1 ),
+"times": PoolRealArray( 2.5 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
-"method": "_post_crash"
+"method": "queue_free"
 } ]
 }
 
