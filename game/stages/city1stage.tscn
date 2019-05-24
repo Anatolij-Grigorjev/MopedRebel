@@ -5,7 +5,7 @@
 [ext_resource path="res://rebel/rebel_on_foot.tscn" type="PackedScene" id=3]
 [ext_resource path="res://rebel/rebel_on_moped.tscn" type="PackedScene" id=4]
 
-[node name="city1stage" type="Node2D"]
+[node name="city1stage" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 
@@ -13,17 +13,21 @@ script = ExtResource( 1 )
 "stage_chunk",
 ] instance=ExtResource( 2 )]
 
+chunk_idx = 0
+
 [node name="city1middle_road2" parent="." index="1" groups=[
 "stage_chunk",
 ] instance=ExtResource( 2 )]
 
 position = Vector2( 1664, 0 )
+chunk_idx = 1
 
 [node name="city1middle_road3" parent="." index="2" groups=[
 "stage_chunk",
 ] instance=ExtResource( 2 )]
 
 position = Vector2( 3328, 0 )
+chunk_idx = 2
 
 [node name="sorted_sprites" type="YSort" parent="." index="3"]
 

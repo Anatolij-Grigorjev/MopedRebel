@@ -17,6 +17,7 @@ var moped_detect_area
 
 var standing_position
 var move_destination = null
+var stage_chunk_idx
 
 func _ready():
 	add_to_group(C.GROUP_CITIZENS)
@@ -32,8 +33,9 @@ func _ready():
 	$check_rebel_direction_timer.node_receiver_action = '_align_new_rebel_direction'
 	conflict_collision_receiver.set_pre_conflict_collision_action(
 		self,
-		 "_stop_diss_response"
+		 "_finish_conflict"
 	)
+
 	conflict_collision_receiver.set_conflict_params(
 		145,
 		98,
@@ -53,6 +55,12 @@ func _process(delta):
 				move_destination = null
 			
 	pass
+	
+func _finish_conflict():
+	should_move = false
+	diss_receiver.finish_being_dissed()
+	$anim.play("post_conflict")
+	set_physics_process(false)
 
 func _start_diss_response():
 	$check_rebel_direction_timer.start()

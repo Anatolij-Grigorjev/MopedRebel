@@ -1,6 +1,6 @@
 extends Node2D
 
-var chunk_idx = 0
+export(int) var chunk_idx = 0
 var chunk_edge_left
 var chunk_edge_right
 

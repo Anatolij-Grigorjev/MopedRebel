@@ -66,6 +66,7 @@ func _generate_white_worker():
 	
 	var worker = WhiteWorker.instance()
 	worker.global_position = chosen_white_worker_position.global_position
+	worker.stage_chunk_idx = chunk_idx
 	worker.add_to_group(C.GROUP_CITIZENS)
 	$chunk_props.add_child(worker)
 

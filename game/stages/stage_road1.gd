@@ -17,23 +17,25 @@ func _ready():
 	#save for more targeted adding of new chunks
 	last_added_chunk_node = $city1middle_road3
 	for stage_chunk in get_tree().get_nodes_in_group(C.GROUP_STAGE_CHUNK):
-		
 		_index_new_chunk(stage_chunk)
-
-		#put all stage chunk props/enemies into YSORT thing
-		var active_props = stage_chunk.get_node('chunk_props').get_children()
-		for active_prop in active_props:
-			if (active_prop.get_parent() != null):
-				var prev_parent = active_prop.get_parent()
-				prev_parent.remove_child(active_prop)
-			$sorted_sprites.add_child(active_prop)
-			active_prop.set_owner($sorted_sprites)
+		_transfer_stage_chunk_props(stage_chunk)
+		
 	
 	S.connect_signal_to(S.SIGNAL_REBEL_CHANGED_POSITION, self, "_rebel_new_position_state_received")
 	
 	rebel_on_moped_node.disable()
 	init_rebel_on_moped()
 	_try_generate_car_infront(0, C.FACING.RIGHT)
+	
+func _transfer_stage_chunk_props(stage_chunk):
+	#put all stage chunk props/enemies into YSORT thing
+	var active_props = stage_chunk.get_node('chunk_props').get_children()
+	for active_prop in active_props:
+		if (active_prop.get_parent() != null):
+			var prev_parent = active_prop.get_parent()
+			prev_parent.remove_child(active_prop)
+		$sorted_sprites.add_child(active_prop)
+		active_prop.set_owner($sorted_sprites)
 	
 func init_rebel_on_foot():
 	_switch_rebel_node(rebel_on_moped_node, rebel_on_foot_node)
@@ -58,11 +60,23 @@ func _get_append_chunk_scene():
 func _body_entered_chunk(body, chunk_idx, facing):
 	._body_entered_chunk(body, chunk_idx, facing)
 	if (F.is_body_active_rebel(body)):
-		var spawn_car_chance = randf()
-		if (0.33 <= spawn_car_chance and spawn_car_chance <= 0.66):
-			_try_generate_car_behind(chunk_idx, facing)
-		elif (spawn_car_chance > 0.66):
-			_try_generate_car_infront(chunk_idx, facing)
+		_rng_spawn_car_relative_chunk_facing(chunk_idx, facing)
+		
+		var maybe_citizen = find_citizen_in_chunk(chunk_idx)
+		if (maybe_citizen == null):
+			LOG.info("no citizen found in chunk %s, hiring one!", [chunk_idx])
+			var empty_chunk = curr_added_chunks[chunk_idx]
+			empty_chunk._generate_white_worker()
+			_transfer_stage_chunk_props(empty_chunk)
+
+func _rng_spawn_car_relative_chunk_facing(chunk_idx, facing):
+	var spawn_car_chance = randf()
+	LOG.info("got spawn car RNG: %s, chunk_idx: %s, facing: %s", 
+		[spawn_car_chance, chunk_idx, facing])
+	if (0.33 <= spawn_car_chance and spawn_car_chance <= 0.66):
+		_try_generate_car_behind(chunk_idx, facing)
+	elif (spawn_car_chance > 0.66):
+		_try_generate_car_infront(chunk_idx, facing)
 			
 func _try_generate_car_behind(current_chunk_idx, rebel_facing):
 	if (_is_edge_chunk_for_facing(current_chunk_idx, rebel_facing)):
@@ -97,4 +111,9 @@ func _is_edge_chunk_for_facing(chunk_idx, facing):
 	(chunk_idx == 0 and facing == C.FACING.LEFT)
 		or (chunk_idx == curr_added_chunks.size() - 1 and facing == C.FACING.RIGHT)
 	)
-	
+
+func find_citizen_in_chunk(chunk_idx):
+	for citizen in get_tree().get_nodes_in_group(C.GROUP_CITIZENS):
+		if citizen.stage_chunk_idx == chunk_idx:
+			return citizen
+	return null

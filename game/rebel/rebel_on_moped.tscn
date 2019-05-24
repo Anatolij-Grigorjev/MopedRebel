@@ -232,7 +232,7 @@ tracks/3/keys = {
 "values": [ true, false ]
 }
 
-[node name="rebel_on_moped" type="KinematicBody2D" index="0"]
+[node name="rebel_on_moped" type="KinematicBody2D"]
 
 input_pickable = false
 collision_layer = 16
