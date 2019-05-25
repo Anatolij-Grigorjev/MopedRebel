@@ -129,10 +129,24 @@ shape = SubResource( 1 )
 [node name="diss_receiver" parent="." index="2" instance=ExtResource( 3 )]
 
 position = Vector2( 56.9395, -34.2691 )
+diss_success_action_name = "chase_while_dissed"
+diss_calmdown_action_name = "_pre_collide"
+diss_began_action_name = "enter_diss_zone"
+diss_stopped_action_name = "exit_diss_zone"
+diss_reduction_predicate_name = "is_rebel_too_far"
 
 [node name="check_rebel_direction_timer" parent="." index="3" instance=ExtResource( 4 )]
 
+node_origin_path = NodePath("..")
+node_receiver_action = "_align_new_rebel_direction"
+
 [node name="conflict_collision_receiver" parent="." index="4" instance=ExtResource( 5 )]
+
+pre_collide_action_node_path = NodePath("..")
+pre_collide_action_name = "_pre_collide"
+bribe_money = 150.0
+min_diss_sc = 50.0
+enemy_toughness = "WHIMP"
 
 [node name="velocity_tween" type="Tween" parent="." index="5"]
 

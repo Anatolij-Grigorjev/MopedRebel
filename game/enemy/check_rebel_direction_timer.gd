@@ -1,11 +1,14 @@
 extends Timer
 
+export(NodePath) var node_origin_path
+export(String) var node_receiver_action
+
 var node_origin
-var node_receiver_action
 
 func _ready():
 	one_shot = false
 	autostart = false
+	node_origin = get_node(node_origin_path)
 	connect('timeout', self, '_provide_new_rebel_direction')
 	pass
 

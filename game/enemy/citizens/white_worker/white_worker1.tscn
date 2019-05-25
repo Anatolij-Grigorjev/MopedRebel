@@ -107,12 +107,26 @@ shape = SubResource( 1 )
 
 [node name="diss_receiver" parent="." index="2" instance=ExtResource( 3 )]
 
+diss_success_action_name = "_start_diss_response"
+diss_calmdown_action_name = "_stop_diss_response"
+diss_reduction_predicate_name = "is_rebel_too_far"
+
 [node name="check_rebel_direction_timer" parent="." index="3" instance=ExtResource( 4 )]
+
+node_origin_path = NodePath("..")
+node_receiver_action = "_align_new_rebel_direction"
 
 [node name="conflict_collision_receiver" parent="." index="4" instance=ExtResource( 5 )]
 
+pre_collide_action_node_path = NodePath("..")
+pre_collide_action_name = "_finish_conflict"
+bribe_money = 145.0
+min_diss_sc = 98.0
+enemy_toughness = "22-34BB"
+
 [node name="moped_detect_area" type="Area2D" parent="." index="5"]
 
+editor/display_folded = true
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0

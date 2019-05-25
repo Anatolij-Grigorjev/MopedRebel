@@ -31,5 +31,17 @@ func _physics_process(delta):
 			
 		_process_dissing_zone()
 	
-	move_and_collide(velocity * delta)
+	var collision = move_and_collide(velocity * delta)
+	if (collision):
+		LOG.info("new collision: %s", [collision])
+		var collider = collision.collider
+		#bump around by heavy collision (car)
+		if (collider.is_in_group(C.GROUP_CITIZENS)):
+			if (collider.has_node('conflict_collision_receiver')):
+				_use_collider_collision_receiver(collision)
+
+func _use_collider_collision_receiver(collision):
+	var collider = collision.collider
+	var collision_receiver = collider.conflict_collision_receiver
+	collision_receiver.react_collision(collision)
 

@@ -10,20 +10,24 @@ enum DISS_STATES {
 }
 var diss_states_array = DISS_STATES.keys()
 
-var receiver_enabled = true
+export(bool) var receiver_enabled = true
+export(float) var initial_diss_tolerance_time
+export(float) var initial_diss_calmdown_time
+export(String) var diss_success_action_name
+export(String) var diss_calmdown_action_name
+export(String) var diss_began_action_name
+export(String) var diss_stopped_action_name
+export(String) var diss_reduction_predicate_name
+
+#NODE VARS
 var diss_tolerance_timer
-var initial_diss_tolerance_time
 var diss_calmdown_timer
-var initial_diss_calmdown_time
+var diss_indicator_sprite
 var node_owner
-var diss_success_action_name
-var diss_calmdown_action_name
-var diss_began_action_name
-var diss_stopped_action_name
-var diss_reduction_predicate_name
+
+#INTERNAL VARS
 var is_dissed = false
 var diss_buildup_coef = 0.0
-var diss_indicator_sprite
 
 func _ready():
 	node_owner = owner
@@ -31,8 +35,15 @@ func _ready():
 	diss_calmdown_timer = $diss_calmdown_timer
 	diss_indicator_sprite = $diss_indicator
 	_set_diss_buildup_coef(0.0)
-	initial_diss_tolerance_time = diss_tolerance_timer.wait_time
-	initial_diss_calmdown_time = diss_calmdown_timer.wait_time
+	if (initial_diss_tolerance_time):
+		diss_tolerance_timer.wait_time = initial_diss_tolerance_time
+	else:
+		initial_diss_tolerance_time = diss_tolerance_timer.wait_time
+	if (initial_diss_calmdown_time):
+		diss_calmdown_timer.wait_time = initial_diss_calmdown_time
+	else:
+		initial_diss_calmdown_time = diss_calmdown_timer.wait_time
+	
 	diss_tolerance_timer.connect('timeout', self, '_execute_dissed_current_action')
 	diss_calmdown_timer.connect('timeout', self, '_execute_calm_current_action')
 	$debug_coef_timer.connect('timeout', self, 'print_debug_info')

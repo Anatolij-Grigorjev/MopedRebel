@@ -2,16 +2,19 @@ extends Node2D
 
 var LOG = preload("res://globals/logger.gd").new(self)
 
+export(NodePath) var pre_collide_action_node_path
+export(String) var pre_collide_action_name
+export(float) var bribe_money
+export(float) var min_diss_sc
+export(String) var enemy_toughness
+
+
+#INTERNAL VARS
 var collided = false
-
-var bribe_money
-var min_diss_sc
-var enemy_toughness
-
 var pre_collide_action_node
-var pre_collide_action_name
 
 func _ready():
+	pre_collide_action_node = get_node(pre_collide_action_node_path)
 	pass
 	
 func set_pre_conflict_collision_action(action_owner_node, action_name):

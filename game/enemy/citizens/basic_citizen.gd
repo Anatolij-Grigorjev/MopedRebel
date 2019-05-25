@@ -26,35 +26,17 @@ func _ready():
 	diss_receiver = $diss_receiver
 	conflict_collision_receiver = $conflict_collision_receiver
 	standing_position = global_position
-	diss_receiver.diss_success_action_name = '_start_diss_response'
-	diss_receiver.diss_reduction_predicate_name = 'is_rebel_too_far'
-	diss_receiver.diss_calmdown_action_name = '_stop_diss_response'
-	$check_rebel_direction_timer.node_origin = self
-	$check_rebel_direction_timer.node_receiver_action = '_align_new_rebel_direction'
-	conflict_collision_receiver.set_pre_conflict_collision_action(
-		self,
-		 "_finish_conflict"
-	)
-
-	conflict_collision_receiver.set_conflict_params(
-		145,
-		98,
-		"22-34BB"
-	)
 	pass
 
 func _process(delta):
 	if (should_move):
-		var collision = move_and_collide(velocity * delta)
-		if (collision):
-			conflict_collision_receiver.react_collision(collision)
+		move_and_collide(velocity * delta)
 		if (move_destination != null):
 			var destination_distance = global_position.distance_to(move_destination)
 			if (destination_distance < destination_proximity_variance):
 				should_move = false
 				move_destination = null
-			
-	pass
+
 	
 func _finish_conflict():
 	should_move = false

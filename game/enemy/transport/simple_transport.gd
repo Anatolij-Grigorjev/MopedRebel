@@ -25,25 +25,9 @@ func _ready():
 	start_position = global_position
 	sprite = $sprite
 	diss_receiver = $diss_receiver
-	diss_receiver.diss_began_action_name = 'enter_diss_zone'
-	diss_receiver.diss_stopped_action_name = 'exit_diss_zone'
-	diss_receiver.diss_success_action_name = 'chase_while_dissed'
-	diss_receiver.diss_calmdown_action_name = '_pre_collide'
-	diss_receiver.diss_reduction_predicate_name = 'is_rebel_too_far'
-	$check_rebel_direction_timer.node_origin = self
-	$check_rebel_direction_timer.node_receiver_action = '_align_new_rebel_direction'
-	conflict_collision_receiver = $conflict_collision_receiver
-	conflict_collision_receiver.set_conflict_params(
-		150,
-		50,
-		'WHIMP'
-	)
-	conflict_collision_receiver.set_pre_conflict_collision_action(
-		self, 
-		"_pre_collide"
-	)
-	velocity_tween = $velocity_tween
 	add_to_group(C.GROUP_CARS)
+	conflict_collision_receiver = $conflict_collision_receiver
+	velocity_tween = $velocity_tween
 	reset_transport()
 	
 func _pre_collide():
