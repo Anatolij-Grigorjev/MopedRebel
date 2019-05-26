@@ -69,33 +69,47 @@ func _assert_valid_phrase_type(phrase_type_key):
 		F.log_error("Unrecognized phrase type %s", [phrase_type_key])
 	
 func get_random_enemy_diss(enemy_node_name = null):
-	if (enemy_node_name == null):
-		return _get_random_common_phrase(PHRASE_TYPES.DISSES)
-	else:
+	if (enemy_node_name):
 		return _get_random_specific_phrase(PHRASE_TYPES.DISSES, enemy_node_name)
+	else:
+		return _get_random_common_phrase(PHRASE_TYPES.DISSES)
 	
 func get_random_enemy_bribe(enemy_node_name = null):
-	if (enemy_node_name == null):
-		return _get_random_common_phrase(PHRASE_TYPES.BRIBES)
-	else:
+	if (enemy_node_name):
 		return _get_random_specific_phrase(PHRASE_TYPES.BRIBES, enemy_node_name)
+	else:
+		return _get_random_common_phrase(PHRASE_TYPES.BRIBES)
 
 func _get_random_specific_phrase(phrase_type_key, specifier_string):
 	_assert_valid_phrase_type(phrase_type_key)
 	
 	var all_phrases_of_type = _all_phrases_list[phrase_type_key]
 	var specific_phrases = all_phrases_of_type[KEY_SPECIFIC_PHRASES]
-	var all_suitable_phrases = []
+	var common_phrases = all_phrases_of_type[KEY_COMMON_PHRASES]
 	#common phrases are good for all enemies
-	F.add_base_array_all_elems(
-		all_suitable_phrases, 
-		all_phrases_of_type[KEY_COMMON_PHRASES]
-	)
+	var all_suitable_phrases_num = common_phrases.size()
 	#iterating keys
+	var specific_phrases_num = 0
+	var specific_phrases_lists = []
 	for name_part in specific_phrases:
 		if (specifier_string.findn(name_part) > -1):
-			F.add_base_array_all_elems(
-				all_suitable_phrases, 
-				specific_phrases[name_part]
-			)
-	return F.get_rand_array_elem(all_suitable_phrases)
+			var suitable_specific_phrases = specific_phrases[name_part]
+			specific_phrases_lists.append(suitable_specific_phrases)
+			specific_phrases_num += suitable_specific_phrases.size()
+			all_suitable_phrases_num += suitable_specific_phrases.size()
+	
+	var selected_phrase_idx = randi() % all_suitable_phrases_num
+	var local_selected_idx = selected_phrase_idx
+	var current_specifics_list_idx = 0
+	while (
+		local_selected_idx >= 0
+		and current_specifics_list_idx < specific_phrases_lists.size()
+	):
+		local_selected_idx -= specific_phrases_lists[current_specifics_list_idx].size()
+		current_specifics_list_idx += 1
+	
+	if (local_selected_idx < 0):
+		var phrases_list = specific_phrases_lists[current_specifics_list_idx]
+		return phrases_list[local_selected_idx]
+	else:
+		return common_phrases[local_selected_idx]

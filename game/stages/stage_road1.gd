@@ -63,8 +63,8 @@ func _body_entered_chunk(body, chunk_idx, facing):
 		_rng_spawn_car_relative_chunk_facing(chunk_idx, facing)
 		
 		var maybe_citizen = find_citizen_in_chunk(chunk_idx)
-		if (maybe_citizen == null):
-			LOG.info("no citizen found in chunk %s, hiring one!", [chunk_idx])
+		if (not maybe_citizen):
+			LOG.info("no citizen found in chunk %s, getting one!", [chunk_idx])
 			var empty_chunk = curr_added_chunks[chunk_idx]
 			empty_chunk._generate_white_worker()
 			_transfer_stage_chunk_props(empty_chunk)
