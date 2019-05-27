@@ -96,7 +96,7 @@ func _turn_around_offscreen_rebel(rebel_facing):
 	#give back control once onscreen
 	F.invoke_later(self, '_restore_rebel_control', time_back)
 	#make manager shout
-	var manager_line = PE._get_random_common_phrase(PE.PHRASE_TYPES.MANAGER)
+	var manager_line = PE.get_specific_manager_phrase(C.MANAGER_PHRASE_EXIT_STAGE_START)
 	_show_shout_dialog(manager_line, time_back)
 	
 func _show_shout_dialog(shout_line, for_seconds):

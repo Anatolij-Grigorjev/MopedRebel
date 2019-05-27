@@ -18,22 +18,19 @@ var _all_phrases_list = []
 
 func _ready():
 	
-	var bribes = _parse_common_specific_phrases_model_json(
+	var bribes_phrases = _parse_common_specific_phrases_model_json(
 		C.BRIBE_JSON_LOCATION
 	)
-	var disses = _parse_common_specific_phrases_model_json(
+	var disses_phrases = _parse_common_specific_phrases_model_json(
 		C.DISS_JSON_LOCATION
 	)
-	var manager_phrases = _parse_monolithic_phrases_model_json(
+	var manager_phrases = _parse_dict_phrases_model_json(
 		C.MANAGER_JSON_LOCATION
 	)
 	
-	_all_phrases_list.append({
-		KEY_COMMON_PHRASES: manager_phrases,
-		KEY_SPECIFIC_PHRASES: {}
-	})
-	_all_phrases_list.append(bribes)
-	_all_phrases_list.append(disses)
+	_all_phrases_list.append(manager_phrases)
+	_all_phrases_list.append(bribes_phrases)
+	_all_phrases_list.append(disses_phrases)
 	
 	print("Loaded random phrase engine node PE!")
 	
@@ -49,13 +46,13 @@ func _parse_common_specific_phrases_model_json(json_location):
 	
 	return all_phrases_model
 	
-func _parse_monolithic_phrases_model_json(json_location):
-	var all_phrases_list = F.parse_json_file_as_var(
+func _parse_dict_phrases_model_json(json_location):
+	var all_phrases_dict = F.parse_json_file_as_var(
 		json_location
 	)
-	F.assert_arr_not_empty(all_phrases_list)
+	F.assert_not_null(all_phrases_dict)
 	
-	return all_phrases_list
+	return all_phrases_dict
 
 	
 func _get_random_common_phrase(phrase_type_key):
@@ -79,6 +76,13 @@ func get_random_enemy_bribe(enemy_node_name = null):
 		return _get_random_specific_phrase(PHRASE_TYPES.BRIBES, enemy_node_name)
 	else:
 		return _get_random_common_phrase(PHRASE_TYPES.BRIBES)
+		
+func get_specific_manager_phrase(phrase_key):
+	var manager_phrases = _all_phrases_list[PHRASE_TYPES.MANAGER]
+	if (manager_phrases.has(phrase_key)):
+		return manager_phrases[phrase_key]
+	else:
+		LOG.error("No manager phrase found for phrase key %s", [phrase_key])
 
 func _get_random_specific_phrase(phrase_type_key, specifier_string):
 	_assert_valid_phrase_type(phrase_type_key)

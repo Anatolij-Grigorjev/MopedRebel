@@ -39,6 +39,7 @@ const GUI_REQ_NOT_MET_OPTION_COLOR = Color(1, 0, 0)
 const MANAGER_JSON_LOCATION = "res://common/manager/manager_phrases.json"
 const DISS_JSON_LOCATION = "res://conflict/dissing/disses.json"
 const BRIBE_JSON_LOCATION = "res://conflict/bribing/bribes.json"
+const MANAGER_PHRASE_EXIT_STAGE_START = "leave_stage_start"
 
 ## LAYERS
 const LAYERS_SIDEWALK = 0
