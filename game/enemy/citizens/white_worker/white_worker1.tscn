@@ -9,7 +9,7 @@
 [sub_resource type="CapsuleShape2D" id=1]
 
 custom_solver_bias = 0.0
-radius = 45.7688
+radius = 46.0
 height = 20.0
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -85,6 +85,18 @@ tracks/4/keys = {
 "method": "queue_free"
 } ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("conflict_collision_receiver:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [node name="white_worker1" type="KinematicBody2D"]
 
@@ -118,6 +130,8 @@ node_receiver_action = "_align_new_rebel_direction"
 
 [node name="conflict_collision_receiver" parent="." index="4" instance=ExtResource( 5 )]
 
+position = Vector2( 0, -70 )
+_sections_unfolded = [ "Transform", "Visibility" ]
 pre_collide_action_node_path = NodePath("..")
 pre_collide_action_name = "_finish_conflict"
 bribe_money = 145.0
@@ -126,7 +140,6 @@ enemy_toughness = "22-34BB"
 
 [node name="moped_detect_area" type="Area2D" parent="." index="5"]
 
-editor/display_folded = true
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0

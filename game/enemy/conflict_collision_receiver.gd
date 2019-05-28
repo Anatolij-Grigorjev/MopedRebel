@@ -15,6 +15,7 @@ var pre_collide_action_node
 
 func _ready():
 	pre_collide_action_node = get_node(pre_collide_action_node_path)
+	_update_param_texts()
 	pass
 	
 func set_pre_conflict_collision_action(action_owner_node, action_name):
@@ -25,6 +26,12 @@ func set_conflict_params(bribe_money, min_diss_sc, enemy_toughness):
 	self.bribe_money = bribe_money 
 	self.min_diss_sc = min_diss_sc
 	self.enemy_toughness = enemy_toughness
+	_update_param_texts()
+
+func _update_param_texts():
+	$texts/bribe_value.text = "$%s" % self.bribe_money
+	$texts/diss_value.text = "%s SC" % self.min_diss_sc
+	$texts/fight_value.text = "%s" % self.enemy_toughness
 
 func react_collision(collision):
 	if (not collided and _collided_with_me_or_rebel(collision)):

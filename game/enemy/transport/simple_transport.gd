@@ -68,6 +68,10 @@ func _start_velocity_tween(to_velocity, tween_time):
 func _set_target_direction(direction):
 	target_direction = direction
 	scale.x = abs(scale.x) * sign(direction.x)
+	#flip collision receiver scale relative to parent for
+	#text readability
+	if (sign(scale.x) < 0):
+		$conflict_collision_receiver.scale.x *= -1
 	
 func enter_diss_zone():
 	if (not conflict_collision_receiver.collided):

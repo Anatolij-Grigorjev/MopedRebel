@@ -101,6 +101,18 @@ tracks/5/keys = {
 "method": "queue_free"
 } ]
 }
+tracks/6/type = "value"
+tracks/6/path = NodePath("conflict_collision_receiver:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [node name="car_blue1" type="KinematicBody2D"]
 
@@ -142,6 +154,8 @@ node_receiver_action = "_align_new_rebel_direction"
 
 [node name="conflict_collision_receiver" parent="." index="4" instance=ExtResource( 5 )]
 
+position = Vector2( 0, -75 )
+_sections_unfolded = [ "Transform", "Visibility" ]
 pre_collide_action_node_path = NodePath("..")
 pre_collide_action_name = "_pre_collide"
 bribe_money = 150.0

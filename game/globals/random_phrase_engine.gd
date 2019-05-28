@@ -107,7 +107,7 @@ func _get_random_specific_phrase(phrase_type_key, specifier_string):
 	var current_specifics_list_idx = 0
 	while (
 		local_selected_idx >= 0
-		and current_specifics_list_idx < specific_phrases_lists.size()
+		and current_specifics_list_idx < (specific_phrases_lists.size() - 1)
 	):
 		local_selected_idx -= specific_phrases_lists[current_specifics_list_idx].size()
 		current_specifics_list_idx += 1
