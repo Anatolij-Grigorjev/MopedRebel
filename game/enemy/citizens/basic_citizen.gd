@@ -3,6 +3,7 @@ extends KinematicBody2D
 var LOG = preload("res://globals/logger.gd").new(self)
 
 export(float) var max_visible_diss_distance = 450
+export(float) var base_rebel_diss_gain = 0
 
 var sprite
 var should_move = false
@@ -90,3 +91,10 @@ func _body_is_moped_on_sidewalk(body):
 func _run_from_rebel(rebel_node):
 	_prepare_aggressive_response()
 	velocity = -1 * F.get_speed_to_active_rebel_direction(self, run_speed)
+	
+func get_current_rebel_diss_gain():
+	var coef = conflict_collision_receiver.min_diss_sc / G.rebel_total_street_cred
+	if (coef >= 0.5):
+		return base_rebel_diss_gain * coef
+	else:
+		return 0

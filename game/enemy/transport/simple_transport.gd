@@ -7,6 +7,7 @@ var CarCrashed = preload("res://enemy/transport/car_blue/car_blue1_crashed.tscn"
 export(float) var maintains_speed = 100
 export(float) var max_visible_diss_distance = 600
 export(Vector2) var maintains_direction = Vector2(1, 0)
+export(float) var base_rebel_diss_gain = 0
  
 var start_position = Vector2(0, 0)
 var velocity = Vector2()
@@ -127,3 +128,10 @@ func _on_body_exited_crash_zone(body):
 		new_speed *= 2
 	#speed back up
 	_start_velocity_tween(new_speed, 1.5)
+	
+func get_current_rebel_diss_gain():
+	var coef = conflict_collision_receiver.min_diss_sc / G.rebel_total_street_cred
+	if (coef >= 0.5):
+		return base_rebel_diss_gain * coef
+	else:
+		return 0

@@ -107,6 +107,7 @@ collision/safe_margin = 0.08
 script = ExtResource( 1 )
 _sections_unfolded = [ "Collision", "Z Index", "collision" ]
 max_visible_diss_distance = 450
+base_rebel_diss_gain = 0
 
 [node name="sprite" type="Sprite" parent="." index="0"]
 

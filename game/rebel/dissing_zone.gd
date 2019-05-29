@@ -1,5 +1,7 @@
 extends Area2D
 
+var TallyText = preload("res://common/tally_text.tscn")
+
 var present_nodes = []
 var tally_timer
 var exclude_collision_node
@@ -56,10 +58,13 @@ func _run_body_post_remove(body):
 func _count_dissing_tally():
 	var total_gained_sc = 0
 	for enemy_node in present_nodes:
-		for group in enemy_node.get_groups():
-			total_gained_sc += C.SC_GAIN_FOR_GROUP[group] if C.SC_GAIN_FOR_GROUP.has(group) else 0
+		if enemy_node.has_method('get_current_rebel_diss_gain'):
+			total_gained_sc += enemy_node.get_current_rebel_diss_gain()
 	
 	if (total_gained_sc > 0):
+		var new_tally = TallyText.instance()
+		new_tally.rect_global_position = global_position
+		new_tally.text = "+%s SC" % total_gained_sc
 		S.emit_signal1(
 			S.SIGNAL_REBEL_GAIN_SC,
 			total_gained_sc

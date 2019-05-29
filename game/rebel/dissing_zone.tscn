@@ -31,7 +31,7 @@ _sections_unfolded = [ "Transform" ]
 [node name="dissing_tally_timer" type="Timer" parent="." index="1"]
 
 process_mode = 1
-wait_time = 0.9
+wait_time = 0.5
 one_shot = false
 autostart = false
 

@@ -125,6 +125,7 @@ _sections_unfolded = [ "Collision", "Transform", "collision" ]
 maintains_speed = 100
 max_visible_diss_distance = 600
 maintains_direction = Vector2( 1, 0 )
+base_rebel_diss_gain = 0
 
 [node name="sprite" type="Sprite" parent="." index="0"]
 
