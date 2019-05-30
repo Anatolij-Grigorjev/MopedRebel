@@ -1,5 +1,7 @@
 extends Area2D
 
+var LOG = preload("res://globals/logger.gd").new(self)
+
 var TallyText = preload("res://common/tally_text.tscn")
 
 var present_nodes = []
@@ -63,8 +65,10 @@ func _count_dissing_tally():
 	
 	if (total_gained_sc > 0):
 		var new_tally = TallyText.instance()
-		new_tally.rect_global_position = global_position
-		new_tally.text = "+%s SC" % total_gained_sc
+		var diss_zone_extents = $shape.shape.extents
+		new_tally.rect_global_position = global_position + Vector2(15, -diss_zone_extents.y)
+		new_tally.text = "+%d SC" % total_gained_sc
+		G.node_current_stage_root.add_child(new_tally)
 		S.emit_signal1(
 			S.SIGNAL_REBEL_GAIN_SC,
 			total_gained_sc

@@ -65,3 +65,17 @@ func _set_dissing_zone_position():
 	if (active_position_node != null):
 		active_dissing_zone.global_position = active_position_node.global_position
 		active_dissing_zone.rotation_degrees = diss_positions_control.active_diss_zone_angle
+		
+func lock_control():
+	control_locked = true
+	
+func unlock_control():
+	control_locked = false
+	
+func play_nointerrupt_anim(anim_name):
+	var animation = $anim.get_animation(anim_name)
+	F.assert_not_null(animation)
+	lock_control()
+	F.invoke_later(self, 'unlock_control', animation.length)
+	$anim.play(anim_name)
+	

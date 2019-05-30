@@ -94,7 +94,7 @@ func _physics_process(delta):
 			if (is_unmounting_moped and collider.is_in_group(C.GROUP_CURB)):
 				var animation_name = 'unmount_moped'
 				var animation_length = anim.get_animation(animation_name).length
-				anim.play(animation_name)
+				play_nointerrupt_anim(animation_name)
 				#remove swerve in half anim length
 				_start_new_swerve_tween(0, animation_length)
 				pass
@@ -127,7 +127,7 @@ func _bounce_from_colliding_heavy(collision):
 	remaining_collision_recovery = _get_moped_recovery_for_bounce(velocity)
 	current_speed = velocity.x
 	current_swerve = velocity.y
-	anim.play("crash_transport")
+	play_nointerrupt_anim("crash_transport")
 
 
 func _get_moped_recovery_for_bounce(bounce_velocity):
@@ -212,8 +212,7 @@ func _handle_facing_direction():
 		and _not_playing_anim(relevant_anim)
 	):
 		reset_velocity()
-		LOG.info("playing %s", [relevant_anim])
-		anim.play(relevant_anim)
+		play_nointerrupt_anim(relevant_anim)
 		
 func _not_playing_anim(animation_name):
 	return (not anim.is_playing() 

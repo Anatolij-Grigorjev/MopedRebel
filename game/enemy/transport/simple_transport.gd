@@ -2,8 +2,6 @@ extends KinematicBody2D
 
 var LOG = preload("res://globals/logger.gd").new(self)
 
-var CarCrashed = preload("res://enemy/transport/car_blue/car_blue1_crashed.tscn")
-
 export(float) var maintains_speed = 100
 export(float) var max_visible_diss_distance = 600
 export(Vector2) var maintains_direction = Vector2(1, 0)
@@ -62,7 +60,7 @@ func _start_velocity_tween(to_velocity, tween_time):
 	velocity_tween.interpolate_property(self, 'velocity:x', 
 		velocity.x, to_velocity, 
 		tween_time, 
-		Tween.TRANS_EXPO, Tween.EASE_IN_OUT
+		Tween.TRANS_EXPO, Tween.EASE_OUT
 	)
 	velocity_tween.start()
 	
