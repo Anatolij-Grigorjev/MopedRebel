@@ -114,6 +114,7 @@ func _get_random_specific_phrase(phrase_type_key, specifier_string):
 	
 	if (local_selected_idx < 0):
 		var phrases_list = specific_phrases_lists[current_specifics_list_idx]
+		#selection with negative idx will provide value from list end
 		return phrases_list[local_selected_idx]
 	else:
 		return common_phrases[local_selected_idx]

@@ -51,6 +51,7 @@ const LAYERS_TRANSPORT_ROAD = 5
 
 ## ENEMY GROUPS
 const GROUP_CARS = "road_cars"
+const GROUP_OBSTACLES = "road_obstacles"
 const GROUP_CITIZENS = "sidewalk_citizens"
 
 const SC_GAIN_FOR_GROUP = {

@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://stages/stage_road1.gd" type="Script" id=1]
 [ext_resource path="res://stages/city1middle_road1.tscn" type="PackedScene" id=2]
 [ext_resource path="res://rebel/rebel_on_foot.tscn" type="PackedScene" id=3]
 [ext_resource path="res://rebel/rebel_on_moped.tscn" type="PackedScene" id=4]
+[ext_resource path="res://stages/props/obstacle.tscn" type="PackedScene" id=5]
 
 [node name="city1stage" type="Node2D" index="0"]
 
@@ -29,7 +30,6 @@ chunk_idx = 2
 
 [node name="sorted_sprites" type="YSort" parent="." index="3"]
 
-editor/display_folded = true
 sort_enabled = true
 
 [node name="rebel_on_foot" parent="sorted_sprites" index="0" instance=ExtResource( 3 )]
@@ -39,5 +39,9 @@ position = Vector2( 227.433, 154.654 )
 [node name="rebel_on_moped" parent="sorted_sprites" index="1" instance=ExtResource( 4 )]
 
 position = Vector2( 234.256, 507.176 )
+
+[node name="road_obstacle" parent="sorted_sprites" index="2" instance=ExtResource( 5 )]
+
+position = Vector2( 888.169, 397.389 )
 
 

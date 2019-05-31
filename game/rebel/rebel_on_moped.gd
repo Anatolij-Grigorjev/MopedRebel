@@ -95,18 +95,18 @@ func _physics_process(delta):
 				var animation_name = 'unmount_moped'
 				var animation_length = anim.get_animation(animation_name).length
 				play_nointerrupt_anim(animation_name)
-				#remove swerve in half anim length
+				#perform swerve for animation duration
 				_start_new_swerve_tween(0, animation_length)
 				pass
 			pass
 		else:	
 			#bump around by heavy collision (car)
-			if (collider.is_in_group(C.GROUP_CARS)):
+			if (_collider_is_heavy(collider)):
 				_bounce_from_colliding_heavy(collision)
-				if (collider.has_node('conflict_collision_receiver')):
-					_use_collider_collision_receiver(collision)
-				
-				
+
+			if (collider.has_node('conflict_collision_receiver')):
+				_use_collider_collision_receiver(collision)
+
 
 func _is_moped_swerving():
 	return current_swerve != 0 and current_speed > 0
@@ -121,9 +121,14 @@ func _finish_unmounting():
 	is_unmounting_moped = false
 	reset_velocity()
 	S.emit_signal0(S.SIGNAL_REBEL_UNMOUNT_MOPED)
+	
+func _collider_is_heavy(collider):
+	return (collider.is_in_group(C.GROUP_CARS)
+		or collider.is_in_group(C.GROUP_OBSTACLES))
+	
 
 func _bounce_from_colliding_heavy(collision):
-	velocity = velocity.bounce(collision.normal)
+	velocity = velocity.bounce(collision.normal) * 2
 	remaining_collision_recovery = _get_moped_recovery_for_bounce(velocity)
 	current_speed = velocity.x
 	current_swerve = velocity.y
@@ -281,7 +286,7 @@ func _start_new_swerve_tween(final_swerve_speed, swerve_duration):
 			final_swerve_speed,
 			swerve_duration,
 			Tween.TRANS_EXPO,
-			Tween.EASE_OUT_IN
+			Tween.EASE_OUT
 		)
 		moped_engine_tween.start()
 
