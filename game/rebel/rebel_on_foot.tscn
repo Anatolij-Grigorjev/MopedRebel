@@ -4,7 +4,7 @@
 [ext_resource path="res://rebel/rebel_on_foot.png" type="Texture" id=2]
 [ext_resource path="res://rebel/diss_positions.tscn" type="PackedScene" id=3]
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
 extents = Vector2( 34, 6 )
@@ -53,7 +53,7 @@ _sections_unfolded = [ "Editor", "Limit" ]
 [node name="low_collider" type="CollisionShape2D" parent="." index="3"]
 
 position = Vector2( 0, 58 )
-shape = SubResource( 2 )
+shape = SubResource( 1 )
 _sections_unfolded = [ "Collision", "Transform" ]
 
 

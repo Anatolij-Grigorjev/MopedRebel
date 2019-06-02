@@ -7,7 +7,7 @@
 custom_solver_bias = 0.0
 extents = Vector2( 15, 58 )
 
-[node name="sidewalk_obstacle" type="StaticBody2D" index="0" groups=[
+[node name="sidewalk_obstacle" type="StaticBody2D" groups=[
 "road_obstacles",
 ]]
 
@@ -22,12 +22,14 @@ _sections_unfolded = [ "Collision" ]
 
 [node name="Sprite" type="Sprite" parent="." index="0"]
 
+position = Vector2( 0, -50 )
 scale = Vector2( 0.33, 0.33 )
 texture = ExtResource( 1 )
 _sections_unfolded = [ "Transform", "Z Index" ]
 
 [node name="body" type="CollisionShape2D" parent="." index="1"]
 
+position = Vector2( 0, -50 )
 shape = SubResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
