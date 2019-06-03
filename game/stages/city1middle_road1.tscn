@@ -14,7 +14,7 @@ extents = Vector2( 50, 448 )
 custom_solver_bias = 0.0
 extents = Vector2( 50, 448 )
 
-[node name="city1middle_road1" type="Node2D"]
+[node name="city1middle_road1" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
@@ -22,7 +22,6 @@ chunk_idx = 0
 
 [node name="tileset" type="TileMap" parent="." index="0"]
 
-editor/display_folded = true
 mode = 0
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 64, 64 )
@@ -68,7 +67,7 @@ occluder_light_mask = 1
 format = 1
 tile_data = PoolIntArray(  )
 script = ExtResource( 3 )
-_sections_unfolded = [ "Collision" ]
+_sections_unfolded = [ "Cell", "Collision", "Transform" ]
 COPIED_TILE_IDs = PoolIntArray( 0, 1 )
 
 [node name="road" type="TileMap" parent="tileset" index="1"]
@@ -92,7 +91,7 @@ occluder_light_mask = 1
 format = 1
 tile_data = PoolIntArray(  )
 script = ExtResource( 3 )
-_sections_unfolded = [ "Collision" ]
+_sections_unfolded = [ "Cell", "Collision", "Transform" ]
 COPIED_TILE_IDs = PoolIntArray( 2 )
 
 [node name="sidewalk" type="TileMap" parent="tileset" index="2"]
@@ -117,7 +116,31 @@ format = 1
 tile_data = PoolIntArray(  )
 script = ExtResource( 3 )
 _sections_unfolded = [ "Collision" ]
-COPIED_TILE_IDs = PoolIntArray( 3 )
+COPIED_TILE_IDs = PoolIntArray( 3, 4 )
+
+[node name="sidewalk_pillars" type="TileMap" parent="tileset/sidewalk" index="0"]
+
+visible = false
+mode = 0
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 64, 64 )
+cell_quadrant_size = 16
+cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+cell_half_offset = 2
+cell_tile_origin = 0
+cell_y_sort = false
+cell_clip_uv = false
+collision_use_kinematic = false
+collision_friction = 1.0
+collision_bounce = 0.0
+collision_layer = 1
+collision_mask = 66
+occluder_light_mask = 1
+format = 1
+tile_data = PoolIntArray(  )
+script = ExtResource( 3 )
+_sections_unfolded = [ "Collision" ]
+COPIED_TILE_IDs = PoolIntArray( 4 )
 
 [node name="chunk_left" type="Area2D" parent="." index="1"]
 
@@ -221,86 +244,6 @@ position = Vector2( 1061.28, 202.324 )
 [node name="citizen_position5" type="Position2D" parent="prop_positions/citizens" index="4"]
 
 position = Vector2( 1339.01, 179.332 )
-
-[node name="boundaries" type="Node2D" parent="prop_positions" index="2"]
-
-[node name="pillars1" type="Node2D" parent="prop_positions/boundaries" index="0"]
-
-editor/display_folded = true
-
-[node name="pillar11" type="Position2D" parent="prop_positions/boundaries/pillars1" index="0"]
-
-position = Vector2( 475, 25 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="pillar12" type="Position2D" parent="prop_positions/boundaries/pillars1" index="1"]
-
-position = Vector2( 475, 65 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="pillar13" type="Position2D" parent="prop_positions/boundaries/pillars1" index="2"]
-
-position = Vector2( 475, 105 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="pillar14" type="Position2D" parent="prop_positions/boundaries/pillars1" index="3"]
-
-position = Vector2( 475, 145 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="pillar15" type="Position2D" parent="prop_positions/boundaries/pillars1" index="4"]
-
-position = Vector2( 475, 185 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="pillar16" type="Position2D" parent="prop_positions/boundaries/pillars1" index="5"]
-
-position = Vector2( 475, 225 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="pillar17" type="Position2D" parent="prop_positions/boundaries/pillars1" index="6"]
-
-position = Vector2( 475, 265 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="pillars2" type="Node2D" parent="prop_positions/boundaries" index="1"]
-
-editor/display_folded = true
-
-[node name="pillar21" type="Position2D" parent="prop_positions/boundaries/pillars2" index="0"]
-
-position = Vector2( 900, 25 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="pillar22" type="Position2D" parent="prop_positions/boundaries/pillars2" index="1"]
-
-position = Vector2( 900, 65 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="pillar23" type="Position2D" parent="prop_positions/boundaries/pillars2" index="2"]
-
-position = Vector2( 900, 105 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="pillar24" type="Position2D" parent="prop_positions/boundaries/pillars2" index="3"]
-
-position = Vector2( 900, 145 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="pillar25" type="Position2D" parent="prop_positions/boundaries/pillars2" index="4"]
-
-position = Vector2( 900, 185 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="pillar26" type="Position2D" parent="prop_positions/boundaries/pillars2" index="5"]
-
-position = Vector2( 900, 225 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="pillar27" type="Position2D" parent="prop_positions/boundaries/pillars2" index="6"]
-
-position = Vector2( 900, 265 )
-_sections_unfolded = [ "Transform" ]
 
 [node name="chunk_props" type="Node2D" parent="." index="4"]
 
