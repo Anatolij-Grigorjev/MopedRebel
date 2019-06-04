@@ -18,14 +18,14 @@ script = ExtResource( 1 )
 "stage_chunk",
 ] instance=ExtResource( 2 )]
 
-position = Vector2( 1664, 0 )
+position = Vector2( 3328, 0 )
 chunk_idx = 1
 
 [node name="city1middle_road3" parent="." index="2" groups=[
 "stage_chunk",
 ] instance=ExtResource( 2 )]
 
-position = Vector2( 3328, 0 )
+position = Vector2( 6656, 0 )
 chunk_idx = 2
 
 [node name="sorted_sprites" type="YSort" parent="." index="3"]
@@ -38,10 +38,11 @@ position = Vector2( 227.433, 154.654 )
 
 [node name="rebel_on_moped" parent="sorted_sprites" index="1" instance=ExtResource( 4 )]
 
-position = Vector2( 234.256, 507.176 )
+position = Vector2( 230, 1000 )
 
 [node name="road_obstacle" parent="sorted_sprites" index="2" instance=ExtResource( 5 )]
 
-position = Vector2( 888.169, 397.389 )
+position = Vector2( 888, 800 )
+_sections_unfolded = [ "Collision", "Transform" ]
 
 

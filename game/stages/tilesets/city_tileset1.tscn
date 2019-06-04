@@ -81,7 +81,7 @@ position = Vector2( 0, 31 )
 shape = SubResource( 2 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="road1" type="Sprite" parent="." index="2"]
+[node name="road1_blank" type="Sprite" parent="." index="2"]
 
 editor/display_folded = true
 position = Vector2( 0, 256 )
@@ -90,7 +90,7 @@ region_enabled = true
 region_rect = Rect2( 0, 256, 128, 128 )
 _sections_unfolded = [ "Region", "Transform" ]
 
-[node name="body" type="StaticBody2D" parent="road1" index="0"]
+[node name="body" type="StaticBody2D" parent="road1_blank" index="0"]
 
 input_pickable = false
 collision_layer = 1
@@ -101,12 +101,13 @@ friction = 1.0
 bounce = 0.0
 _sections_unfolded = [ "Collision" ]
 
-[node name="collider" type="CollisionShape2D" parent="road1/body" index="0"]
+[node name="collider" type="CollisionShape2D" parent="road1_blank/body" index="0"]
 
 shape = SubResource( 3 )
 
 [node name="sidewalk" type="Sprite" parent="." index="3"]
 
+editor/display_folded = true
 position = Vector2( 256, 256 )
 texture = ExtResource( 1 )
 region_enabled = true
@@ -129,6 +130,7 @@ shape = SubResource( 4 )
 
 [node name="sidewalk_pillar" type="Sprite" parent="." index="4"]
 
+editor/display_folded = true
 position = Vector2( 0, 512 )
 texture = ExtResource( 1 )
 region_enabled = true
@@ -146,6 +148,52 @@ friction = 1.0
 bounce = 0.0
 
 [node name="body" type="CollisionShape2D" parent="sidewalk_pillar/StaticBody2D" index="0"]
+
+shape = SubResource( 5 )
+
+[node name="road1_divider_top" type="Sprite" parent="." index="5"]
+
+editor/display_folded = true
+position = Vector2( 0, 768 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 0, 640, 128, 128 )
+_sections_unfolded = [ "Region", "Transform" ]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="road1_divider_top" index="0"]
+
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+
+[node name="body" type="CollisionShape2D" parent="road1_divider_top/StaticBody2D" index="0"]
+
+shape = SubResource( 5 )
+
+[node name="road1_divider_bottom" type="Sprite" parent="." index="6"]
+
+editor/display_folded = true
+position = Vector2( 256, 768 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 0, 768, 128, 128 )
+_sections_unfolded = [ "Region", "Transform" ]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="road1_divider_bottom" index="0"]
+
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+
+[node name="body" type="CollisionShape2D" parent="road1_divider_bottom/StaticBody2D" index="0"]
 
 shape = SubResource( 5 )
 

@@ -7,12 +7,12 @@
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
-extents = Vector2( 50, 448 )
+extents = Vector2( 50, 900 )
 
 [sub_resource type="RectangleShape2D" id=2]
 
 custom_solver_bias = 0.0
-extents = Vector2( 50, 448 )
+extents = Vector2( 50, 900 )
 
 [node name="city1middle_road1" type="Node2D" index="0"]
 
@@ -24,7 +24,7 @@ chunk_idx = 0
 
 mode = 0
 tile_set = ExtResource( 2 )
-cell_size = Vector2( 64, 64 )
+cell_size = Vector2( 128, 128 )
 cell_quadrant_size = 16
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 cell_half_offset = 2
@@ -38,7 +38,7 @@ collision_layer = 0
 collision_mask = 0
 occluder_light_mask = 1
 format = 1
-tile_data = PoolIntArray( 0, 3, 0, 1, 3, 0, 2, 3, 0, 3, 3, 0, 4, 3, 0, 5, 3, 0, 6, 3, 0, 7, 3, 0, 8, 3, 0, 9, 3, 0, 10, 3, 0, 11, 3, 0, 12, 3, 0, 13, 3, 0, 14, 3, 0, 15, 3, 0, 16, 3, 0, 17, 3, 0, 18, 3, 0, 19, 3, 0, 20, 3, 0, 21, 3, 0, 22, 3, 0, 23, 3, 0, 24, 3, 0, 131072, 3, 0, 131073, 3, 0, 131074, 3, 0, 131075, 3, 0, 131076, 3, 0, 131077, 3, 0, 131078, 3, 0, 131079, 3, 0, 131080, 3, 0, 131081, 3, 0, 131082, 3, 0, 131083, 3, 0, 131084, 3, 0, 131085, 3, 0, 131086, 3, 0, 131087, 3, 0, 131088, 3, 0, 131089, 3, 0, 131090, 3, 0, 131091, 3, 0, 131092, 3, 0, 131093, 3, 0, 131094, 3, 0, 131095, 3, 0, 131096, 3, 0, 262144, 0, 0, 262145, 0, 0, 262146, 0, 0, 262147, 0, 0, 262148, 0, 0, 262149, 0, 0, 262150, 0, 0, 262151, 0, 0, 262152, 0, 0, 262153, 0, 0, 262154, 0, 0, 262155, 0, 0, 262156, 0, 0, 262157, 0, 0, 262158, 0, 0, 262159, 0, 0, 262160, 0, 0, 262161, 0, 0, 262162, 0, 0, 262163, 0, 0, 262164, 0, 0, 262165, 0, 0, 262166, 0, 0, 262167, 0, 0, 262168, 0, 0, 393216, 2, 0, 393217, 2, 0, 393218, 2, 0, 393219, 2, 0, 393220, 2, 0, 393221, 2, 0, 393222, 2, 0, 393223, 2, 0, 393224, 2, 0, 393225, 2, 0, 393226, 2, 0, 393227, 2, 0, 393228, 2, 0, 393229, 2, 0, 393230, 2, 0, 393231, 2, 0, 393232, 2, 0, 393233, 2, 0, 393234, 2, 0, 393235, 2, 0, 393236, 2, 0, 393237, 2, 0, 393238, 2, 0, 393239, 2, 0, 393240, 2, 0, 524288, 2, 0, 524289, 2, 0, 524290, 2, 0, 524291, 2, 0, 524292, 2, 0, 524293, 2, 0, 524294, 2, 0, 524295, 2, 0, 524296, 2, 0, 524297, 2, 0, 524298, 2, 0, 524299, 2, 0, 524300, 2, 0, 524301, 2, 0, 524302, 2, 0, 524303, 2, 0, 524304, 2, 0, 524305, 2, 0, 524306, 2, 0, 524307, 2, 0, 524308, 2, 0, 524309, 2, 0, 524310, 2, 0, 524311, 2, 0, 524312, 2, 0, 655360, 2, 0, 655361, 2, 0, 655362, 2, 0, 655363, 2, 0, 655364, 2, 0, 655365, 2, 0, 655366, 2, 0, 655367, 2, 0, 655368, 2, 0, 655369, 2, 0, 655370, 2, 0, 655371, 2, 0, 655372, 2, 0, 655373, 2, 0, 655374, 2, 0, 655375, 2, 0, 655376, 2, 0, 655377, 2, 0, 655378, 2, 0, 655379, 2, 0, 655380, 2, 0, 655381, 2, 0, 655382, 2, 0, 655383, 2, 0, 655384, 2, 0, 786432, 1, 0, 786433, 1, 0, 786434, 1, 0, 786435, 1, 0, 786436, 1, 0, 786437, 1, 0, 786438, 1, 0, 786439, 1, 0, 786440, 1, 0, 786441, 1, 0, 786442, 1, 0, 786443, 1, 0, 786444, 1, 0, 786445, 1, 0, 786446, 1, 0, 786447, 1, 0, 786448, 1, 0, 786449, 1, 0, 786450, 1, 0, 786451, 1, 0, 786452, 1, 0, 786453, 1, 0, 786454, 1, 0, 786455, 1, 0, 786456, 1, 0 )
+tile_data = PoolIntArray( 0, 3, 0, 1, 3, 0, 2, 3, 0, 3, 3, 0, 4, 4, 0, 5, 3, 0, 6, 3, 0, 7, 3, 0, 8, 3, 0, 9, 3, 0, 10, 3, 0, 11, 3, 0, 12, 3, 0, 13, 3, 0, 14, 3, 0, 15, 3, 0, 16, 4, 0, 17, 3, 0, 18, 3, 0, 19, 3, 0, 20, 3, 0, 21, 3, 0, 22, 3, 0, 23, 3, 0, 24, 3, 0, 25, 3, 0, 65536, 3, 0, 65537, 3, 0, 65538, 3, 0, 65539, 3, 0, 65540, 4, 0, 65541, 3, 0, 65542, 3, 0, 65543, 3, 0, 65544, 3, 0, 65545, 3, 0, 65546, 3, 0, 65547, 3, 0, 65548, 3, 0, 65549, 3, 0, 65550, 3, 0, 65551, 3, 0, 65552, 4, 0, 65553, 3, 0, 65554, 3, 0, 65555, 3, 0, 65556, 3, 0, 65557, 3, 0, 65558, 3, 0, 65559, 3, 0, 65560, 3, 0, 65561, 3, 0, 131072, 3, 0, 131073, 3, 0, 131074, 3, 0, 131075, 3, 0, 131076, 4, 0, 131077, 3, 0, 131078, 3, 0, 131079, 3, 0, 131080, 3, 0, 131081, 3, 0, 131082, 3, 0, 131083, 3, 0, 131084, 3, 0, 131085, 3, 0, 131086, 3, 0, 131087, 3, 0, 131088, 4, 0, 131089, 3, 0, 131090, 3, 0, 131091, 3, 0, 131092, 3, 0, 131093, 3, 0, 131094, 3, 0, 131095, 3, 0, 131096, 3, 0, 131097, 3, 0 )
 _sections_unfolded = [ "Cell", "Collision", "Transform" ]
 __meta__ = {
 "_edit_lock_": true
@@ -51,7 +51,7 @@ __meta__ = {
 visible = false
 mode = 0
 tile_set = ExtResource( 2 )
-cell_size = Vector2( 64, 64 )
+cell_size = Vector2( 128, 128 )
 cell_quadrant_size = 16
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 cell_half_offset = 2
@@ -75,7 +75,7 @@ COPIED_TILE_IDs = PoolIntArray( 0, 1 )
 visible = false
 mode = 0
 tile_set = ExtResource( 2 )
-cell_size = Vector2( 64, 64 )
+cell_size = Vector2( 128, 128 )
 cell_quadrant_size = 16
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 cell_half_offset = 2
@@ -99,12 +99,12 @@ COPIED_TILE_IDs = PoolIntArray( 2 )
 visible = false
 mode = 0
 tile_set = ExtResource( 2 )
-cell_size = Vector2( 64, 64 )
+cell_size = Vector2( 128, 128 )
 cell_quadrant_size = 16
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 cell_half_offset = 2
 cell_tile_origin = 0
-cell_y_sort = false
+cell_y_sort = true
 cell_clip_uv = false
 collision_use_kinematic = false
 collision_friction = 1.0
@@ -115,7 +115,7 @@ occluder_light_mask = 1
 format = 1
 tile_data = PoolIntArray(  )
 script = ExtResource( 3 )
-_sections_unfolded = [ "Collision" ]
+_sections_unfolded = [ "Cell", "Collision" ]
 COPIED_TILE_IDs = PoolIntArray( 3, 4 )
 
 [node name="sidewalk_pillars" type="TileMap" parent="tileset/sidewalk" index="0"]
@@ -123,7 +123,7 @@ COPIED_TILE_IDs = PoolIntArray( 3, 4 )
 visible = false
 mode = 0
 tile_set = ExtResource( 2 )
-cell_size = Vector2( 64, 64 )
+cell_size = Vector2( 128, 128 )
 cell_quadrant_size = 16
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 cell_half_offset = 2
@@ -134,7 +134,7 @@ collision_use_kinematic = false
 collision_friction = 1.0
 collision_bounce = 0.0
 collision_layer = 1
-collision_mask = 66
+collision_mask = 82
 occluder_light_mask = 1
 format = 1
 tile_data = PoolIntArray(  )
@@ -158,14 +158,14 @@ _sections_unfolded = [ "Collision" ]
 
 [node name="collider" type="CollisionShape2D" parent="chunk_left" index="0"]
 
-position = Vector2( 50, 448 )
+position = Vector2( 50, 900 )
 shape = SubResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="chunk_right" type="Area2D" parent="." index="2"]
 
 editor/display_folded = true
-position = Vector2( 1665, 0 )
+position = Vector2( 3330, 0 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -179,12 +179,13 @@ _sections_unfolded = [ "Audio Bus", "Collision", "Transform" ]
 
 [node name="collider" type="CollisionShape2D" parent="chunk_right" index="0"]
 
-position = Vector2( -50, 448 )
+position = Vector2( -50, 900 )
 shape = SubResource( 2 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="prop_positions" type="Node2D" parent="." index="3"]
 
+editor/display_folded = true
 _sections_unfolded = [ "Sort" ]
 
 [node name="benches" type="Node2D" parent="prop_positions" index="0"]
@@ -198,27 +199,27 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="bench_pos2" type="Position2D" parent="prop_positions/benches" index="1"]
 
-position = Vector2( 400, 140 )
+position = Vector2( 800, 140 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="bench_pos3" type="Position2D" parent="prop_positions/benches" index="2"]
 
-position = Vector2( 647.759, 217.968 )
+position = Vector2( 1250, 217.968 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="bench_pos4" type="Position2D" parent="prop_positions/benches" index="3"]
 
-position = Vector2( 750, 100 )
+position = Vector2( 1700, 100 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="bench_pos5" type="Position2D" parent="prop_positions/benches" index="4"]
 
-position = Vector2( 1200, 200 )
+position = Vector2( 2300, 200 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="bench_pos6" type="Position2D" parent="prop_positions/benches" index="5"]
 
-position = Vector2( 1500, 210 )
+position = Vector2( 3000, 210 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="citizens" type="Node2D" parent="prop_positions" index="1"]
@@ -227,34 +228,39 @@ editor/display_folded = true
 
 [node name="citizen_position1" type="Position2D" parent="prop_positions/citizens" index="0"]
 
-position = Vector2( 240.029, 103.001 )
+position = Vector2( 240, 103.001 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="citizen_position2" type="Position2D" parent="prop_positions/citizens" index="1"]
 
-position = Vector2( 544.434, 126.912 )
+position = Vector2( 800, 130 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="citizen_position3" type="Position2D" parent="prop_positions/citizens" index="2"]
 
-position = Vector2( 777.107, 102.081 )
+position = Vector2( 1450, 102.081 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="citizen_position4" type="Position2D" parent="prop_positions/citizens" index="3"]
 
-position = Vector2( 1061.28, 202.324 )
+position = Vector2( 1700, 202.324 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="citizen_position5" type="Position2D" parent="prop_positions/citizens" index="4"]
 
-position = Vector2( 1339.01, 179.332 )
+position = Vector2( 2300, 179.332 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="chunk_props" type="Node2D" parent="." index="4"]
 
 [node name="car_go_left_start" type="Position2D" parent="." index="5"]
 
-position = Vector2( 1601, 420 )
+position = Vector2( 1601, 840 )
 _sections_unfolded = [ "Transform", "Z Index" ]
 
 [node name="car_go_right_start" type="Position2D" parent="." index="6"]
 
-position = Vector2( 0, 700 )
+position = Vector2( 0, 1400 )
 _sections_unfolded = [ "Transform" ]
 
 

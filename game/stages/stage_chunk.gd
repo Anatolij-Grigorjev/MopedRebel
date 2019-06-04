@@ -36,7 +36,6 @@ func _ready():
 	
 	_generate_random_benches()
 	_generate_white_worker()
-	_rng_add_boundary_pillars()
 
 func _generate_random_benches():
 	#generate N benches ensuring a minimum distance between the picked random indices
@@ -71,18 +70,6 @@ func _generate_white_worker():
 	worker.stage_chunk_idx = chunk_idx
 	worker.add_to_group(C.GROUP_CITIZENS)
 	$chunk_props.add_child(worker)
-	
-func _rng_add_boundary_pillars():
-	var rng = randf()
-
-	if (rng > 0.5):
-		var possible_boundaries = $prop_positions/boundaries.get_children()
-		var chosen_boundary = F.get_rand_array_elem(possible_boundaries)
-		
-		for pillar_pos in chosen_boundary.get_children():
-			var pillar = BoundaryPillar.instance()
-			pillar.global_position = pillar_pos.global_position
-			$chunk_props.add_child(pillar)
 
 
 func emit_closest_road_position():
