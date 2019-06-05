@@ -6,7 +6,7 @@
 [ext_resource path="res://rebel/rebel_on_moped.tscn" type="PackedScene" id=4]
 [ext_resource path="res://stages/props/roadblock.tscn" type="PackedScene" id=5]
 
-[node name="city1stage" type="Node2D" index="0"]
+[node name="city1stage" type="Node2D"]
 
 script = ExtResource( 1 )
 
@@ -38,11 +38,11 @@ position = Vector2( 227.433, 154.654 )
 
 [node name="rebel_on_moped" parent="sorted_sprites" index="1" instance=ExtResource( 4 )]
 
-position = Vector2( 230, 1000 )
+position = Vector2( 204.399, 534.062 )
 
 [node name="road_obstacle" parent="sorted_sprites" index="2" instance=ExtResource( 5 )]
 
-position = Vector2( 888, 800 )
+position = Vector2( 982.724, 511.989 )
 _sections_unfolded = [ "Collision", "Transform" ]
 
 

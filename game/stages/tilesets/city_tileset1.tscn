@@ -5,12 +5,12 @@
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
-extents = Vector2( 64, 5 )
+extents = Vector2( 64, 20 )
 
 [sub_resource type="RectangleShape2D" id=2]
 
 custom_solver_bias = 0.0
-extents = Vector2( 64, 5 )
+extents = Vector2( 64, 20 )
 
 [sub_resource type="RectangleShape2D" id=3]
 
@@ -27,13 +27,12 @@ extents = Vector2( 64, 64 )
 custom_solver_bias = 0.0
 extents = Vector2( 64, 64 )
 
-[node name="city_tileset1" type="Node2D" index="0"]
+[node name="city_tileset1" type="Node2D"]
 
 _sections_unfolded = [ "Transform" ]
 
 [node name="curb1above" type="Sprite" parent="." index="0"]
 
-editor/display_folded = true
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 0, 128, 128, 128 )
@@ -48,17 +47,16 @@ constant_linear_velocity = Vector2( 0, 0 )
 constant_angular_velocity = 0.0
 friction = 1.0
 bounce = 0.0
-_sections_unfolded = [ "Z Index" ]
+_sections_unfolded = [ "Transform", "Z Index" ]
 
 [node name="collider" type="CollisionShape2D" parent="curb1above/body" index="0"]
 
-position = Vector2( 0, -35 )
+position = Vector2( 0, -46 )
 shape = SubResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="curb1below" type="Sprite" parent="." index="1"]
 
-editor/display_folded = true
 position = Vector2( 256, 0 )
 texture = ExtResource( 1 )
 region_enabled = true
@@ -77,7 +75,7 @@ bounce = 0.0
 
 [node name="collider" type="CollisionShape2D" parent="curb1below/body" index="0"]
 
-position = Vector2( 0, 31 )
+position = Vector2( 0, 46 )
 shape = SubResource( 2 )
 _sections_unfolded = [ "Transform" ]
 
@@ -157,7 +155,7 @@ editor/display_folded = true
 position = Vector2( 0, 768 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 0, 640, 128, 128 )
+region_rect = Rect2( 0, 642, 128, 128 )
 _sections_unfolded = [ "Region", "Transform" ]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="road1_divider_top" index="0"]

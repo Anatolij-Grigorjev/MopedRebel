@@ -78,8 +78,9 @@ jump_curb=[ Object(InputEventKey,"resource_local_to_scene":false,"resource_name"
 2d_physics/layer_4="rebel_sidewalk"
 2d_physics/layer_5="rebel_road"
 2d_physics/layer_6="transport_road"
-2d_physics/layer_7="rebel_bottom"
+2d_physics/layer_7="rebel_foot_bottom"
 2d_physics/layer_8="citizen_sidewalk"
+2d_physics/layer_9="rebel_moped_bottom"
 
 [network]
 

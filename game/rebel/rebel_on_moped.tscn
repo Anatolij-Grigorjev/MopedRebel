@@ -294,7 +294,7 @@ playback/speed = 1.0
 
 position = Vector2( 3, 55 )
 input_pickable = false
-collision_layer = 64
+collision_layer = 256
 collision_mask = 2
 collision/safe_margin = 0.08
 _sections_unfolded = [ "Collision", "Transform" ]
