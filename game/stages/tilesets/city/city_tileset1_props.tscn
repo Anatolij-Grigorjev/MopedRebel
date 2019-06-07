@@ -5,8 +5,8 @@
 [sub_resource type="CapsuleShape2D" id=3]
 
 custom_solver_bias = 0.0
-radius = 25.0
-height = 50.0
+radius = 10.0
+height = 35.0
 
 [sub_resource type="RectangleShape2D" id=2]
 
@@ -18,18 +18,17 @@ extents = Vector2( 64, 20 )
 custom_solver_bias = 0.0
 extents = Vector2( 64, 15 )
 
-[node name="city_tileset1_props" type="Node2D" index="0"]
+[node name="city_tileset1_props" type="Node2D"]
 
 _sections_unfolded = [ "Transform" ]
 
 [node name="sidewalk_pillar" type="Sprite" parent="." index="0"]
 
-editor/display_folded = true
 position = Vector2( 0, 256 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 128, 128, 128, 128 )
-_sections_unfolded = [ "Region", "Transform" ]
+region_rect = Rect2( 192, 192, 64, 64 )
+_sections_unfolded = [ "Region", "Transform", "Z Index" ]
 
 [node name="body" type="StaticBody2D" parent="sidewalk_pillar" index="0"]
 

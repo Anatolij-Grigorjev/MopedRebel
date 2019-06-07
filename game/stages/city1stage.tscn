@@ -6,7 +6,7 @@
 [ext_resource path="res://rebel/rebel_on_moped.tscn" type="PackedScene" id=4]
 [ext_resource path="res://stages/props/roadblock.tscn" type="PackedScene" id=5]
 
-[node name="city1stage" type="Node2D"]
+[node name="city1stage" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 
