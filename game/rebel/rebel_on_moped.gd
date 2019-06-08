@@ -182,14 +182,27 @@ func _handle_unmounting_moped():
 	if (not is_unmounting_moped):
 		if (Input.is_action_pressed('unmount_moped')):
 			is_unmounting_moped = true
-			var anim_name = 'moped_swerve_up'
-			var animation_length = anim.get_animation(anim_name).length
-			#play animation
-			anim.play(anim_name)
-			#dont go forward
-			_start_new_acceleration_tween(0.0, animation_length)
-			#go up halfspeed
-			_start_new_swerve_tween(-G.moped_config_swerve_speed / 2, animation_length)
+			var is_on_road = moped_ground_type == ROAD
+			var anim_name = ''
+			if (is_on_road): 
+				anim_name = 'moped_swerve_up'
+				var animation_length = anim.get_animation(anim_name).length
+				#play animation
+				anim.play(anim_name)
+				#dont go forward
+				_start_new_acceleration_tween(0.0, animation_length)
+				#go up halfspeed
+				_start_new_swerve_tween(-G.moped_config_swerve_speed / 2, animation_length)
+			else:
+				anim_name = 'unmount_moped'
+				
+				_start_new_acceleration_tween(0.0, 0.3)
+				_start_new_swerve_tween(0.0, 0.3)
+				
+				play_nointerrupt_anim(anim_name)
+				is_unmounting_moped = false
+			
+
 			
 			
 func _handle_jumping_curb():

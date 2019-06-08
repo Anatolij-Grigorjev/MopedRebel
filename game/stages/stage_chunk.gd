@@ -26,9 +26,9 @@ func _ready():
 	tileset = $tileset
 	stage_chunk_bounds = F.get_tilemap_bounding_rect(tileset)
 	LOG.info("Calculated chunk bounds: %s", [stage_chunk_bounds])
-	road_tileset = $tileset/road
-	curb_tileset = $tileset/curb
-	sidewalk_tileset = $tileset/sidewalk
+	road_tileset = $city_road_tiles
+	curb_tileset = $city_sidewalk_tiles/city_tiles_curbs
+	sidewalk_tileset = $city_sidewalk_tiles
 	
 	S.connect_signal_to(S.SIGNAL_REBEL_MOUNT_MOPED, self, "emit_closest_road_position")
 	S.connect_signal_to(S.SIGNAL_REBEL_UNMOUNT_MOPED, self, "emit_closest_sidewalk_position")
