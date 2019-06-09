@@ -14,7 +14,7 @@ extents = Vector2( 50, 900 )
 custom_solver_bias = 0.0
 extents = Vector2( 50, 900 )
 
-[node name="city1middle_road1" type="Node2D"]
+[node name="city1middle_road1" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
@@ -22,7 +22,6 @@ chunk_idx = 0
 
 [node name="city_sidewalk_tiles" type="TileMap" parent="." index="0"]
 
-editor/display_folded = true
 mode = 0
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 128, 128 )
@@ -83,7 +82,7 @@ collision_layer = 1
 collision_mask = 272
 occluder_light_mask = 1
 format = 1
-tile_data = PoolIntArray( 5, 0, 0, 6, 0, 0, 65541, 0, 0, 65542, 0, 0, 131077, 0, 0, 131078, 0, 0, 196613, 0, 0, 196614, 0, 0 )
+tile_data = PoolIntArray(  )
 _sections_unfolded = [ "Cell", "Collision" ]
 
 [node name="city_road_tiles" type="TileMap" parent="." index="1"]
@@ -152,41 +151,7 @@ _sections_unfolded = [ "Transform" ]
 editor/display_folded = true
 _sections_unfolded = [ "Sort" ]
 
-[node name="benches" type="Node2D" parent="prop_positions" index="0"]
-
-editor/display_folded = true
-
-[node name="bench_pos1" type="Position2D" parent="prop_positions/benches" index="0"]
-
-position = Vector2( 200, 205 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="bench_pos2" type="Position2D" parent="prop_positions/benches" index="1"]
-
-position = Vector2( 800, 140 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="bench_pos3" type="Position2D" parent="prop_positions/benches" index="2"]
-
-position = Vector2( 1250, 217.968 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="bench_pos4" type="Position2D" parent="prop_positions/benches" index="3"]
-
-position = Vector2( 1700, 100 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="bench_pos5" type="Position2D" parent="prop_positions/benches" index="4"]
-
-position = Vector2( 2300, 200 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="bench_pos6" type="Position2D" parent="prop_positions/benches" index="5"]
-
-position = Vector2( 3000, 210 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="citizens" type="Node2D" parent="prop_positions" index="1"]
+[node name="citizens" type="Node2D" parent="prop_positions" index="0"]
 
 editor/display_folded = true
 
