@@ -33,7 +33,7 @@ extents = Vector2( 64, 20 )
 custom_solver_bias = 0.0
 extents = Vector2( 64, 15 )
 
-[node name="city_tileset1_props" type="Node2D" index="0"]
+[node name="city_tileset1_props" type="Node2D"]
 
 _sections_unfolded = [ "Transform" ]
 

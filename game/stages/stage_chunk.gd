@@ -34,32 +34,7 @@ func _ready():
 	S.connect_signal_to(S.SIGNAL_REBEL_UNMOUNT_MOPED, self, "emit_closest_sidewalk_position")
 	S.connect_signal_to(S.SIGNAL_REBEL_JUMP_CURB_ON_MOPED, self, "move_moped_rebel_over_curb")
 	
-	_generate_random_benches()
 	_generate_white_worker()
-
-func _generate_random_benches():
-	#generate N benches ensuring a minimum distance between the picked random indices
-	var potential_bench_positions = $prop_positions/benches.get_children()
-	var children_indices = range(potential_bench_positions.size())
-	#chunk array into required number of benches
-	var chunk_size = potential_bench_positions.size() / num_benches
-	var required_idx_distance = abs((chunk_size + 1) / 2)
-	var prev_idx = -required_idx_distance
-	var picked_bench_positions = []
-	for chunk_idx in range(num_benches):
-		var slice_lower = chunk_size * chunk_idx
-		var slice_upper = slice_lower + chunk_size
-		#adjust lower bound for required distnace between benches
-		slice_lower = max(prev_idx + required_idx_distance, slice_lower)
-		var rand_idx = F.get_rand_array_elem(range(slice_lower, slice_upper))
-		picked_bench_positions.append(potential_bench_positions[rand_idx])
-		prev_idx = rand_idx
-
-	for position in picked_bench_positions:
-		var bench = Bench.instance()
-		bench.global_position = position.global_position
-		bench.add_to_group(C.GROUP_PROPS)
-		$chunk_props.add_child(bench)
 		
 func _generate_white_worker():
 	var potential_worker_positions = $prop_positions/citizens.get_children()
