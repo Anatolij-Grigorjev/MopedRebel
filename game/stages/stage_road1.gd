@@ -14,8 +14,8 @@ func _ready():
 	G.node_active_rebel = G.node_rebel_on_foot
 	
 	S.connect_signal_to(S.SIGNAL_REBEL_CHANGED_POSITION, self, "_rebel_new_position_state_received")
-	S.connect_signal_to(S.SIGNAL_REBEL_UNMOUNT_MOPED, self, "_switch_rebel_node", [rebel_on_foot_node, rebel_on_moped_node])
-	S.connect_signal_to(S.SIGNAL_REBEL_MOUNT_MOPED, self, "_switch_rebel_node", [rebel_on_moped_node, rebel_on_foot_node])
+	S.connect_signal_to(S.SIGNAL_REBEL_UNMOUNT_MOPED, self, "_switch_rebel_node", [rebel_on_moped_node, rebel_on_foot_node])
+	S.connect_signal_to(S.SIGNAL_REBEL_MOUNT_MOPED, self, "_switch_rebel_node", [rebel_on_foot_node, rebel_on_moped_node])
 	
 	rebel_on_moped_node.disable()
 	init_rebel_on_moped()
@@ -27,6 +27,7 @@ func init_rebel_on_moped():
 	_switch_rebel_node(rebel_on_foot_node, rebel_on_moped_node)
 	
 func _switch_rebel_node(switch_from_rebel, switch_to_rebel):
+	LOG.info("switching from rebel %s to rebel %s", [switch_from_rebel.name, switch_to_rebel.name])
 	var new_state = C.REBEL_STATES.ON_FOOT
 	if (switch_to_rebel == G.node_rebel_on_moped):
 		new_state = C.REBEL_STATES.ON_MOPED

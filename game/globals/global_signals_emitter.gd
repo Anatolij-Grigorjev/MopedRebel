@@ -3,6 +3,8 @@ extends Node
 var Logger = preload("res://globals/logger.gd")
 var LOG
 
+const DEBUG_SIGNALS = false
+
 signal mounting_moped
 signal unmounting_moped
 signal rebel_cause_conflict(enemy_node, bribe_money, min_req_sc, enemy_toughness)
@@ -71,6 +73,9 @@ func connect_signal_to(signal_name, target, method, binds = [], flags = 0):
 	if (target == null or method == null):
 		LOG.error("Bad target object or method, check invocation!")
 	
+	if DEBUG_SIGNALS:
+		LOG.info("connecting %s to %s#%s with %s binds", [signal_name, target, method, binds.size()])
+	
 	connect(signal_name, target, method, binds, flags)
 		
 
@@ -95,6 +100,9 @@ func _emit_signal_variadic(signal_name, args_list = []):
 	if (args_list == null):
 		LOG.warn("passed null args_list! Using empty list...") 
 		args_list = []
+		
+	if DEBUG_SIGNALS:
+		LOG.info("signal %s with %s args: %s", [signal_name, args_list.size(), args_list])
 	match args_list.size():
 		0:
 			emit_signal(signal_name)
