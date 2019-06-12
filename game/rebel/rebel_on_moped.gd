@@ -41,6 +41,7 @@ func reset_velocity():
 	current_speed = G.moped_config_min_speed
 	_reset_swerve()
 	_reset_acceleration()
+	_sprite_to_neutral()
 	
 func _reset_swerve():
 	current_swerve = 0
@@ -48,6 +49,10 @@ func _reset_swerve():
 	
 func _reset_acceleration():
 	speed_alter_direction = 0
+	
+func _sprite_to_neutral():
+	$sprite.scale = Vector2(0.45, 0.45)
+	$sprite.rotation = 0
 		
 func _disable_collision_layers():
 	last_enabled_collision_layer_state = F.get_node_collision_layer_state(self)
@@ -120,7 +125,9 @@ func _finish_unmounting():
 	rotation = 0
 	is_unmounting_moped = false
 	reset_velocity()
-	S.emit_signal0(S.SIGNAL_REBEL_UNMOUNT_MOPED)
+	var sidewalk_position = global_position - Vector2(0, 50)
+	global_position += Vector2(0, 50)
+	S.emit_signal1(S.SIGNAL_REBEL_UNMOUNT_MOPED, sidewalk_position)
 	
 func _collider_is_heavy(collider):
 	return (collider.is_in_group(C.GROUP_CARS)

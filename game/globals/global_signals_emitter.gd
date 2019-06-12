@@ -3,10 +3,10 @@ extends Node
 var Logger = preload("res://globals/logger.gd")
 var LOG
 
-const DEBUG_SIGNALS = false
+const DEBUG_SIGNALS = true
 
 signal mounting_moped
-signal unmounting_moped
+signal unmounting_moped(unmount_position)
 signal rebel_cause_conflict(enemy_node, bribe_money, min_req_sc, enemy_toughness)
 signal rebel_moped_collided
 signal conflict_resolved

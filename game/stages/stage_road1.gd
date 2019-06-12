@@ -15,19 +15,23 @@ func _ready():
 	
 	S.connect_signal_to(S.SIGNAL_REBEL_CHANGED_POSITION, self, "_rebel_new_position_state_received")
 	S.connect_signal_to(S.SIGNAL_REBEL_UNMOUNT_MOPED, self, "_switch_rebel_node", [rebel_on_moped_node, rebel_on_foot_node])
-	S.connect_signal_to(S.SIGNAL_REBEL_MOUNT_MOPED, self, "_switch_rebel_node", [rebel_on_foot_node, rebel_on_moped_node])
+	S.connect_signal_to(S.SIGNAL_REBEL_MOUNT_MOPED, self, "_switch_rebel_node", [null, rebel_on_foot_node, rebel_on_moped_node])
 	
 	rebel_on_moped_node.disable()
 	init_rebel_on_moped()
 	
 func init_rebel_on_foot():
-	_switch_rebel_node(rebel_on_moped_node, rebel_on_foot_node)
+	_switch_rebel_node(null, rebel_on_moped_node, rebel_on_foot_node)
 	
 func init_rebel_on_moped():
-	_switch_rebel_node(rebel_on_foot_node, rebel_on_moped_node)
+	_switch_rebel_node(null, rebel_on_foot_node, rebel_on_moped_node)
 	
-func _switch_rebel_node(switch_from_rebel, switch_to_rebel):
-	LOG.info("switching from rebel %s to rebel %s", [switch_from_rebel.name, switch_to_rebel.name])
+func _switch_rebel_node(sync_pos, switch_from_rebel, switch_to_rebel):
+	LOG.info("switching from rebel %s to rebel %s, sync_pos: %s", [switch_from_rebel.name, switch_to_rebel.name, sync_pos])
+	if (sync_pos):
+		switch_to_rebel.global_position = sync_pos
+	else:
+		switch_to_rebel.global_position.x = switch_from_rebel.global_position.x
 	var new_state = C.REBEL_STATES.ON_FOOT
 	if (switch_to_rebel == G.node_rebel_on_moped):
 		new_state = C.REBEL_STATES.ON_MOPED

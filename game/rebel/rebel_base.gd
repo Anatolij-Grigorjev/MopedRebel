@@ -75,7 +75,8 @@ func unlock_control():
 func play_nointerrupt_anim(anim_name):
 	var animation = $anim.get_animation(anim_name)
 	F.assert_not_null(animation)
-	lock_control()
-	F.invoke_later(self, 'unlock_control', animation.length)
-	$anim.play(anim_name)
+	if (not F.is_anim_playing($anim, anim_name)):
+		lock_control()
+		F.invoke_later(self, 'unlock_control', animation.length)
+		$anim.play(anim_name)
 	

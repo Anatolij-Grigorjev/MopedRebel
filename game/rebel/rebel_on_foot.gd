@@ -27,7 +27,7 @@ func _physics_process(delta):
 		velocity = velocity.normalized() * G.foot_config_walk_speed
 		
 		if Input.is_action_just_released('mount_moped'):
-			S.emit_signal0(S.SIGNAL_REBEL_MOUNT_MOPED)
+			play_nointerrupt_anim('mount_moped')
 			
 		_process_dissing_zone()
 	
@@ -44,4 +44,7 @@ func _use_collider_collision_receiver(collision):
 	var collider = collision.collider
 	var collision_receiver = collider.conflict_collision_receiver
 	collision_receiver.react_collision(collision)
+	
+func _finish_mount_moped():
+	S.emit_signal0(S.SIGNAL_REBEL_MOUNT_MOPED)
 

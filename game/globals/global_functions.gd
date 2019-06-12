@@ -38,6 +38,8 @@ func get_N_rand_array_elems(N = 1, array = []):
 		
 	return rand_list
 	
+func is_anim_playing(player_node, anim_name):
+	return player_node.is_playing() and player_node.current_animation == anim_name
 	
 func get_node_collision_layer_state(node, num_bits = C.NUM_COLLISION_BITS):
 	var current_state = []
