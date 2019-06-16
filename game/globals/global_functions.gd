@@ -226,24 +226,9 @@ func invoke_later(node_owner, action_name, seconds_delay = 1):
 			get_node_name_safe(node_owner), 
 			seconds_delay
 		])
-		var timer = Timer.new()
-		timer.wait_time = seconds_delay
-		timer.one_shot = true
-		#ensure the timer processes even during conflict pause
-		timer.pause_mode = PAUSE_MODE_PROCESS
-		timer.connect(
-			"timeout",  
-			self, 
-			"_call_action_and_remove_timer",
-			[node_owner, action_name, timer]
-		)
-		timer.start()
-		add_child(timer)
-	
-func _call_action_and_remove_timer(action_owner_node, action_name, timer_node):
-	call0_if_present(action_owner_node, action_name)
-	remove_child(timer_node)
-	timer_node.queue_free()
+		# Wait seconds_delay seconds, then resume execution.
+		yield(get_tree().create_timer(seconds_delay), "timeout")
+		call0_if_present(action_owner_node, action_name)
 
 #move specific physics collision layer bit for node 
 # from from_layer to to_layer

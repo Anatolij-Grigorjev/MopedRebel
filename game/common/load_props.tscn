@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://common/load_props.gd" type="Script" id=1]
+
+[node name="load_props" type="Node2D" index="0"]
+
+script = ExtResource( 1 )
+type_id = null
+props = null
+props_rand_prc = 0.1
+fear_sc = 0
+escape_delay_sec = 0
+disses = null
+
+

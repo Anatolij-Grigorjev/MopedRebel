@@ -98,7 +98,7 @@ tracks/5/keys = {
 "values": [ false ]
 }
 
-[node name="white_worker1" type="KinematicBody2D"]
+[node name="white_worker1" type="KinematicBody2D" index="0"]
 
 input_pickable = false
 collision_layer = 128

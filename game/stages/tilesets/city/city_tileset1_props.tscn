@@ -33,7 +33,7 @@ extents = Vector2( 64, 20 )
 custom_solver_bias = 0.0
 extents = Vector2( 64, 15 )
 
-[node name="city_tileset1_props" type="Node2D"]
+[node name="city_tileset1_props" type="Node2D" index="0"]
 
 _sections_unfolded = [ "Transform" ]
 
@@ -45,9 +45,6 @@ texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 192, 192, 64, 64 )
 _sections_unfolded = [ "Region", "Transform", "Z Index" ]
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="body" type="StaticBody2D" parent="sidewalk_pillar" index="0"]
 
