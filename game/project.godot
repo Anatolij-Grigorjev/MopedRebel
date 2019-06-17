@@ -19,8 +19,7 @@ C="*res://globals/global_constants.gd"
 F="*res://globals/global_functions.gd"
 S="*res://globals/global_signals_emitter.gd"
 G="*res://globals/global_state.gd"
-VS="*res://globals/global_conflcits_tracker.gd"
-PE="*res://globals/random_phrase_engine.gd"
+L="*res://globals/global_props_loader.gd"
 
 [display]
 

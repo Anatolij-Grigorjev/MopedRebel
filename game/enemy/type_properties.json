@@ -1,0 +1,16 @@
+{
+	"white_worker": {
+		"fear_sc": 100,
+		"escape_delay_sec": 30,
+		"disses": [
+			"Come at me!"
+		]
+	},
+	"car_blue": {
+		"fear_sc": 150,
+		"escape_delay_sec": 60,
+		"disses": [
+			"Hope you crash!"
+		]
+	}
+}

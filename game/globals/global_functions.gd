@@ -228,7 +228,7 @@ func invoke_later(node_owner, action_name, seconds_delay = 1):
 		])
 		# Wait seconds_delay seconds, then resume execution.
 		yield(get_tree().create_timer(seconds_delay), "timeout")
-		call0_if_present(action_owner_node, action_name)
+		call0_if_present(node_owner, action_name)
 
 #move specific physics collision layer bit for node 
 # from from_layer to to_layer

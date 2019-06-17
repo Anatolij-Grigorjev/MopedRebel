@@ -132,7 +132,6 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="prop_positions" type="Node2D" parent="." index="3"]
 
-editor/display_folded = true
 _sections_unfolded = [ "Sort" ]
 
 [node name="citizens" type="Node2D" parent="prop_positions" index="0"]

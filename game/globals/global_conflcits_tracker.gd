@@ -2,9 +2,7 @@ extends Node2D
 
 var Logger = preload("res://globals/logger.gd")
 var LOG
-
-var ConflictRoot = preload("res://conflict/conflict_root.tscn")
-var InfoPopup = preload("res://conflict/info_popup.tscn")
+var InfoPopup = preload("res://common/shout_popup.tscn")
 
 var conflict_rebel_node = null
 var conflict_with_node = null
