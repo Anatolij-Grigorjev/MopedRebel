@@ -2,7 +2,7 @@
 
 [ext_resource path="res://enemy/type_props.gd" type="Script" id=1]
 
-[node name="type_props" type="GridContainer" index="0"]
+[node name="type_props" type="GridContainer"]
 
 anchor_left = 0.0
 anchor_top = 0.0

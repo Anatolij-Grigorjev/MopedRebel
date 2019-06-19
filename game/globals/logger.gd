@@ -12,8 +12,8 @@ func _init(owner_descriptor):
 	var descriptor_type = typeof(owner_descriptor)
 	match(descriptor_type):
 		TYPE_OBJECT:
-			entity_name = owner_descriptor.name
-			entity_type_descriptor = owner_descriptor
+			entity_name = '[%s:%s]' % [owner_descriptor.name, F.get_node_name_id(owner_descriptor)]
+			entity_type_descriptor = ''
 		TYPE_STRING:
 			entity_name = '[%s]' % owner_descriptor
 			entity_type_descriptor = ''

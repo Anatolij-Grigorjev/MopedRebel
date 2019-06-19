@@ -28,8 +28,8 @@ func _ready():
 	LOG.info(as_string())
 	
 	$type_value.text = type_name
-	$fear_sc_value.text = fear_sc
-	$escape_delay_value.text = escape_delay_sec
+	$fear_sc_value.text = "%0.0f" % fear_sc
+	$escape_delay_value.text = "%0.0f" % escape_delay_sec
 
 
 func _randomize_prop_val(base_val):

@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
-var LOG = preload("res://globals/logger.gd").new(self)
+var Logger = preload("res://globals/logger.gd")
+var LOG
 
 export(float) var max_visible_diss_distance = 450
 export(float) var base_rebel_diss_gain = 0
@@ -27,6 +28,7 @@ func _ready():
 	diss_receiver = $diss_receiver
 	conflict_collision_receiver = $conflict_collision_receiver
 	standing_position = global_position
+	LOG = Logger.new(self)
 	pass
 
 func _process(delta):
@@ -40,6 +42,7 @@ func _process(delta):
 
 	
 func _finish_conflict():
+	LOG.info("finish conflict")
 	should_move = false
 	diss_receiver.finish_being_dissed()
 	$anim.play("post_conflict")

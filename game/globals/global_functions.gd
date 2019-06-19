@@ -292,6 +292,16 @@ func parse_json_file_as_var(filepath):
 				parse_result.error_string
 			]
 		)
+
+#return numeric ID present after node name when printing it
+#used by logger for unique/friendly names
+func get_node_name_id(node): 
+	assert_not_null(node)
+	#expected form: "[<type>:<id>]"
+	var node_string = "%s" % node
+	var id_half = node_string.split(":")[1]
+	#dont return closing brace in form
+	return id_half.substr(0, id_half.length() - 1)
 	
 #log formatted with timestamp, avoid using directly since 
 #logger.gd is a thing!

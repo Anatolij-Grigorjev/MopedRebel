@@ -33,10 +33,11 @@ func _physics_process(delta):
 	
 	var collision = move_and_collide(velocity * delta)
 	if (collision):
-		LOG.info("new collision: %s", [collision])
+
 		var collider = collision.collider
 		#bump around by heavy collision (car)
 		if (collider.is_in_group(C.GROUP_CITIZENS)):
+			LOG.info("new citizen collision: %s", [collision])
 			if (collider.has_node('conflict_collision_receiver')):
 				_use_collider_collision_receiver(collision)
 

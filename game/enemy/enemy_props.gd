@@ -14,6 +14,7 @@ func _init(type_key):
 	F.assert_dict_props(type_props, ['type_name', 'fear_sc', 'escape_delay_sec', 'disses'])
 	F.assert_arr_not_empty(type_props['disses'])
 	
+	type_id = type_key
 	type_name = type_props['type_name']
 	fear_sc = type_props['fear_sc']
 	escape_delay_sec = type_props['escape_delay_sec']
