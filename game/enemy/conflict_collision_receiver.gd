@@ -17,8 +17,8 @@ var pre_collide_action_node
 func _ready():
 	LOG = Logger.new(self)
 	#configure logger to ouput owner name and this as type
-	LOG.entity_name = owner.name
-	LOG.entity_type_descriptor = "[conflict-recv]"
+	LOG.entity_name = "[" + owner.name
+	LOG.entity_type_descriptor = "|conflict-recv]"
 	pre_collide_action_node = get_node(pre_collide_action_node_path)
 	pass
 	

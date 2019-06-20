@@ -48,8 +48,8 @@ func _ready():
 	diss_calmdown_timer.connect('timeout', self, '_execute_calm_current_action')
 	$debug_coef_timer.connect('timeout', self, 'print_debug_info')
 	#configure logger to ouput owner name and this as type
-	LOG.entity_name = node_owner.name
-	LOG.entity_type_descriptor = "[diss-recv]"
+	LOG.entity_name = "[" + node_owner.name
+	LOG.entity_type_descriptor = "|diss-recv]"
 	#enable debug logging if debug level is set
 	if (C.CURRENT_LOG_LEVEL <= C.LOG_LEVELS.DEBUG):
 		$debug_coef_timer.start()

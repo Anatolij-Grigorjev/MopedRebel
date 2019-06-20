@@ -248,11 +248,12 @@ func _turn_around_moped():
 		"PRE facing: %s, scale: %s, sprite scale: %s", 
 		[facing_direction, scale.x, active_sprite.scale.x])
 	facing_direction = F.flip_facing(facing_direction)
-	#flip sprite to match facing
+	#flip char to match facing
 	scale.x *= -1
-	active_sprite.scale.x = abs(active_sprite.scale.x)
+	
 	#turn around animation flips sprite scale so have to unflip it
 	#to maintain same direction as transform
+	active_sprite.scale.x = abs(active_sprite.scale.x)
 	LOG.info(
 		"POST facing: %s, scale: %s, sprite scale: %s", 
 		[facing_direction, scale.x, active_sprite.scale.x])

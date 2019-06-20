@@ -1,11 +1,19 @@
 extends Node2D
 
+var Logger = preload("res://globals/logger.gd")
+var LOG
+
 var diss_action_direction_to_pos_node = {}
 var diss_action_direction_to_node_angle = {}
 var active_diss_position_node
 var active_diss_zone_angle
 
 func _ready():
+	LOG = Logger.new("")
+	#configure logger to ouput owner name and this as type
+	LOG.entity_name = "[" + owner.name
+	LOG.entity_type_descriptor = "|diss-pos]"
+	
 	diss_action_direction_to_pos_node = {
 		"diss_left": $diss_left_position,
 		"diss_right": $diss_right_position,
@@ -25,10 +33,12 @@ func _process(delta):
 			#specified angles are for a right-facing rebel
 			#so have to adjust to flipped moped
 			var angle_offset = 0
-			if ((diss_action_direction == "diss_left" 
-				or diss_action_direction == "diss_right")
-				and owner.facing_direction == C.FACING.LEFT):
-				angle_offset = 180
-				
+#			if ((diss_action_direction == "diss_left" 
+#				or diss_action_direction == "diss_right")
+#				and owner.facing_direction == C.FACING.LEFT):
+#				angle_offset = 180
+			var prev_active_diss_pos = active_diss_position_node
 			active_diss_position_node = diss_action_direction_to_pos_node[diss_action_direction]
+			if (active_diss_position_node != prev_active_diss_pos):
+				LOG.info("new diss position %s: %s", [diss_action_direction, active_diss_position_node.position])
 			active_diss_zone_angle = angle_offset + diss_action_direction_to_node_angle[diss_action_direction]

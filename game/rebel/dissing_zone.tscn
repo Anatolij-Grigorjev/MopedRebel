@@ -45,6 +45,14 @@ region_enabled = true
 region_rect = Rect2( 10, 10, 10, 10 )
 _sections_unfolded = [ "Region", "Transform", "Visibility" ]
 
+[node name="origin" type="Sprite" parent="." index="3"]
+
+modulate = Color( 0.157804, 0.863281, 0.218431, 0.42498 )
+scale = Vector2( 0.35, 0.35 )
+texture = ExtResource( 2 )
+region_rect = Rect2( 10, 10, 10, 10 )
+_sections_unfolded = [ "Region", "Transform", "Visibility" ]
+
 [connection signal="body_entered" from="." to="." method="_on_dissing_zone_body_entered"]
 
 [connection signal="body_exited" from="." to="." method="_on_dissing_zone_body_exited"]

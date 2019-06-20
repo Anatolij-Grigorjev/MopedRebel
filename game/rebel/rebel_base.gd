@@ -4,7 +4,7 @@ var Logger = preload("res://globals/logger.gd")
 var LOG
 
 var velocity = Vector2()
-var dissing_zone_node_scene = preload("res://rebel/dissing_zone.tscn")
+var DissZone = preload("res://rebel/dissing_zone.tscn")
 var active_dissing_zone
 
 var diss_positions_control
@@ -51,7 +51,7 @@ func _enable_collision_layers():
 func _process_dissing_zone():
 	if Input.is_action_pressed('flip_bird'):
 		if (active_dissing_zone == null):
-			active_dissing_zone = dissing_zone_node_scene.instance()
+			active_dissing_zone = DissZone.instance()
 			add_child(active_dissing_zone)
 		_set_dissing_zone_position()
 	else:
