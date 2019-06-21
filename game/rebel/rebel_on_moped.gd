@@ -251,6 +251,7 @@ func _turn_around_moped():
 	#flip char to match facing
 	scale.x *= -1
 	
+	$diss_positions.update_for_facing(facing_direction)
 	#turn around animation flips sprite scale so have to unflip it
 	#to maintain same direction as transform
 	active_sprite.scale.x = abs(active_sprite.scale.x)

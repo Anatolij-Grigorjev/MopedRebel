@@ -252,6 +252,8 @@ _sections_unfolded = [ "Limit" ]
 
 [node name="diss_positions" parent="." index="3" instance=ExtResource( 3 )]
 
+_sections_unfolded = [ "Transform" ]
+
 [node name="moped_engine_tween" type="Tween" parent="." index="4"]
 
 repeat = false
