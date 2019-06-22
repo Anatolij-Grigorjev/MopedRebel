@@ -121,6 +121,8 @@ shape = SubResource( 1 )
 
 [node name="diss_receiver" parent="." index="2" instance=ExtResource( 3 )]
 
+position = Vector2( 0, -45 )
+_sections_unfolded = [ "Transform", "Visibility" ]
 diss_success_action_name = "_start_diss_response"
 diss_calmdown_action_name = "_stop_diss_response"
 diss_reduction_predicate_name = "is_rebel_too_far"

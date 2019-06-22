@@ -12,7 +12,7 @@
 custom_solver_bias = 0.0
 extents = Vector2( 50, 900 )
 
-[node name="city1middle_road1" type="Node2D"]
+[node name="city1middle_road1" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
@@ -85,6 +85,7 @@ _sections_unfolded = [ "Cell", "Collision" ]
 [node name="white_worker1" parent="city_sidewalk_tiles/city_benches" index="0" instance=ExtResource( 4 )]
 
 position = Vector2( 651.619, 128.917 )
+max_visible_diss_distance = 200.0
 
 [node name="rebel_on_foot" parent="city_sidewalk_tiles/city_benches" index="1" instance=ExtResource( 5 )]
 

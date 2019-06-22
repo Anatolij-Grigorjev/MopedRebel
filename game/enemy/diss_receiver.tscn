@@ -1,45 +1,30 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://enemy/diss_receiver.gd" type="Script" id=1]
-[ext_resource path="res://enemy/diss_indicator.png" type="Texture" id=2]
+[ext_resource path="res://enemy/diss_indicator.png" type="Texture" id=1]
+[ext_resource path="res://enemy/diss_receiver.gd" type="Script" id=2]
 
-[node name="diss_receiver" type="Node2D"]
+[node name="diss_receiver" type="Sprite"]
 
-script = ExtResource( 1 )
+modulate = Color( 1, 1, 1, 0 )
+texture = ExtResource( 1 )
+script = ExtResource( 2 )
+_sections_unfolded = [ "Visibility" ]
 receiver_enabled = true
-initial_diss_tolerance_time = null
-initial_diss_calmdown_time = null
+full_diss_tolerance_time = 1.0
+full_diss_calmdown_time = 1.0
 diss_success_action_name = null
 diss_calmdown_action_name = null
 diss_began_action_name = null
 diss_stopped_action_name = null
 diss_reduction_predicate_name = null
 
-[node name="diss_tolerance_timer" type="Timer" parent="." index="0"]
+[node name="diss_alter_tween" type="Tween" parent="." index="0"]
 
-process_mode = 1
-wait_time = 1.0
-one_shot = true
-autostart = false
-
-[node name="diss_indicator" type="Sprite" parent="." index="1"]
-
-modulate = Color( 1, 1, 1, 0 )
-texture = ExtResource( 2 )
-_sections_unfolded = [ "Material", "Visibility" ]
-
-[node name="diss_calmdown_timer" type="Timer" parent="." index="2"]
-
-process_mode = 1
-wait_time = 1.0
-one_shot = false
-autostart = false
-
-[node name="debug_coef_timer" type="Timer" parent="." index="3"]
-
-process_mode = 0
-wait_time = 0.33
-one_shot = false
-autostart = false
+repeat = false
+playback_process_mode = 1
+playback_speed = 1.0
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
 
 

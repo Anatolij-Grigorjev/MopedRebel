@@ -25,8 +25,6 @@ func _process(delta):
 func _assign_new_diss_direction(diss_action_direction):
 	var prev_active_diss_pos = active_diss_position_node
 	active_diss_position_node = diss_action_direction_to_pos_node[diss_action_direction]
-	if (active_diss_position_node != prev_active_diss_pos):
-		LOG.info("new diss position %s: %s", [diss_action_direction, active_diss_position_node.position])
 	active_diss_zone_angle = diss_action_direction_to_node_angle[diss_action_direction]
 	
 func update_for_facing(facing):
