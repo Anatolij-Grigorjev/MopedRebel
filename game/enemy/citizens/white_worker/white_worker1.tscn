@@ -7,11 +7,10 @@
 [ext_resource path="res://enemy/conflict_collision_receiver.tscn" type="PackedScene" id=5]
 [ext_resource path="res://enemy/type_props.tscn" type="PackedScene" id=6]
 
-[sub_resource type="CapsuleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=4]
 
 custom_solver_bias = 0.0
-radius = 46.0
-height = 20.0
+extents = Vector2( 22, 7 )
 
 [sub_resource type="RectangleShape2D" id=2]
 
@@ -117,14 +116,14 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="collision" type="CollisionShape2D" parent="." index="1"]
 
-shape = SubResource( 1 )
+position = Vector2( 0, 57 )
+shape = SubResource( 4 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="diss_receiver" parent="." index="2" instance=ExtResource( 3 )]
 
 position = Vector2( 0, -45 )
 _sections_unfolded = [ "Transform", "Visibility" ]
-diss_success_action_name = "_start_diss_response"
-diss_calmdown_action_name = "_stop_diss_response"
 diss_reduction_predicate_name = "is_rebel_too_far"
 
 [node name="check_rebel_direction_timer" parent="." index="3" instance=ExtResource( 4 )]
@@ -176,6 +175,10 @@ margin_right = 66.0
 margin_bottom = -65.0
 _sections_unfolded = [ "Rect" ]
 type_id = "white_worker"
+
+[connection signal="calmed_down" from="diss_receiver" to="." method="_stop_diss_response"]
+
+[connection signal="got_dissed" from="diss_receiver" to="." method="_start_diss_response"]
 
 [connection signal="body_entered" from="moped_detect_area" to="." method="_on_body_entered_moped_detect_area"]
 

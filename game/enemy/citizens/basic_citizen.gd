@@ -11,7 +11,7 @@ var should_move = false
 var velocity = Vector2()
 var walk_speed = 25
 var run_speed = 40
-var destination_proximity_variance = 15 
+var destination_proximity_variance = 10 
 
 var diss_receiver
 var conflict_collision_receiver

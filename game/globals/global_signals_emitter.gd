@@ -8,8 +8,6 @@ const DEBUG_SIGNALS = true
 signal mounting_moped
 signal unmounting_moped(unmount_position)
 signal rebel_cause_conflict(enemy_node, bribe_money, min_req_sc, enemy_toughness)
-signal rebel_moped_collided
-signal conflict_resolved
 signal conflict_chose_resolution(choice_type, choice_param)
 signal conflict_info_popup_close
 signal rebel_gain_sc(added_sc_amount)
@@ -24,8 +22,6 @@ signal entity_offscreen_for_time(node, time)
 const SIGNAL_REBEL_MOUNT_MOPED = "mounting_moped"
 const SIGNAL_REBEL_UNMOUNT_MOPED = "unmounting_moped"
 const SIGNAL_REBEL_START_CONFLICT = "rebel_cause_conflict"
-const SIGNAL_REBEL_MOPED_COLLISION = "rebel_moped_collided"
-const SIGNAL_CONFLICT_RESOLVED = "conflict_resolved"
 const SIGNAL_CONFLICT_CHOSE_RESOLUTION = "conflict_chose_resolution"
 const SIGNAL_INFO_POPUP_CLOSED = "conflict_info_popup_close"
 const SIGNAL_REBEL_GAIN_SC = "rebel_gain_sc"
@@ -40,8 +36,6 @@ const known_singals = [
 	SIGNAL_REBEL_MOUNT_MOPED,
 	SIGNAL_REBEL_UNMOUNT_MOPED,
 	SIGNAL_REBEL_START_CONFLICT,
-	SIGNAL_REBEL_MOPED_COLLISION,
-	SIGNAL_CONFLICT_RESOLVED,
 	SIGNAL_CONFLICT_CHOSE_RESOLUTION,
 	SIGNAL_INFO_POPUP_CLOSED,
 	SIGNAL_REBEL_GAIN_SC,

@@ -12,10 +12,6 @@ _sections_unfolded = [ "Visibility" ]
 receiver_enabled = true
 full_diss_tolerance_time = 1.0
 full_diss_calmdown_time = 1.0
-diss_success_action_name = null
-diss_calmdown_action_name = null
-diss_began_action_name = null
-diss_stopped_action_name = null
 diss_reduction_predicate_name = null
 
 [node name="diss_alter_tween" type="Tween" parent="." index="0"]

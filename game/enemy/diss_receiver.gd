@@ -3,22 +3,15 @@ extends Sprite
 var Logger = preload("res://globals/logger.gd")
 var LOG
 
-enum DISS_STATES {
-	NOT_ACTIVE,
-	GETTING_DISSED,
-	ACTIVE_DISSED,
-	DISSED_COOLING_DOWN
-}
-var diss_states_array = DISS_STATES.keys()
-
 export(bool) var receiver_enabled = true
 export(float) var full_diss_tolerance_time = 1.0
 export(float) var full_diss_calmdown_time = 1.0
-export(String) var diss_success_action_name
-export(String) var diss_calmdown_action_name
-export(String) var diss_began_action_name
-export(String) var diss_stopped_action_name
 export(String) var diss_reduction_predicate_name
+
+signal got_dissed
+signal calmed_down
+signal getting_dissed(current_level)
+signal calming_down(current_level)
 
 #NODE VARS
 var node_owner
@@ -44,29 +37,23 @@ func _ready():
 func _set_diss_buildup_coef(coef):
 	modulate.a = coef
 	
-func _diss_alter_done(object, key):
-	#we can assume object is self and key is modulate::a
-	is_dissed = modulate.a == 1.0
-	if (is_dissed):
-		_execute_dissed_current_action()
-	else:
-		_execute_calm_current_action()
+func _get_diss_buildup_coef():
+	return modulate.a
 	
-func get_active_diss_state():
+func _diss_alter_done(object, key):
+	#we can assume object is self and key is modulate:a
+	is_dissed = modulate.a == 1.0
+	#remove finished tween to pass is_active checks
+	diss_alter_tween.stop_all()
 	if (is_dissed):
-		if (diss_alter_tween.is_active()):
-			return DISSED_COOLING_DOWN
-		else:
-			return ACTIVE_DISSED
+		emit_signal('got_dissed')
 	else:
-		if (diss_alter_tween.is_active()):
-			return GETTING_DISSED
-		else:
-			return NOT_ACTIVE
+		emit_signal('calmed_down')
 	
 func _process(delta):
 	_check_stop_calmdown_timer()
-	_check_start_calmdown_timer()
+	if (_get_diss_buildup_coef() > 0.0):
+		_check_start_calmdown_timer()
 
 func _check_start_calmdown_timer():
 	if (not diss_alter_tween.is_active()):
@@ -105,14 +92,13 @@ func start_diss_alter_tween(target_value):
 	
 func start_receive_diss():
 	if (not is_dissed):
-		#use the not cooled disshood to get dissed faster
 		start_diss_alter_tween(1.0)
-		_execute_optional_around_action(diss_began_action_name)
+		emit_signal('getting_dissed', _get_diss_buildup_coef())
 	
 func stop_receive_diss():
 	if (not is_dissed):
 		diss_alter_tween.stop_all()
-		_execute_optional_around_action(diss_stopped_action_name)
+		emit_signal('calming_down', _get_diss_buildup_coef())
 		
 func finish_being_dissed():
 	is_dissed = false
@@ -128,26 +114,3 @@ func shutdown_receiver():
 func startup_receiver():
 	receiver_enabled = true
 	is_dissed = false
-
-func _execute_dissed_current_action():
-	if (node_owner != null and node_owner.has_method(diss_success_action_name)):
-		node_owner.call(diss_success_action_name)
-	else:
-		LOG.error("Missing owner node %s or it doesnt have method %s!", 
-			[node_owner, diss_success_action_name]
-		)
-		
-func _execute_calm_current_action():
-	if (node_owner != null and node_owner.has_method(diss_calmdown_action_name)):
-		node_owner.call(diss_calmdown_action_name)
-	else:
-		LOG.warn("Missing owner node %s or it doesnt have method %s!", 
-			[node_owner, diss_calmdown_action_name]
-		)
-		
-func _execute_optional_around_action(action_name):
-	if (node_owner != null 
-		and action_name != null
-		and node_owner.has_method(action_name)
-	):
-		node_owner.call(action_name)

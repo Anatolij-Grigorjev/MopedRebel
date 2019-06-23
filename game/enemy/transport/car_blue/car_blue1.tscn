@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://enemy/transport/simple_transport.gd" type="Script" id=1]
 [ext_resource path="res://enemy/transport/car_blue/car_blue.png" type="Texture" id=2]
 [ext_resource path="res://enemy/diss_receiver.tscn" type="PackedScene" id=3]
 [ext_resource path="res://enemy/check_rebel_direction_timer.tscn" type="PackedScene" id=4]
 [ext_resource path="res://enemy/conflict_collision_receiver.tscn" type="PackedScene" id=5]
+[ext_resource path="res://enemy/type_props.tscn" type="PackedScene" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -141,11 +142,8 @@ shape = SubResource( 1 )
 
 [node name="diss_receiver" parent="." index="2" instance=ExtResource( 3 )]
 
-position = Vector2( 56.9395, -34.2691 )
-diss_success_action_name = "chase_while_dissed"
-diss_calmdown_action_name = "_pre_collide"
-diss_began_action_name = "enter_diss_zone"
-diss_stopped_action_name = "exit_diss_zone"
+position = Vector2( 58, -40 )
+_sections_unfolded = [ "Transform", "Visibility" ]
 diss_reduction_predicate_name = "is_rebel_too_far"
 
 [node name="check_rebel_direction_timer" parent="." index="3" instance=ExtResource( 4 )]
@@ -155,7 +153,6 @@ node_receiver_action = "_align_new_rebel_direction"
 
 [node name="conflict_collision_receiver" parent="." index="4" instance=ExtResource( 5 )]
 
-position = Vector2( 0, -75 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 pre_collide_action_node_path = NodePath("..")
 pre_collide_action_name = "_pre_collide"
@@ -174,6 +171,7 @@ playback/speed = 1.0
 
 [node name="obstacle_warning_zone" type="Area2D" parent="." index="6"]
 
+editor/display_folded = true
 position = Vector2( 384, 0 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -221,6 +219,23 @@ playback_default_blend_time = 0.0
 playback_speed = 1.0
 anims/crash = SubResource( 4 )
 blend_times = [  ]
+
+[node name="type_props" parent="." index="8" instance=ExtResource( 6 )]
+
+margin_left = -95.0
+margin_top = -120.0
+margin_right = 41.0
+margin_bottom = -70.0
+_sections_unfolded = [ "Rect" ]
+type_id = "car_blue"
+
+[connection signal="calmed_down" from="diss_receiver" to="." method="reset_transport"]
+
+[connection signal="calming_down" from="diss_receiver" to="." method="exit_diss_zone"]
+
+[connection signal="getting_dissed" from="diss_receiver" to="." method="enter_diss_zone"]
+
+[connection signal="got_dissed" from="diss_receiver" to="." method="chase_while_dissed"]
 
 [connection signal="body_entered" from="obstacle_warning_zone" to="." method="_on_body_entered_obstacle_zone"]
 

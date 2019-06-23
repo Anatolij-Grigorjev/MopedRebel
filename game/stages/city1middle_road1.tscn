@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://stages/stage_road1.gd" type="Script" id=1]
 [ext_resource path="res://stages/tilesets/city/city_tileset1_bg.tres" type="TileSet" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://enemy/citizens/white_worker/white_worker1.tscn" type="PackedScene" id=4]
 [ext_resource path="res://rebel/rebel_on_foot.tscn" type="PackedScene" id=5]
 [ext_resource path="res://rebel/rebel_on_moped.tscn" type="PackedScene" id=6]
+[ext_resource path="res://enemy/transport/car_blue/car_blue1.tscn" type="PackedScene" id=7]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -85,7 +86,6 @@ _sections_unfolded = [ "Cell", "Collision" ]
 [node name="white_worker1" parent="city_sidewalk_tiles/city_benches" index="0" instance=ExtResource( 4 )]
 
 position = Vector2( 651.619, 128.917 )
-max_visible_diss_distance = 200.0
 
 [node name="rebel_on_foot" parent="city_sidewalk_tiles/city_benches" index="1" instance=ExtResource( 5 )]
 
@@ -115,6 +115,10 @@ _sections_unfolded = [ "Cell" ]
 [node name="rebel_on_moped" parent="city_road_tiles" index="0" instance=ExtResource( 6 )]
 
 position = Vector2( 240.174, 411.858 )
+
+[node name="car_blue1" parent="city_road_tiles" index="1" instance=ExtResource( 7 )]
+
+position = Vector2( 295.006, 655.351 )
 
 [node name="chunk_left" type="Area2D" parent="." index="2"]
 

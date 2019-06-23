@@ -72,12 +72,12 @@ func _set_target_direction(direction):
 	if (sign(scale.x) < 0):
 		$conflict_collision_receiver.scale.x *= -1
 	
-func enter_diss_zone():
+func enter_diss_zone(diss_level):
 	if (not conflict_collision_receiver.collided):
 		should_stop = true
 		_start_velocity_tween(0, 1.5)
 
-func exit_diss_zone():
+func exit_diss_zone(diss_level):
 	if (not conflict_collision_receiver.collided):
 		should_stop = false
 		_start_velocity_tween(maintains_speed, 1.5)
