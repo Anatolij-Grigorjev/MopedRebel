@@ -11,14 +11,12 @@ func _ready():
 	$dissapear_timer.wait_time = visible_time
 
 
-func show_popup():
-	popup_centered()
+func show_popup(position = null):
+	if (position):
+		popup(Rect2(95, 95, 0, 0))
+	else:
+		popup_centered()
 	$dissapear_timer.start()
 	
 func _free_popup():
 	call_deferred('queue_free')
-
-#func _process(delta):
-#	# Called every frame. Delta is time since last frame.
-#	# Update game logic here.
-#	pass

@@ -3,9 +3,10 @@ extends KinematicBody2D
 var Logger = preload("res://globals/logger.gd")
 var LOG
 
-var velocity = Vector2()
 var DissZone = preload("res://rebel/dissing_zone.tscn")
 var active_dissing_zone
+
+var ShoutPopup = preload("res://common/shout_popup.tscn")
 
 var diss_positions_control
 var low_position
@@ -13,6 +14,7 @@ var camera
 var active_sprite
 
 var facing_direction = C.FACING.RIGHT
+var velocity = Vector2()
 
 var enabled = true
 var control_locked = false
@@ -22,6 +24,7 @@ func _ready():
 	diss_positions_control = $diss_positions
 	low_position = $low_collider
 	camera = $camera
+	S.connect_signal_to(S.SIGNAL_ENEMY_DISSED, self, '_enemy_got_dissed')
 	
 	
 func disable():
@@ -79,4 +82,20 @@ func play_nointerrupt_anim(anim_name):
 		lock_control()
 		F.invoke_later(self, 'unlock_control', animation.length)
 		$anim.play(anim_name)
+		
+func _enemy_got_dissed(enemy_node):
+	
+	var props = enemy_node.get_node('type_props')
+	var random_diss = F.get_rand_array_elem(props.disses)
+	shout_for_seconds(global_position, random_diss, 1.5)
+	pass
+	
+func shout_for_seconds(shout_global_position, shout_line, for_seconds):
+	LOG.info("rebel shouting %s at %s for %s seconds", [
+	shout_line, shout_global_position, for_seconds])
+	var shout_dialog = ShoutPopup.instance()
+	shout_dialog.shout_line = shout_line
+	shout_dialog.visible_time = for_seconds
+	add_child(shout_dialog)
+	shout_dialog.show_popup(global_position)
 	

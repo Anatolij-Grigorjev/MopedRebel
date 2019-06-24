@@ -52,6 +52,7 @@ func _start_diss_response():
 	$check_rebel_direction_timer.start()
 	_prepare_aggressive_response()
 	velocity = F.get_speed_to_active_rebel_direction(self, walk_speed)
+	S.emit_signal1(S.SIGNAL_ENEMY_DISSED, self)
 
 func _prepare_aggressive_response():
 	should_move = true

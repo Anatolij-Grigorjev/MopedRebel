@@ -2,7 +2,7 @@
 
 [ext_resource path="res://common/shout_popup.gd" type="Script" id=1]
 
-[node name="shout_popup" type="PopupDialog" index="0"]
+[node name="shout_popup" type="PopupDialog"]
 
 anchor_left = 0.0
 anchor_top = 0.0

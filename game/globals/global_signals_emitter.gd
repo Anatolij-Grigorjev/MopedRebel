@@ -18,6 +18,7 @@ signal body_entering_chunk(body, chunk_idx, facing)
 signal body_entered_chunk(body, chunk_idx, facing)
 signal rebel_position_changed(new_position, new_rebel_state)
 signal entity_offscreen_for_time(node, time)
+signal enemy_dissed(enemy_node)
 
 const SIGNAL_REBEL_MOUNT_MOPED = "mounting_moped"
 const SIGNAL_REBEL_UNMOUNT_MOPED = "unmounting_moped"
@@ -31,6 +32,7 @@ const SIGNAL_BODY_LEFT_CHUNK = "body_left_chunk"
 const SIGNAL_BODY_ENTERING_CHUNK = "body_entering_chunk"
 const SIGNAL_BODY_ENTERED_CHUNK = "body_entered_chunk"
 const SIGNAL_REBEL_CHANGED_POSITION = "rebel_position_changed"
+const SIGNAL_ENEMY_DISSED = "enemy_dissed"
 
 const known_singals = [
 	SIGNAL_REBEL_MOUNT_MOPED,
@@ -44,7 +46,8 @@ const known_singals = [
 	SIGNAL_BODY_LEFT_CHUNK,
 	SIGNAL_BODY_ENTERING_CHUNK,
 	SIGNAL_BODY_ENTERED_CHUNK,
-	SIGNAL_REBEL_CHANGED_POSITION
+	SIGNAL_REBEL_CHANGED_POSITION,
+	SIGNAL_ENEMY_DISSED
 ]
 
 
