@@ -51,4 +51,6 @@ wait_time = 1.0
 one_shot = false
 autostart = false
 
+[connection signal="about_to_show" from="." to="." method="_prepare_popup"]
+
 

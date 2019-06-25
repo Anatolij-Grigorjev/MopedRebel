@@ -84,7 +84,8 @@ func play_nointerrupt_anim(anim_name):
 		$anim.play(anim_name)
 		
 func _enemy_got_dissed(enemy_node):
-	
+	if (self != G.node_active_rebel):
+		return 
 	var props = enemy_node.get_node('type_props')
 	var random_diss = F.get_rand_array_elem(props.disses)
 	shout_for_seconds(global_position, random_diss, 1.5)
@@ -97,5 +98,9 @@ func shout_for_seconds(shout_global_position, shout_line, for_seconds):
 	shout_dialog.shout_line = shout_line
 	shout_dialog.visible_time = for_seconds
 	add_child(shout_dialog)
-	shout_dialog.show_popup(global_position)
+	var sprite_extents = Vector2(0, active_sprite.texture.get_size().y * scale.y)
+#			active_sprite.texture.get_size().x * scale.x, 
+#			active_sprite.texture.get_size().y * scale.y) / 2
+	shout_dialog.rect_position = global_position - sprite_extents
+	shout_dialog.show_popup()
 	

@@ -9,13 +9,14 @@ func _ready():
 	$dissapear_timer.connect('timeout', self, '_free_popup')
 	$shout_line.text = shout_line
 	$dissapear_timer.wait_time = visible_time
+	
+func _prepare_popup():
+	rect_position -= (rect_size / 2 )
+	print(rect_position)
 
 
-func show_popup(position = null):
-	if (position):
-		popup(Rect2(95, 95, 0, 0))
-	else:
-		popup_centered()
+func show_popup():
+	popup()
 	$dissapear_timer.start()
 	
 func _free_popup():
