@@ -8,6 +8,7 @@ export(float) var base_rebel_diss_gain = 0
 
 var sprite
 var should_move = false
+var is_scared = false
 var velocity = Vector2()
 var walk_speed = 25
 var run_speed = 40
@@ -91,6 +92,12 @@ func _body_is_moped_on_sidewalk(body):
 		body == G.node_rebel_on_moped and 
 		body.moped_ground_type == body.MOPED_GROUND_TYPES.SIDEWALK
 	)
+	
+func scared_of_rebel():
+	if (not is_scared):
+		is_scared = true
+		_run_from_rebel(G.node_active_rebel)
+	pass
 
 func _run_from_rebel(rebel_node):
 	_prepare_aggressive_response()

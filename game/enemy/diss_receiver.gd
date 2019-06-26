@@ -9,6 +9,7 @@ export(float) var full_diss_calmdown_time = 1.0
 export(String) var diss_reduction_predicate_name
 
 signal got_dissed
+signal got_scared
 signal calmed_down
 signal getting_dissed(current_level)
 signal calming_down(current_level)
@@ -92,8 +93,13 @@ func start_diss_alter_tween(target_value):
 	
 func start_receive_diss():
 	if (not is_dissed):
-		start_diss_alter_tween(1.0)
-		emit_signal('getting_dissed', _get_diss_buildup_coef())
+		var owner_props = node_owner.get_node('type_props')
+		if (owner_props):
+			if (owner_props.fear_sc < G.rebel_total_street_cred):
+				emit_signal('got_scared')
+			else:
+				start_diss_alter_tween(1.0)
+				emit_signal('getting_dissed', _get_diss_buildup_coef())
 	
 func stop_receive_diss():
 	if (not is_dissed):

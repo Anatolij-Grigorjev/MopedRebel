@@ -12,10 +12,10 @@ func _ready():
 	
 func _prepare_popup():
 	rect_position -= (rect_size / 2 )
-	print(rect_position)
 
 
 func show_popup():
+	#TODO: check existing popups, precendence for fight dss over mock
 	popup()
 	$dissapear_timer.start()
 	

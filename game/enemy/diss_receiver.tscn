@@ -3,7 +3,7 @@
 [ext_resource path="res://enemy/diss_indicator.png" type="Texture" id=1]
 [ext_resource path="res://enemy/diss_receiver.gd" type="Script" id=2]
 
-[node name="diss_receiver" type="Sprite"]
+[node name="diss_receiver" type="Sprite" index="0"]
 
 modulate = Color( 1, 1, 1, 0 )
 texture = ExtResource( 1 )
