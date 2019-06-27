@@ -63,6 +63,7 @@ func _stop_diss_response():
 	diss_receiver.finish_being_dissed()
 	$check_rebel_direction_timer.stop()
 	should_move = true
+	is_scared = false
 	move_destination = standing_position
 	velocity = (move_destination - global_position).normalized() * walk_speed
 	set_collision_mask_bit(C.LAYERS_REBEL_SIDEWALK, false)
@@ -96,7 +97,13 @@ func _body_is_moped_on_sidewalk(body):
 func scared_of_rebel():
 	if (not is_scared):
 		is_scared = true
+		S.emit_signal1(S.SIGNAL_ENEMY_SCARED, self)
 		_run_from_rebel(G.node_active_rebel)
+		$scared_run_timer.start()
+	else:
+		#reset the scare timer if got spooked again
+		$scared_run_timer.stop()
+		$scared_run_timer.start()
 	pass
 
 func _run_from_rebel(rebel_node):
