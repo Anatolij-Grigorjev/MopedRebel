@@ -54,7 +54,7 @@ tracks/2/keys = {
 } ]
 }
 
-[node name="rebel_on_foot" type="KinematicBody2D" index="0"]
+[node name="rebel_on_foot" type="KinematicBody2D"]
 
 input_pickable = false
 collision_layer = 72

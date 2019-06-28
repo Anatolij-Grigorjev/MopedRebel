@@ -94,6 +94,12 @@ func _body_is_moped_on_sidewalk(body):
 		body.moped_ground_type == body.MOPED_GROUND_TYPES.SIDEWALK
 	)
 	
+func _receive_diss(diss_buildup):
+	if ($type_props.fear_sc < G.rebel_total_street_cred):
+		diss_receiver.finish_being_dissed()
+		scared_of_rebel()
+
+	
 func scared_of_rebel():
 	if (not is_scared):
 		is_scared = true

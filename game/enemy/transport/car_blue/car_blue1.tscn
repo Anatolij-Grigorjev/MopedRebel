@@ -154,8 +154,6 @@ node_receiver_action = "_align_new_rebel_direction"
 [node name="conflict_collision_receiver" parent="." index="4" instance=ExtResource( 5 )]
 
 _sections_unfolded = [ "Transform", "Visibility" ]
-pre_collide_action_node_path = NodePath("..")
-pre_collide_action_name = "_pre_collide"
 bribe_money = 150.0
 min_diss_sc = 50.0
 enemy_toughness = "WHIMP"
