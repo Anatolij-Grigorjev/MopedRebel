@@ -21,6 +21,7 @@ props = null
 props_rand_prc = 0.1
 type_name = "???"
 fear_sc = 0
+diss_sc_gain = 0
 escape_delay_sec = 0
 disses = null
 

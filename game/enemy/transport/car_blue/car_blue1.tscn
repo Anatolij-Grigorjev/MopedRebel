@@ -10,7 +10,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
-extents = Vector2( 192, 64 )
+extents = Vector2( 192, 30 )
 
 [sub_resource type="RectangleShape2D" id=2]
 
@@ -138,7 +138,9 @@ _sections_unfolded = [ "Animation", "Offset", "Region", "Transform" ]
 
 [node name="body" type="CollisionShape2D" parent="." index="1"]
 
+position = Vector2( 0, 30 )
 shape = SubResource( 1 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="diss_receiver" parent="." index="2" instance=ExtResource( 3 )]
 
@@ -154,9 +156,6 @@ node_receiver_action = "_align_new_rebel_direction"
 [node name="conflict_collision_receiver" parent="." index="4" instance=ExtResource( 5 )]
 
 _sections_unfolded = [ "Transform", "Visibility" ]
-bribe_money = 150.0
-min_diss_sc = 50.0
-enemy_toughness = "WHIMP"
 
 [node name="velocity_tween" type="Tween" parent="." index="5"]
 
@@ -234,6 +233,8 @@ type_id = "car_blue"
 [connection signal="getting_dissed" from="diss_receiver" to="." method="enter_diss_zone"]
 
 [connection signal="got_dissed" from="diss_receiver" to="." method="chase_while_dissed"]
+
+[connection signal="collided_with_rebel" from="conflict_collision_receiver" to="." method="_on_collision_with_rebel"]
 
 [connection signal="body_entered" from="obstacle_warning_zone" to="." method="_on_body_entered_obstacle_zone"]
 

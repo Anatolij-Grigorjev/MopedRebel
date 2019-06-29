@@ -2,6 +2,7 @@
 	"white_worker": {
 		"type_name": "Calm Citizen",
 		"fear_sc": 100,
+		"diss_sc_gain": 5,
 		"escape_delay_sec": 30,
 		"disses": [
 			"Come at me!"
@@ -10,6 +11,7 @@
 	"car_blue": {
 		"type_name": "Calm Driver",
 		"fear_sc": 150,
+		"diss_sc_gain": 7.5,
 		"escape_delay_sec": 60,
 		"disses": [
 			"Hope you crash!"

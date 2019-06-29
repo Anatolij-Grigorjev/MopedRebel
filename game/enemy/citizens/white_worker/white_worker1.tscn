@@ -134,9 +134,6 @@ node_receiver_action = "_align_new_rebel_direction"
 [node name="conflict_collision_receiver" parent="." index="4" instance=ExtResource( 5 )]
 
 _sections_unfolded = [ "Transform", "Visibility" ]
-bribe_money = 145.0
-min_diss_sc = 98.0
-enemy_toughness = "22-34BB"
 
 [node name="moped_detect_area" type="Area2D" parent="." index="5"]
 
@@ -186,6 +183,8 @@ autostart = false
 [connection signal="getting_dissed" from="diss_receiver" to="." method="_receive_diss"]
 
 [connection signal="got_dissed" from="diss_receiver" to="." method="_start_diss_response"]
+
+[connection signal="collided_with_rebel" from="conflict_collision_receiver" to="." method="_on_collision_with_rebel"]
 
 [connection signal="body_entered" from="moped_detect_area" to="." method="_on_body_entered_moped_detect_area"]
 

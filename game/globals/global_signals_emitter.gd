@@ -7,9 +7,6 @@ const DEBUG_SIGNALS = true
 
 signal mounting_moped
 signal unmounting_moped(unmount_position)
-signal rebel_cause_conflict(enemy_node, bribe_money, min_req_sc, enemy_toughness)
-signal conflict_chose_resolution(choice_type, choice_param)
-signal conflict_info_popup_close
 signal rebel_gain_sc(added_sc_amount)
 signal moped_jump_curb
 signal body_leaving_chunk(body, chunk_idx, facing)
@@ -23,9 +20,6 @@ signal enemy_scared(enemy_node)
 
 const SIGNAL_REBEL_MOUNT_MOPED = "mounting_moped"
 const SIGNAL_REBEL_UNMOUNT_MOPED = "unmounting_moped"
-const SIGNAL_REBEL_START_CONFLICT = "rebel_cause_conflict"
-const SIGNAL_CONFLICT_CHOSE_RESOLUTION = "conflict_chose_resolution"
-const SIGNAL_INFO_POPUP_CLOSED = "conflict_info_popup_close"
 const SIGNAL_REBEL_GAIN_SC = "rebel_gain_sc"
 const SIGNAL_REBEL_JUMP_CURB_ON_MOPED = "moped_jump_curb"
 const SIGNAL_BODY_LEAVING_CHUNK = "body_leaving_chunk"
@@ -39,9 +33,6 @@ const SIGNAL_ENEMY_SCARED = "enemy_scared"
 const known_singals = [
 	SIGNAL_REBEL_MOUNT_MOPED,
 	SIGNAL_REBEL_UNMOUNT_MOPED,
-	SIGNAL_REBEL_START_CONFLICT,
-	SIGNAL_CONFLICT_CHOSE_RESOLUTION,
-	SIGNAL_INFO_POPUP_CLOSED,
 	SIGNAL_REBEL_GAIN_SC,
 	SIGNAL_REBEL_JUMP_CURB_ON_MOPED,
 	SIGNAL_BODY_LEAVING_CHUNK,

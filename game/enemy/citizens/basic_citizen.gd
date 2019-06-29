@@ -42,8 +42,7 @@ func _process(delta):
 				move_destination = null
 
 	
-func _finish_conflict():
-	LOG.info("finish conflict")
+func _finish_conflict_leave():
 	should_move = false
 	diss_receiver.finish_being_dissed()
 	$anim.play("post_conflict")
@@ -95,12 +94,11 @@ func _body_is_moped_on_sidewalk(body):
 	)
 	
 func _receive_diss(diss_buildup):
-	if ($type_props.fear_sc < G.rebel_total_street_cred):
+	if (F.is_rebel_cooler_than(self)):
 		diss_receiver.finish_being_dissed()
-		scared_of_rebel()
-
+		_scared_by_rebel()
 	
-func scared_of_rebel():
+func _scared_by_rebel():
 	if (not is_scared):
 		is_scared = true
 		S.emit_signal1(S.SIGNAL_ENEMY_SCARED, self)
@@ -117,8 +115,8 @@ func _run_from_rebel(rebel_node):
 	velocity = -1 * F.get_speed_to_active_rebel_direction(self, run_speed)
 	
 func get_current_rebel_diss_gain():
-	var coef = conflict_collision_receiver.min_diss_sc / G.rebel_total_street_cred
-	if (coef >= 0.5):
-		return base_rebel_diss_gain * coef
-	else:
-		return 0
+	return $type_props.diss_sc_gain
+
+func _on_collision_with_rebel(collision_obj):
+	if (F.is_rebel_cooler_than(self)):
+		_finish_conflict_leave()

@@ -28,18 +28,7 @@ func _ready():
 	conflict_collision_receiver = $conflict_collision_receiver
 	velocity_tween = $velocity_tween
 	reset_transport()
-	
-func _pre_collide():
-	should_stop = conflict_collision_receiver.collided
-	diss_receiver.finish_being_dissed()
-	$check_rebel_direction_timer.stop()
-	if (not should_stop):
-		_set_target_direction(maintains_direction)
-	else:
-		diss_receiver.shutdown_receiver()
-		velocity_tween.stop_all()
-		$anim.play("crash")
-		set_physics_process(false)
+		
 
 func _physics_process(delta):
 	var collision = move_and_collide(delta * velocity * target_direction)
@@ -128,8 +117,12 @@ func _on_body_exited_crash_zone(body):
 	_start_velocity_tween(new_speed, 1.5)
 	
 func get_current_rebel_diss_gain():
-	var coef = conflict_collision_receiver.min_diss_sc / G.rebel_total_street_cred
-	if (coef >= 0.5):
-		return base_rebel_diss_gain * coef
-	else:
-		return 0
+	return $type_props.diss_sc_gain
+
+func _on_collision_with_rebel(collision_obj):
+	if (F.is_rebel_cooler_than(self)):
+		diss_receiver.shutdown_receiver()
+		velocity_tween.stop_all()
+		$anim.play("crash")
+		set_physics_process(false)
+

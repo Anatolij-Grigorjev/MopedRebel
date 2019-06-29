@@ -27,7 +27,7 @@ func _ready():
 	
 	#configure logger to ouput owner name and this as type
 	LOG = Logger.new(self)
-	LOG.entity_name = "[" + node_owner.name
+	LOG.entity_name = "[" + F.get_node_name_safe(node_owner)
 	LOG.entity_type_descriptor = "|diss-recv]"
 	
 	diss_alter_tween.connect('tween_completed', self, "_diss_alter_done")

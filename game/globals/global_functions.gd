@@ -85,6 +85,12 @@ func is_node_rebel(node):
 		or node == G.node_rebel_on_moped
 	)
 	
+func is_rebel_cooler_than(enemy_node):
+	if (not enemy_node.has_node('type_props')):
+		return true
+	var enemy_sc = enemy_node.get_node('type_props').fear_sc
+	return G.rebel_total_street_cred > enemy_sc
+	
 func get_tileset_position_or_break(start_position, target_tileset, increment, max_increments = 10):
 	var initial_search = get_first_position_on_target_tileset(start_position, target_tileset, increment, max_increments)
 	#if position found all good

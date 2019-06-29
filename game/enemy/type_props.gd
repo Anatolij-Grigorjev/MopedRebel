@@ -10,6 +10,7 @@ export (float) var props_rand_prc = 0.1
 
 export (String) var type_name = '???'
 export (float) var fear_sc = 0
+export (float) var diss_sc_gain = 0
 export (float) var escape_delay_sec = 0
 export (PoolStringArray) var disses = []
 
@@ -22,6 +23,7 @@ func _ready():
 	
 	type_name = props.type_name
 	fear_sc = _randomize_prop_val(props.fear_sc)
+	diss_sc_gain = _randomize_prop_val(props.diss_sc_gain)
 	escape_delay_sec = _randomize_prop_val(props.escape_delay_sec)
 	disses = props.disses
 
@@ -42,6 +44,7 @@ func as_string():
 	return """READY PROPS:
 	Enemy type id: %s
 	fear SC: %s,
+	diss SC gain: %s,
 	escape delay (sec): %s
 	num disses: %s
-	""" % [type_id, fear_sc, escape_delay_sec, disses.size()]
+	""" % [type_id, fear_sc, diss_sc_gain, escape_delay_sec, disses.size()]
