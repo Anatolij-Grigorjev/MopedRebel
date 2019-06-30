@@ -3,7 +3,10 @@ extends "rebel_base.gd"
 func _ready():
 	LOG = Logger.new('REBEL_FOOT')
 	G.node_rebel_on_foot = self
-	._ready()
+	
+func _finish_unmount_moped(sidewalk_position):
+	F.set_active_rebel_state(C.REBEL_STATES.ON_FOOT)
+	global_position = sidewalk_position
 		
 func _disable_collision_layers():
 	set_collision_layer_bit(C.LAYERS_REBEL_SIDEWALK, false)
@@ -47,5 +50,5 @@ func _use_collider_collision_receiver(collision):
 	collision_receiver.react_collision(collision)
 	
 func _finish_mount_moped():
-	S.emit_signal0(S.SIGNAL_REBEL_MOUNT_MOPED)
+	emit_signal("finish_mount_moped")
 

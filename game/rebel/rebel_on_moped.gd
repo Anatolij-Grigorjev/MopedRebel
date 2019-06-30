@@ -29,13 +29,16 @@ var anim
 func _ready():
 	LOG = Logger.new('REBEL_MOPED')
 	G.node_rebel_on_moped = self
-	._ready()
 	moped_engine_tween = $moped_engine_tween
 	anim = $anim
 	last_enabled_collision_layer_state = F.get_node_collision_layer_state(self)
 	G.track_action_press_release('accelerate_right')
 	G.track_action_press_release('accelerate_left')
 	reset_velocity()
+	
+func _finish_mount_moped():
+	F.set_active_rebel_state(C.REBEL_STATES.ON_MOPED)
+	global_position.x = G.node_rebel_on_foot.global_position.x
 	
 func reset_velocity():
 	current_speed = G.moped_config_min_speed
@@ -125,9 +128,12 @@ func _finish_unmounting():
 	rotation = 0
 	is_unmounting_moped = false
 	reset_velocity()
+	#unmounting moped places foot rebel right above curb on same location
 	var sidewalk_position = global_position - Vector2(0, 50)
+	#when moped is mounted back, we give the position some clearance
 	global_position += Vector2(0, 50)
-	S.emit_signal1(S.SIGNAL_REBEL_UNMOUNT_MOPED, sidewalk_position)
+	emit_signal("finish_unmount_moped", sidewalk_position)
+	
 	
 func _collider_is_heavy(collider):
 	return (collider.is_in_group(C.GROUP_CARS)

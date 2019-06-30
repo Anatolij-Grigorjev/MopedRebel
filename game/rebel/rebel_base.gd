@@ -1,5 +1,8 @@
 extends KinematicBody2D
 
+signal finish_mount_moped
+signal finish_unmount_moped(sidewalk_position)
+
 var Logger = preload("res://globals/logger.gd")
 var LOG
 
@@ -85,10 +88,8 @@ func play_nointerrupt_anim(anim_name):
 		$anim.play(anim_name)
 		
 func _shout_at_enemy(enemy_node):
-	if (self != G.node_active_rebel):
+	if (self != G.node_active_rebel or enemy_node.is_scared):
 		return 
-	if (enemy_node.is_scared):
-		pass
 	else:
 		var props = enemy_node.get_node('type_props')
 		var random_diss = F.get_rand_array_elem(props.disses)

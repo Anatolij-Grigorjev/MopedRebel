@@ -8,6 +8,8 @@ var present_nodes = []
 var tally_timer
 var exclude_collision_node
 
+signal rebel_gain_sc(add_sc)
+
 func _ready():
 	if (get_parent() != null):
 		exclude_collision_node = get_parent()
@@ -69,8 +71,5 @@ func _count_dissing_tally():
 		new_tally.rect_global_position = global_position + Vector2(15, -diss_zone_extents.y)
 		new_tally.text = "+%d SC" % total_gained_sc
 		G.node_current_stage_root.add_child(new_tally)
-		S.emit_signal1(
-			S.SIGNAL_REBEL_GAIN_SC,
-			total_gained_sc
-		)
+		emit_signal("rebel_gain_sc", total_gained_sc)
 	
