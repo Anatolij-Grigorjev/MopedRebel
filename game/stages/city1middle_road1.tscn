@@ -13,13 +13,14 @@
 custom_solver_bias = 0.0
 extents = Vector2( 50, 900 )
 
-[node name="city1middle_road1" type="Node2D" index="0"]
+[node name="city1middle_road1" type="Node2D"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="city_sidewalk_tiles" type="TileMap" parent="." index="0"]
 
+editor/display_folded = true
 mode = 0
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 128, 128 )
@@ -93,6 +94,7 @@ position = Vector2( 171.077, 117.053 )
 
 [node name="city_road_tiles" type="TileMap" parent="." index="1"]
 
+editor/display_folded = true
 mode = 0
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 128, 128 )
@@ -122,7 +124,6 @@ position = Vector2( 295.006, 655.351 )
 
 [node name="chunk_left" type="Area2D" parent="." index="2"]
 
-editor/display_folded = true
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -182,5 +183,9 @@ _sections_unfolded = [ "Transform", "Z Index" ]
 
 position = Vector2( 0, 650 )
 _sections_unfolded = [ "Transform" ]
+
+[connection signal="finish_mount_moped" from="city_sidewalk_tiles/city_benches/rebel_on_foot" to="city_road_tiles/rebel_on_moped" method="_finish_mount_moped"]
+
+[connection signal="finish_unmount_moped" from="city_road_tiles/rebel_on_moped" to="city_sidewalk_tiles/city_benches/rebel_on_foot" method="_finish_unmount_moped"]
 
 

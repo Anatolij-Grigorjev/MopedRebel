@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://common/drop_shadow.png" type="Texture" id=1]
+
+[node name="dropshadow" type="Sprite"]
+
+modulate = Color( 1, 1, 1, 0.235294 )
+show_behind_parent = true
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 1 )
+_sections_unfolded = [ "Region", "Transform", "Visibility" ]
+
+
