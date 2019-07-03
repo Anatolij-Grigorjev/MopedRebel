@@ -337,7 +337,8 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="sprite" type="Sprite" parent="." index="1"]
 
-scale = Vector2( -0.45, 0.45 )
+rotation = 0.0872665
+scale = Vector2( 0.35, 0.45 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform" ]
 
@@ -398,7 +399,7 @@ blend_times = [  ]
 [node name="dropshadow" parent="." index="6" instance=ExtResource( 4 )]
 
 position = Vector2( 0, 55 )
-rotation = -0.0872665
-scale = Vector2( 0.4, 0.4 )
+rotation = 0.0872665
+scale = Vector2( 0.3, 0.3 )
 
 

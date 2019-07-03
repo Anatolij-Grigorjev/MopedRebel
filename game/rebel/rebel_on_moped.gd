@@ -8,6 +8,7 @@ var last_enabled_collision_layer_state = []
 
 const MOPED_SUDDEN_STOP_COEF = 3.75
 
+
 enum MOPED_GROUND_TYPES {
 	ROAD = 0,
 	SIDEWALK = 1
@@ -22,6 +23,7 @@ var swerve_direction = 0
 
 var is_unmounting_moped = false
 var is_jumping_curb = false
+
 var remaining_collision_recovery = 0
 
 var moped_engine_tween
@@ -190,7 +192,6 @@ func _process_not_collided(delta):
 	else:
 		if (not control_locked):
 			_handle_unmounting_moped()
-			_handle_jumping_curb()
 			_handle_facing_direction()
 			_handle_swerve_control()
 			_handle_forward_acceleration()
@@ -224,36 +225,9 @@ func _handle_unmounting_moped():
 			else:
 				anim_name = 'unmount_moped'
 				
-#				_start_new_acceleration_tween(0.0, 0.3)
-#				_start_new_swerve_tween(0.0, 0.3)
-				
 				play_nointerrupt_anim(anim_name)
 				is_unmounting_moped = false
-			
 
-			
-			
-func _handle_jumping_curb():
-	if (not is_jumping_curb):
-		if (Input.is_action_just_released('jump_curb')):
-			is_jumping_curb = true
-			var anim_name = ''
-			var swerve_speed = G.moped_config_swerve_speed / 2
-			match(moped_ground_type):
-				ROAD:
-					anim_name = 'moped_swerve_up'
-					swerve_speed *= -1
-				SIDEWALK:
-					anim_name = 'moped_swerve_down'
-				_: LOG.error("unknown moped ground type " + moped_ground_type)
-			
-			var animation_length = anim.get_animation(anim_name).length
-			#play animation
-			anim.play(anim_name)
-			#dont go forward
-			_start_new_acceleration_tween(0.0, animation_length)
-			#go up/down halfspeed
-			_start_new_swerve_tween(swerve_speed, animation_length)
 		
 func _set_moped_ground_layers():
 	var moped_on_road = moped_ground_type == MOPED_GROUND_TYPES.ROAD
