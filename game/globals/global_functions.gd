@@ -146,6 +146,13 @@ func get_tilemap_bounding_rect(tilemap):
 		(highest_global - lowest_global)
 	)
 	
+func reparent_node(node, new_parent):
+	assert_not_null(new_parent)
+	assert_not_null(node)
+	if (node.get_parent()):
+		node.get_parent().remove_child(node)
+	new_parent.add_child(node)
+	
 #check if this node is actually the active rebel node
 func is_body_active_rebel(body):
 	return (

@@ -186,4 +186,6 @@ _sections_unfolded = [ "Transform" ]
 
 [connection signal="finish_unmount_moped" from="city_road_tiles/rebel_on_moped" to="city_sidewalk_tiles/city_benches/rebel_on_foot" method="_finish_unmount_moped"]
 
+[connection signal="started_jumping_curb" from="city_road_tiles/rebel_on_moped" to="." method="_change_moped_parent"]
+
 

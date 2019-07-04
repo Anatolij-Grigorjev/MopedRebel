@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 signal finish_mount_moped
 signal finish_unmount_moped(sidewalk_position)
+signal started_jumping_curb(new_road_type)
 
 var Logger = preload("res://globals/logger.gd")
 var LOG

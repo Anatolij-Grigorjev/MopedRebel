@@ -7,14 +7,9 @@ var check_collision_layers = [
 var last_enabled_collision_layer_state = []
 
 const MOPED_SUDDEN_STOP_COEF = 3.75
+const CURB_GRIND_TIME_SEC = 1.0
 
-
-enum MOPED_GROUND_TYPES {
-	ROAD = 0,
-	SIDEWALK = 1
-}
-
-var moped_ground_type = MOPED_GROUND_TYPES.ROAD
+var moped_ground_type
 
 var current_speed = 0
 var speed_alter_direction = 0
@@ -23,8 +18,10 @@ var swerve_direction = 0
 
 var is_unmounting_moped = false
 var is_jumping_curb = false
+var is_grinding_curb = false
 
 var remaining_collision_recovery = 0
+var remain_curb_grind_time_sec = 0
 
 var moped_engine_tween
 var anim
@@ -32,6 +29,7 @@ var anim
 func _ready():
 	LOG = Logger.new('REBEL_MOPED')
 	G.node_rebel_on_moped = self
+	moped_ground_type = C.MOPED_GROUND_TYPES.ROAD
 	moped_engine_tween = $moped_engine_tween
 	anim = $anim
 	last_enabled_collision_layer_state = F.get_node_collision_layer_state(self)
@@ -103,18 +101,26 @@ func _physics_process(delta):
 		var collider = collision.collider
 		if (collider is TileMap):
 			if (collider.is_in_group(C.GROUP_CURB)):
-				var animation_name = ''
+				var animation_name = null
 				var swerve_length_coef = 1.0
 				if (is_unmounting_moped):
 					animation_name = 'unmount_moped'
 				elif (is_jumping_curb):
 					animation_name = 'moped_jump_curb'
 					swerve_length_coef = 2.0
-					
-				
-				var animation_length = anim.get_animation(animation_name).length
-				play_nointerrupt_anim(animation_name)
-				_start_new_swerve_tween(0, animation_length * swerve_length_coef)
+					var new_ground_type = (
+						C.MOPED_GROUND_TYPES.SIDEWALK if moped_ground_type == C.MOPED_GROUND_TYPES.ROAD 
+						else C.MOPED_GROUND_TYPES.ROAD
+					)
+					emit_signal("started_jumping_curb", new_ground_type)
+				elif (not is_grinding_curb):
+					is_grinding_curb = _rebel_swerve_towards_position(collision.position)
+					if (is_grinding_curb):
+						remain_curb_grind_time_sec = CURB_GRIND_TIME_SEC
+				if (animation_name):
+					var animation_length = anim.get_animation(animation_name).length
+					play_nointerrupt_anim(animation_name)
+					_start_new_swerve_tween(0, animation_length * swerve_length_coef)
 		else:	
 			#bump around by heavy collision (car)
 			if (_collider_is_heavy(collider)):
@@ -122,15 +128,28 @@ func _physics_process(delta):
 
 			if (collider.has_node('conflict_collision_receiver')):
 				_use_collider_collision_receiver(collision)
+	elif (is_grinding_curb):
+		_reset_grinding_curb()
 
 
 func _is_moped_swerving():
 	return current_swerve != 0 and current_speed > 0
 	
+func _rebel_swerve_towards_position(position):
+	return (
+		(position.y > low_position.global_position.y and current_swerve > 0)
+		or 
+		(position.y < low_position.global_position.y and current_swerve < 0)
+	)
+	
 func _use_collider_collision_receiver(collision):
 	var collider = collision.collider
 	var collision_receiver = collider.conflict_collision_receiver
 	collision_receiver.react_collision(collision)
+	
+func _reset_grinding_curb():
+	is_grinding_curb = false
+	remain_curb_grind_time_sec = 0
 	
 func _finish_unmounting():
 	rotation = 0
@@ -143,11 +162,12 @@ func _finish_unmounting():
 	emit_signal("finish_unmount_moped", sidewalk_position)
 	
 func _finish_jumping():
+	_reset_grinding_curb()
 	is_jumping_curb = false
 	reset_velocity()
 	moped_ground_type = (
-		SIDEWALK if moped_ground_type == ROAD 
-		else ROAD
+		C.MOPED_GROUND_TYPES.SIDEWALK if moped_ground_type == C.MOPED_GROUND_TYPES.ROAD 
+		else C.MOPED_GROUND_TYPES.ROAD
 	)
 	_set_moped_ground_layers()
 	
@@ -196,6 +216,7 @@ func _process_not_collided(delta):
 			_handle_swerve_control()
 			_handle_forward_acceleration()
 			_process_dissing_zone()
+			_process_grinding_curb(delta)
 		current_speed = clamp(
 			current_speed, 
 			G.moped_config_min_speed, 
@@ -211,7 +232,7 @@ func _handle_unmounting_moped():
 	if (not is_unmounting_moped):
 		if (Input.is_action_pressed('unmount_moped')):
 			is_unmounting_moped = true
-			var is_on_road = moped_ground_type == ROAD
+			var is_on_road = moped_ground_type == C.MOPED_GROUND_TYPES.ROAD
 			var anim_name = ''
 			if (is_on_road): 
 				anim_name = 'moped_swerve_up'
@@ -230,7 +251,7 @@ func _handle_unmounting_moped():
 
 		
 func _set_moped_ground_layers():
-	var moped_on_road = moped_ground_type == MOPED_GROUND_TYPES.ROAD
+	var moped_on_road = moped_ground_type == C.MOPED_GROUND_TYPES.ROAD
 	set_collision_layer_bit(C.LAYERS_REBEL_ROAD, moped_on_road)
 	set_collision_layer_bit(C.LAYERS_REBEL_SIDEWALK, not moped_on_road)
 
@@ -380,3 +401,10 @@ func _start_new_acceleration_tween(final_speed, speed_shift_duration):
 			Tween.EASE_OUT_IN
 		)
 		moped_engine_tween.start()
+		
+func _process_grinding_curb(delta):
+	if (is_grinding_curb):
+		remain_curb_grind_time_sec -= delta
+		if (remain_curb_grind_time_sec <= 0.0):
+			is_jumping_curb = true
+			_reset_grinding_curb()

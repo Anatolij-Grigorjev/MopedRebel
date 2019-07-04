@@ -164,6 +164,20 @@ tracks/3/keys = {
 "update": 1,
 "values": [ true, false ]
 }
+tracks/4/type = "method"
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 1.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "_finish_jumping"
+} ]
+}
 
 [sub_resource type="Animation" id=4]
 
@@ -337,7 +351,6 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="sprite" type="Sprite" parent="." index="1"]
 
-rotation = 0.0872665
 scale = Vector2( 0.35, 0.45 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform" ]
@@ -400,6 +413,6 @@ blend_times = [  ]
 
 position = Vector2( 0, 55 )
 rotation = 0.0872665
-scale = Vector2( 0.3, 0.3 )
+scale = Vector2( 0.4, 0.4 )
 
 
