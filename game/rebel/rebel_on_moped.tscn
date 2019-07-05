@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://rebel/rebel_on_moped.gd" type="Script" id=1]
 [ext_resource path="res://rebel/rebel_on_moped.png" type="Texture" id=2]
@@ -234,6 +234,61 @@ tracks/3/keys = {
 "values": [ Vector2( 0.4, 0.4 ), Vector2( 0.3, 0.3 ) ]
 }
 
+[sub_resource type="Animation" id=8]
+
+resource_name = "moped_swerve_down_grinding"
+length = 0.2
+loop = true
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 5.0, 10.0, 5.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("sprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0.35, 0.45 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("dropshadow:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 5.0, 10.0, 5.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("dropshadow:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0.3, 0.3 ) ]
+}
+
 [sub_resource type="Animation" id=5]
 
 resource_name = "moped_swerve_up"
@@ -287,6 +342,61 @@ tracks/3/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0.4, 0.4 ), Vector2( 0.3, 0.3 ) ]
+}
+
+[sub_resource type="Animation" id=9]
+
+resource_name = "moped_swerve_up_grinding"
+length = 0.2
+loop = true
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ -5.0, -10.0, -5.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("sprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0.35, 0.45 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("dropshadow:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ -5.0, -10.0, -5.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("dropshadow:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0.3, 0.3 ) ]
 }
 
 [sub_resource type="Animation" id=6]
@@ -351,6 +461,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="sprite" type="Sprite" parent="." index="1"]
 
+rotation = -0.122002
 scale = Vector2( 0.35, 0.45 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform" ]
@@ -405,14 +516,16 @@ anims/crash_transport = SubResource( 2 )
 anims/flip_moped = SubResource( 3 )
 anims/moped_jump_curb = SubResource( 7 )
 anims/moped_swerve_down = SubResource( 4 )
+anims/moped_swerve_down_grinding = SubResource( 8 )
 anims/moped_swerve_up = SubResource( 5 )
+anims/moped_swerve_up_grinding = SubResource( 9 )
 anims/unmount_moped = SubResource( 6 )
 blend_times = [  ]
 
 [node name="dropshadow" parent="." index="6" instance=ExtResource( 4 )]
 
 position = Vector2( 0, 55 )
-rotation = 0.0872665
-scale = Vector2( 0.4, 0.4 )
+rotation = -0.122002
+scale = Vector2( 0.3, 0.3 )
 
 

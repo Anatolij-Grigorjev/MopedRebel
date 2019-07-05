@@ -105,6 +105,16 @@ func get_tileset_position_or_break(start_position, target_tileset, increment, ma
 		])
 
 
+func substring(string, from_idx, to_idx):
+	if (not string or (not typeof(string) == TYPE_STRING)):
+		return string
+	var length = string.length()
+	if (from_idx >= length or from_idx >= to_idx):
+		return ''
+	if (to_idx >= length):
+		return string
+	return string.right(from_idx).left(to_idx - from_idx)
+
 func get_tilemap_bounding_rect(tilemap):
 	if (tilemap == null):
 		return Rect2()

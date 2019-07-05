@@ -117,6 +117,7 @@ func _physics_process(delta):
 					is_grinding_curb = _rebel_swerve_towards_position(collision.position)
 					if (is_grinding_curb):
 						remain_curb_grind_time_sec = CURB_GRIND_TIME_SEC
+						anim.play(anim.assigned_animation + '_grinding')
 				if (animation_name):
 					var animation_length = anim.get_animation(animation_name).length
 					play_nointerrupt_anim(animation_name)
@@ -150,6 +151,12 @@ func _use_collider_collision_receiver(collision):
 func _reset_grinding_curb():
 	is_grinding_curb = false
 	remain_curb_grind_time_sec = 0
+	var current_anim = anim.assigned_animation
+	if (current_anim.ends_with('_grinding')):
+		var no_grind_animation = F.substring(current_anim, 0, current_anim.length() - '_grinding'.length())
+		var anim_object = anim.get_animation(no_grind_animation)
+		anim.play(no_grind_animation)
+		anim.seek(anim_object.length)
 	
 func _finish_unmounting():
 	rotation = 0
