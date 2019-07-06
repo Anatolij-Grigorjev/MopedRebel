@@ -41,18 +41,27 @@ func _finish_mount_moped():
 	F.set_active_rebel_state(C.REBEL_STATES.ON_MOPED)
 	global_position.x = G.node_rebel_on_foot.global_position.x
 	
-func reset_velocity():
-	current_speed = G.moped_config_min_speed
-	_reset_swerve()
-	_reset_acceleration()
+func reduce_velocity(factor):
+	current_speed = clamp(current_speed * factor, G.moped_config_min_speed, G.moped_config_max_speed)
+	_reduce_swerve(factor)
+	_reduce_acceleration(factor)
 	_sprite_to_neutral()
 	
+func reset_velocity():
+	reduce_velocity(0.0)
+	
+func _reduce_swerve(factor):
+	current_swerve *= factor
+	swerve_direction *= factor
+	
+func _reduce_acceleration(factor):
+	speed_alter_direction *= factor
+	
 func _reset_swerve():
-	current_swerve = 0
-	swerve_direction = 0
+	_reduce_swerve(0.0)
 	
 func _reset_acceleration():
-	speed_alter_direction = 0
+	_reduce_acceleration(0.0)
 	
 func _sprite_to_neutral():
 	$sprite.scale = Vector2(0.45, 0.45)
@@ -171,7 +180,7 @@ func _finish_unmounting():
 func _finish_jumping():
 	_reset_grinding_curb()
 	is_jumping_curb = false
-	reset_velocity()
+	reduce_velocity(0.75)
 	moped_ground_type = (
 		C.MOPED_GROUND_TYPES.SIDEWALK if moped_ground_type == C.MOPED_GROUND_TYPES.ROAD 
 		else C.MOPED_GROUND_TYPES.ROAD

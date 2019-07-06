@@ -15,7 +15,7 @@ extents = Vector2( 22, 7 )
 [sub_resource type="RectangleShape2D" id=2]
 
 custom_solver_bias = 0.0
-extents = Vector2( 300, 60 )
+extents = Vector2( 300, 11 )
 
 [sub_resource type="Animation" id=3]
 
@@ -137,7 +137,6 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="moped_detect_area" type="Area2D" parent="." index="5"]
 
-editor/display_folded = true
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -149,6 +148,7 @@ _sections_unfolded = [ "Collision" ]
 
 [node name="body" type="CollisionShape2D" parent="moped_detect_area" index="0"]
 
+position = Vector2( 0, 55 )
 shape = SubResource( 2 )
 _sections_unfolded = [ "Transform" ]
 
