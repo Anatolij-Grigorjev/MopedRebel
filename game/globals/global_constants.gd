@@ -55,6 +55,7 @@ const LAYERS_TRANSPORT_ROAD = 5
 const GROUP_CARS = "road_cars"
 const GROUP_OBSTACLES = "road_obstacles"
 const GROUP_CITIZENS = "sidewalk_citizens"
+const GROUP_BENCHES = "benches"
 
 const SC_GAIN_FOR_GROUP = {
 	GROUP_CARS: 154,

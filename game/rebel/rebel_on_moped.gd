@@ -131,6 +131,11 @@ func _physics_process(delta):
 					var animation_length = anim.get_animation(animation_name).length
 					play_nointerrupt_anim(animation_name)
 					_start_new_swerve_tween(0, animation_length * swerve_length_coef)
+			elif (collider.is_in_group(C.GROUP_BENCHES)):
+				if (abs(collision.normal.x) > 0.4):
+					LOG.info("collision bench: %s", [collision.normal])
+					_bounce_from_colliding_heavy(collision)
+				pass
 		else:	
 			#bump around by heavy collision (car)
 			if (_collider_is_heavy(collider)):
@@ -189,8 +194,10 @@ func _finish_jumping():
 	
 	
 func _collider_is_heavy(collider):
-	return (collider.is_in_group(C.GROUP_CARS)
-		or collider.is_in_group(C.GROUP_OBSTACLES))
+	return (
+		collider.is_in_group(C.GROUP_CARS)
+		or collider.is_in_group(C.GROUP_OBSTACLES)
+	)
 	
 
 func _bounce_from_colliding_heavy(collision):
