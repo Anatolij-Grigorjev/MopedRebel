@@ -87,9 +87,6 @@ func _physics_process(delta):
 	if (remaining_collision_recovery > 0):
 		remaining_collision_recovery = max(
 			remaining_collision_recovery - delta, 0)
-		_perform_sudden_stop(delta)
-		if (remaining_collision_recovery <= 0):
-			reset_velocity()
 	else:
 		_process_not_collided(delta)
 	
@@ -201,11 +198,13 @@ func _collider_is_heavy(collider):
 	
 
 func _bounce_from_colliding_heavy(collision):
-	velocity = velocity.bounce(collision.normal) * 2
+	velocity = velocity.bounce(collision.normal) * Vector2(facing_direction, 1)
 	remaining_collision_recovery = _get_moped_recovery_for_bounce(velocity)
+	LOG.info("hit bounce: %s | recovery: %s", [velocity, remaining_collision_recovery])
 	current_speed = velocity.x
 	current_swerve = velocity.y
-	play_nointerrupt_anim("crash_transport")
+	play_nointerrupt_anim("crash_obstacle")
+	_start_new_acceleration_tween(G.moped_config_min_speed, remaining_collision_recovery)
 
 
 func _get_moped_recovery_for_bounce(bounce_velocity):
