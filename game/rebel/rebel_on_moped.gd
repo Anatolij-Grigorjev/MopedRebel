@@ -131,12 +131,12 @@ func _physics_process(delta):
 			elif (collider.is_in_group(C.GROUP_BENCHES)):
 				if (abs(collision.normal.x) > 0.4):
 					LOG.info("collision bench: %s", [collision.normal])
-					_bounce_from_colliding_heavy(collision)
+					_bounce_from_colliding_heavy(collision, C.GROUP_BENCHES)
 				pass
 		else:	
 			#bump around by heavy collision (car)
 			if (_collider_is_heavy(collider)):
-				_bounce_from_colliding_heavy(collision)
+				_bounce_from_colliding_heavy(collision, C.GROUP_CARS)
 
 			if (collider.has_node('conflict_collision_receiver')):
 				_use_collider_collision_receiver(collision)
@@ -195,15 +195,20 @@ func _collider_is_heavy(collider):
 		collider.is_in_group(C.GROUP_CARS)
 		or collider.is_in_group(C.GROUP_OBSTACLES)
 	)
-	
 
-func _bounce_from_colliding_heavy(collision):
-	velocity = velocity.bounce(collision.normal) * Vector2(facing_direction, 1)
+
+func _bounce_from_colliding_heavy(collision, collider_group):
+	velocity = velocity.bounce(collision.normal) * Vector2(sign(velocity.x), sign(velocity.y))
 	remaining_collision_recovery = _get_moped_recovery_for_bounce(velocity)
-	LOG.info("hit bounce: %s | recovery: %s", [velocity, remaining_collision_recovery])
+	LOG.info("normal: %s | hit_bounce: %s | recovery: %s | collider: %s", [collision.normal, velocity, remaining_collision_recovery, collider_group])
 	current_speed = velocity.x
 	current_swerve = velocity.y
-	play_nointerrupt_anim("crash_obstacle")
+	var crash_anim = null
+	if (collider_group == C.GROUP_CARS):
+		crash_anim = "crash_transport"
+	else:
+		crash_anim = "crash_obstacle"
+	play_nointerrupt_anim(crash_anim)
 	_start_new_acceleration_tween(G.moped_config_min_speed, remaining_collision_recovery)
 
 
