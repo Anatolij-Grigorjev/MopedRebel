@@ -19,6 +19,7 @@ var swerve_direction = 0
 var is_unmounting_moped = false
 var is_jumping_curb = false
 var is_grinding_curb = false
+var print_velocity = false
 
 var remaining_collision_recovery = 0
 var remain_curb_grind_time_sec = 0
@@ -101,6 +102,8 @@ func _physics_process(delta):
 		velocity_speed, 
 		current_swerve
 	)
+	if (print_velocity):
+		print(velocity)
 	var collision = move_and_collide(velocity * delta)
 	if (collision):
 		LOG.info("new collision: %s", [collision])
@@ -200,7 +203,7 @@ func _collider_is_heavy(collider):
 func _bounce_from_colliding_heavy(collision, collider_group):
 	velocity = velocity.bounce(collision.normal) * Vector2(sign(velocity.x), sign(velocity.y))
 	remaining_collision_recovery = _get_moped_recovery_for_bounce(velocity)
-	LOG.info("normal: %s | hit_bounce: %s | recovery: %s | collider: %s", [collision.normal, velocity, remaining_collision_recovery, collider_group])
+	LOG.info("normal: %s | velocity: %s | recovery: %s | collider: %s", [collision.normal, velocity, remaining_collision_recovery, collider_group])
 	current_speed = velocity.x
 	current_swerve = velocity.y
 	var crash_anim = null
@@ -209,6 +212,7 @@ func _bounce_from_colliding_heavy(collision, collider_group):
 	else:
 		crash_anim = "crash_obstacle"
 	play_nointerrupt_anim(crash_anim)
+	print_velocity = true
 	_start_new_acceleration_tween(G.moped_config_min_speed, remaining_collision_recovery)
 
 
