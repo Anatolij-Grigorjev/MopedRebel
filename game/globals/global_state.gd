@@ -29,7 +29,6 @@ var moped_config_max_acceleration_rate = 45
 var moped_config_brake_intensity = 50
 var moped_config_swerve_speed = F.y2z(moped_config_max_speed)
 var moped_config_swerve_acceleration_rate = F.y2z(moped_config_max_acceleration_rate)
-var moped_config_crash_recovery_time = 0.9
 var moped_config_max_flat_velocity_sq = Vector2(
 	moped_config_max_speed,
 	moped_config_swerve_speed
@@ -48,7 +47,6 @@ func _ready():
 	LOG.info('moped_config_brake_intensity: %s' % moped_config_brake_intensity)
 	LOG.info('moped_config_swerve_speed: %s' % moped_config_swerve_speed)
 	LOG.info('moped_config_swerve_acceleration_rate: %s' % moped_config_swerve_acceleration_rate)
-	LOG.info('moped_config_crash_recovery_time: %s' % moped_config_crash_recovery_time)
 	LOG.info('moped_config_max_flat_velocity_sq: %s' % moped_config_max_flat_velocity_sq)
 	PRESSED_ACTIONS_TRACKER.clear()
 	pass
