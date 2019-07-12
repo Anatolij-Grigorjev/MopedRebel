@@ -125,4 +125,9 @@ func _on_collision_with_rebel(collision_obj):
 		velocity_tween.stop_all()
 		$anim.play("crash")
 		set_physics_process(false)
+	else:
+		var animation_name = "crash_light"
+		var anim_length = $anim.get_animation(animation_name).length
+		_start_velocity_tween(0.0, anim_length)
+		$anim.play(animation_name)
 

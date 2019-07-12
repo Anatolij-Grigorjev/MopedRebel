@@ -19,7 +19,6 @@ var swerve_direction = 0
 var is_unmounting_moped = false
 var is_jumping_curb = false
 var is_grinding_curb = false
-var print_velocity = false
 
 var remaining_collision_recovery = 0
 var remain_curb_grind_time_sec = 0
@@ -84,10 +83,6 @@ func _enable_collision_layers():
 		set_collision_mask_bit(mask_layer, true)
 	
 func _physics_process(delta):
-	if (print_velocity):
-		print("START _physics_process")
-		print(velocity)
-		print(current_swerve)
 	if (remaining_collision_recovery > 0):
 		remaining_collision_recovery = max(
 			remaining_collision_recovery - delta, 
@@ -144,23 +139,12 @@ func _physics_process(delta):
 			#bump around by heavy collision (car)
 			if (_collider_is_heavy(collider)):
 				_bounce_from_colliding_heavy(collision, C.GROUP_CARS)
-				if (print_velocity):
-					print("POST _bounce_from_colliding_heavy")
-					print(velocity)
-					print(current_swerve)
 
 			if (collider.has_node('conflict_collision_receiver')):
 				_use_collider_collision_receiver(collision)
-				if (print_velocity):
-					print("POST _use_collider_collision_receiver")
-					print(velocity)
-					print(current_swerve)
+
 	elif (is_grinding_curb):
 		_reset_grinding_curb()
-	if (print_velocity):
-		print("END _physics_process")
-		print(velocity)
-		print(current_swerve)
 
 
 func _is_moped_swerving():
@@ -229,8 +213,8 @@ func _bounce_from_colliding_heavy(collision, collider_group):
 	remaining_collision_recovery = $anim.get_animation(crash_anim).length
 	LOG.info("normal: %s | velocity: %s | recovery: %s | collider: %s", [collision.normal, velocity, remaining_collision_recovery, collider_group])
 	play_nointerrupt_anim(crash_anim)
-	print_velocity = true
 	_start_new_acceleration_tween(G.moped_config_min_speed, remaining_collision_recovery)
+	_start_new_swerve_tween(0, remaining_collision_recovery)
 
 
 func _perform_sudden_stop(delta):
