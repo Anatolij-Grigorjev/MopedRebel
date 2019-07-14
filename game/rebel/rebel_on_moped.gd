@@ -231,7 +231,6 @@ func _process_not_collided(delta):
 			_handle_facing_direction()
 			_handle_swerve_control()
 			_handle_forward_acceleration()
-			_process_dissing_zone()
 			_process_grinding_curb(delta)
 		current_speed = clamp(
 			current_speed, 
@@ -298,14 +297,14 @@ func _turn_around_moped():
 	facing_direction = F.flip_facing(facing_direction)
 	#flip char to match facing
 	scale.x *= -1
-	
-	$diss_positions.update_for_facing(facing_direction)
 	#turn around animation flips sprite scale so have to unflip it
 	#to maintain same direction as transform
 	active_sprite.scale.x = abs(active_sprite.scale.x)
 	LOG.info(
 		"POST facing: %s, scale: %s, sprite scale: %s", 
 		[facing_direction, scale.x, active_sprite.scale.x])
+	emit_signal("changed_facing", facing_direction)	
+	
 	reset_velocity()
 
 func _handle_swerve_control():

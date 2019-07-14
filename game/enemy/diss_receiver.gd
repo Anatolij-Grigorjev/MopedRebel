@@ -26,10 +26,7 @@ func _ready():
 	_set_diss_buildup_coef(0.0)
 	
 	#configure logger to ouput owner name and this as type
-	LOG = Logger.new(self)
-	LOG.entity_name = "[" + F.get_node_name_safe(node_owner)
-	LOG.entity_type_descriptor = "|diss-recv]"
-	
+	LOG = F.configure_sub_logger(Logger.new(self), node_owner, "diss-recv")	
 	diss_alter_tween.connect('tween_completed', self, "_diss_alter_done")
 
 	pass

@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://rebel/rebel_on_foot.gd" type="Script" id=1]
 [ext_resource path="res://rebel/rebel_on_foot.png" type="Texture" id=2]
 [ext_resource path="res://rebel/diss_positions.tscn" type="PackedScene" id=3]
+[ext_resource path="res://rebel/shout_maker.tscn" type="PackedScene" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -112,5 +113,11 @@ playback_default_blend_time = 0.0
 playback_speed = 1.0
 anims/mount_moped = SubResource( 2 )
 blend_times = [  ]
+
+[node name="shout_maker" parent="." index="5" instance=ExtResource( 4 )]
+
+position = Vector2( 4.22842, -81.878 )
+
+[connection signal="changed_facing" from="." to="diss_positions" method="update_for_facing"]
 
 

@@ -239,6 +239,11 @@ func get_node_name_safe(node):
 		return node.name
 	else:
 		return "<NULL>"
+		
+func configure_sub_logger(logger, owner_node, logger_name):
+	logger.entity_name = "[" + get_node_name_safe(owner_node)
+	logger.entity_type_descriptor = "|%s]" % logger_name
+	return logger
 	
 func invoke_later(node_owner, action_name, seconds_delay = 1):
 	if (seconds_delay <= 0):

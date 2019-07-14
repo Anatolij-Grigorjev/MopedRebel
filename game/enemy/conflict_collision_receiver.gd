@@ -9,10 +9,7 @@ signal collided_with_rebel(collision_obj)
 var collided = false
 
 func _ready():
-	LOG = Logger.new(self)
-	#configure logger to ouput owner name and this as type
-	LOG.entity_name = "[" + F.get_node_name_safe(owner)
-	LOG.entity_type_descriptor = "|conflict-recv]"
+	LOG = F.configure_sub_logger(Logger.new(self), owner, "conflict-recv")
 	pass
 
 func react_collision(collision):
