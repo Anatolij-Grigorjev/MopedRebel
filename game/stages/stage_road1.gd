@@ -6,7 +6,6 @@ func _ready():
 	#initialize node switch context
 	G.node_active_rebel = G.node_rebel_on_foot
 	G.node_rebel_on_moped.disable()
-	
 	F.set_active_rebel_state(C.REBEL_STATES.ON_MOPED)
 	
 	

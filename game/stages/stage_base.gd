@@ -7,11 +7,17 @@ var ShoutPopup = preload("res://common/shout_popup.tscn")
 func _ready():
 	pass
 	
+func _body_left_screen_headed_left(body):
+	if (F.is_body_active_rebel(body)
+		and G.node_active_rebel.facing_direction == C.FACING.LEFT):
+		_turn_around_offscreen_rebel(G.node_active_rebel.facing_direction)
+
+	
 func _turn_around_offscreen_rebel(rebel_facing):
 	LOG.info('rebel went offscreen long enough, turning around...')
 	
 	var rebel_node = G.node_active_rebel
-	rebel_node.control_locked = true
+	rebel_node.lock_control()
 	
 	#which direction rebel should face to comeback onscreen
 	var new_facing = F.flip_facing(rebel_facing)
@@ -36,14 +42,7 @@ func _turn_around_offscreen_rebel(rebel_facing):
 	F.invoke_later(self, '_restore_rebel_control', time_back)
 	#make manager shout
 	var manager_line = 'Get back to it, MR, delivery ain\'t done yet!'
-	_show_shout_dialog(manager_line, time_back)
-	
-func _show_shout_dialog(shout_line, for_seconds):
-	var shout_dialog = ShoutPopup.instance()
-	shout_dialog.shout_line = shout_line
-	shout_dialog.visible_time = for_seconds
-	add_child(shout_dialog)
-	shout_dialog.show_popup()
+	$shout_maker.shout_for_seconds(manager_line)
 
 func _restore_rebel_control():
-	G.node_active_rebel.control_locked = false
+	G.node_active_rebel.unlock_control()
