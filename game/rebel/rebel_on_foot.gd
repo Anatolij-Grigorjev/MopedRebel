@@ -1,5 +1,7 @@
 extends "rebel_base.gd"
 
+var is_in_conflict = false
+
 func _ready():
 	LOG = Logger.new('REBEL_FOOT')
 	G.node_rebel_on_foot = self
@@ -29,9 +31,17 @@ func _physics_process(delta):
 			facing_direction = velocity.x
 			emit_signal("changed_facing", facing_direction)
 		velocity = velocity.normalized() * G.foot_config_walk_speed
+		#in conflict, allow attack animations
+		if (is_in_conflict):
+			if Input.is_action_pressed('attack_1'):
+				play_nointerrupt_anim('attack_1')
+			pass
+		else:	
+		#outside of conflict allow mounting moped
+			if Input.is_action_just_released('mount_moped'):
+				play_nointerrupt_anim('mount_moped')
+			
 		
-		if Input.is_action_just_released('mount_moped'):
-			play_nointerrupt_anim('mount_moped')
 	
 	var collision = move_and_collide(velocity * delta)
 	if (collision):
