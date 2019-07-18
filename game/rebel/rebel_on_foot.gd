@@ -31,6 +31,7 @@ func _physics_process(delta):
 			facing_direction = velocity.x
 			emit_signal("changed_facing", facing_direction)
 		velocity = velocity.normalized() * G.foot_config_walk_speed
+
 		#in conflict, allow attack animations
 		if (is_in_conflict):
 			if Input.is_action_pressed('attack_1'):
