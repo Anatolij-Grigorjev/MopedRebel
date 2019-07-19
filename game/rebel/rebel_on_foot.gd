@@ -53,6 +53,7 @@ func _physics_process(delta):
 			LOG.info("new citizen collision: %s", [collision])
 			if (collider.has_node('conflict_collision_receiver')):
 				_use_collider_collision_receiver(collision)
+			start_conflict(collision.collider)
 
 func _use_collider_collision_receiver(collision):
 	var collider = collision.collider
@@ -61,4 +62,7 @@ func _use_collider_collision_receiver(collision):
 	
 func _finish_mount_moped():
 	emit_signal("finish_mount_moped")
+	
+func start_conflict(enemy_node):
+	emit_signal("started_conflict_with", enemy_node)
 

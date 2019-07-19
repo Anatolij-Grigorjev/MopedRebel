@@ -194,7 +194,10 @@ tracks/5/keys = {
 "values": [ Vector2( -95, -120 ), Vector2( -95, -170 ), Vector2( -95, -120 ) ]
 }
 
-[node name="car_blue1" type="KinematicBody2D"]
+[node name="car_blue1" type="KinematicBody2D" index="0" groups=[
+"road_cars",
+"enemy",
+]]
 
 input_pickable = false
 collision_layer = 32
@@ -278,7 +281,7 @@ collision_layer = 0
 collision_mask = 88
 audio_bus_override = false
 audio_bus_name = "Master"
-_sections_unfolded = [ "Collision", "Transform", "Visibility" ]
+_sections_unfolded = [ "Collision", "Material", "Transform", "Visibility" ]
 
 [node name="body" type="CollisionShape2D" parent="obstacle_warning_zone/crash_warning_zone" index="0"]
 

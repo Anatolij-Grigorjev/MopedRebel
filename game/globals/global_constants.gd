@@ -52,6 +52,7 @@ const LAYERS_REBEL_ROAD = 4
 const LAYERS_TRANSPORT_ROAD = 5
 
 ## ENEMY GROUPS
+const GROUP_ENEMY = "enemy" #all enemies of moped rebel
 const GROUP_CARS = "road_cars"
 const GROUP_OBSTACLES = "road_obstacles"
 const GROUP_CITIZENS = "sidewalk_citizens"

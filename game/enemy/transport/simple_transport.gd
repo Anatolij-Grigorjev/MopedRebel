@@ -24,7 +24,6 @@ func _ready():
 	start_position = global_position
 	sprite = $sprite
 	diss_receiver = $diss_receiver
-	add_to_group(C.GROUP_CARS)
 	conflict_collision_receiver = $conflict_collision_receiver
 	velocity_tween = $velocity_tween
 	reset_transport()

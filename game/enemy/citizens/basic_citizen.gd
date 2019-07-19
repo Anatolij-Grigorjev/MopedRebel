@@ -23,7 +23,6 @@ var move_destination = null
 var stage_chunk_idx
 
 func _ready():
-	add_to_group(C.GROUP_CITIZENS)
 	sprite = $sprite
 	moped_detect_area = $moped_detect_area
 	diss_receiver = $diss_receiver
@@ -120,3 +119,5 @@ func get_current_rebel_diss_gain():
 func _on_collision_with_rebel(collision_obj):
 	if (F.is_rebel_cooler_than(self)):
 		_finish_conflict_leave()
+	else:
+		$anim.play('pre_conflict')
