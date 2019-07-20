@@ -5,6 +5,7 @@ var is_in_conflict = false
 func _ready():
 	LOG = Logger.new('REBEL_FOOT')
 	G.node_rebel_on_foot = self
+	connect('started_conflict_with', VS, 'rebel_started_conflict_with')
 	
 func _finish_unmount_moped(sidewalk_position):
 	F.set_active_rebel_state(C.REBEL_STATES.ON_FOOT)
@@ -64,5 +65,9 @@ func _finish_mount_moped():
 	emit_signal("finish_mount_moped")
 	
 func start_conflict(enemy_node):
+	is_in_conflict = true
 	emit_signal("started_conflict_with", enemy_node)
+	
+func end_conflict():
+	is_in_conflict = false
 

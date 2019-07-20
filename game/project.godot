@@ -20,6 +20,7 @@ F="*res://globals/global_functions.gd"
 S="*res://globals/global_signals_emitter.gd"
 G="*res://globals/global_state.gd"
 L="*res://globals/global_props_loader.gd"
+VS="*res://globals/global_conflict_tracker.gd"
 
 [display]
 

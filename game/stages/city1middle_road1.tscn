@@ -14,7 +14,7 @@
 custom_solver_bias = 0.0
 extents = Vector2( 50, 900 )
 
-[node name="city1middle_road1" type="Node2D"]
+[node name="city1middle_road1" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]

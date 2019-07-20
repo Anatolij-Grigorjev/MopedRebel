@@ -1,53 +1,15 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
-[sub_resource type="RectangleShape2D" id=1]
-
-custom_solver_bias = 0.0
-extents = Vector2( 10, 200 )
-
-[sub_resource type="RectangleShape2D" id=2]
-
-custom_solver_bias = 0.0
-extents = Vector2( 10, 200 )
+[ext_resource path="res://conflict/conflict_arena_wall.tscn" type="PackedScene" id=1]
 
 [node name="conflict_arena" type="Node2D" index="0"]
 
-[node name="arena_wall_left" type="StaticBody2D" parent="." index="0"]
+[node name="conflict_arena_wall_left" parent="." index="0" instance=ExtResource( 1 )]
 
-editor/display_folded = true
 position = Vector2( -600, 0 )
-input_pickable = false
-collision_layer = 0
-collision_mask = 504
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
-_sections_unfolded = [ "Collision", "Transform" ]
 
-[node name="body" type="CollisionShape2D" parent="arena_wall_left" index="0"]
+[node name="conflict_arena_wall_right" parent="." index="1" instance=ExtResource( 1 )]
 
-modulate = Color( 0.120209, 0.0535954, 0.90625, 1 )
-shape = SubResource( 1 )
-_sections_unfolded = [ "Visibility" ]
-
-[node name="arena_wall_right" type="StaticBody2D" parent="." index="1"]
-
-editor/display_folded = true
 position = Vector2( 600, 0 )
-input_pickable = false
-collision_layer = 0
-collision_mask = 504
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
-_sections_unfolded = [ "Collision", "Transform" ]
-
-[node name="body" type="CollisionShape2D" parent="arena_wall_right" index="0"]
-
-modulate = Color( 0.120209, 0.0535954, 0.90625, 1 )
-shape = SubResource( 2 )
-_sections_unfolded = [ "Visibility" ]
 
 

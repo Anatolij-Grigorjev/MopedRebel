@@ -120,4 +120,15 @@ func _on_collision_with_rebel(collision_obj):
 	if (F.is_rebel_cooler_than(self)):
 		_finish_conflict_leave()
 	else:
+		should_move = false
 		$anim.play('pre_conflict')
+		
+func move_to_conflict_position():
+	var conflict_start_position = global_position - Vector2(150, 25)
+	var move_time = $anim.current_animation_length - $anim.current_animation_position
+	$position_shift.interpolate_property(
+		self, 'global_position', #property location
+		global_position, conflict_start_position, #from-to values
+		move_time, Tween.TRANS_EXPO, Tween.EASE_OUT #transition props: duration/algo
+	)
+	$position_shift.start()
