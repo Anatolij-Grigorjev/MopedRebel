@@ -30,14 +30,14 @@ func rebel_started_conflict_with(enemy_node):
 	current_arena = arena
 	#get rest stage enemies
 	var rest_stage_enemies = get_tree().get_nodes_in_group(C.GROUP_ENEMY)
-	rest_stage_enemies.remove(enemy_node)
-	_cache_rest_enemies(rest_stage_enemies)
+	rest_stage_enemies.erase(enemy_node)
+	_cache_enemies(rest_stage_enemies)
 	
 func _cache_enemies(enemies_list):
 	#save data for re-insertion after conflict done
 	for rest_enemy_node in enemies_list:
 		var enemy_parent = rest_enemy_node.get_parent()
-		rest_enemies_cache.add({
+		rest_enemies_cache.append({
 			'node': rest_enemy_node,
 			'parent': enemy_parent,
 			'global_position': rest_enemy_node.global_position

@@ -13,6 +13,7 @@ func _ready():
 	pass
 
 func _shout_at_enemy(enemy_node):
+	#ensure correct rebel is shouting
 	if (owner != G.node_active_rebel or enemy_node.is_scared):
 		return 
 	else:

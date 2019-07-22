@@ -194,7 +194,7 @@ tracks/5/keys = {
 "values": [ Vector2( -95, -120 ), Vector2( -95, -170 ), Vector2( -95, -120 ) ]
 }
 
-[node name="car_blue1" type="KinematicBody2D" index="0" groups=[
+[node name="car_blue1" type="KinematicBody2D" groups=[
 "road_cars",
 "enemy",
 ]]

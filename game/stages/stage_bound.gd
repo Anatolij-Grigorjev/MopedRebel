@@ -1,17 +1,24 @@
-extends Node2D
+extends Area2D
 
 var Logger = preload("res://globals/logger.gd")
 var LOG
 var ShoutPopup = preload("res://common/shout_popup.tscn")
 
-var stage_size = Vector2(3600, 900)
+enum FACING {
+	LEFT = -1,
+	RIGHT = 1
+}
+export(FACING) var bound_direction = -1
+export(Vector2) var shout_location = Vector2()
 
 func _ready():
+	LOG = F.configure_sub_logger(Logger.new(''), owner, 'bound')
+	$shout_maker.global_position = shout_location
 	pass
 	
-func _body_left_screen_headed_left(body):
+func _body_left_stage_bound(body):
 	if (F.is_body_active_rebel(body)
-		and G.node_active_rebel.facing_direction == C.FACING.LEFT):
+		and G.node_active_rebel.facing_direction == bound_direction):
 		_turn_around_offscreen_rebel(G.node_active_rebel.facing_direction)
 
 	
@@ -41,10 +48,7 @@ func _turn_around_offscreen_rebel(rebel_facing):
 	#amount of time it will take to drive back
 	var time_back = (100 + abs(rebel_node.global_position.x)) / comeback_speed
 	#give back control once onscreen
-	F.invoke_later(self, '_restore_rebel_control', time_back)
+	F.invoke_later(G.node_active_rebel, 'unlock_control', time_back)
 	#make manager shout
 	var manager_line = 'Get back to it, MR, delivery ain\'t done yet!'
 	$shout_maker.shout_for_seconds(manager_line)
-
-func _restore_rebel_control():
-	G.node_active_rebel.unlock_control()

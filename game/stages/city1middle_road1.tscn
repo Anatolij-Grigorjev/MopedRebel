@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://stages/stage_road1.gd" type="Script" id=1]
 [ext_resource path="res://stages/tilesets/city/city_tileset1_bg.tres" type="TileSet" id=2]
@@ -7,17 +7,13 @@
 [ext_resource path="res://rebel/rebel_on_foot.tscn" type="PackedScene" id=5]
 [ext_resource path="res://rebel/rebel_on_moped.tscn" type="PackedScene" id=6]
 [ext_resource path="res://enemy/transport/car_blue/car_blue1.tscn" type="PackedScene" id=7]
-[ext_resource path="res://rebel/shout_maker.tscn" type="PackedScene" id=8]
-
-[sub_resource type="RectangleShape2D" id=1]
-
-custom_solver_bias = 0.0
-extents = Vector2( 50, 900 )
+[ext_resource path="res://stages/stage_bound.tscn" type="PackedScene" id=8]
 
 [node name="city1middle_road1" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
+initial_rebel_state = 0
 
 [node name="city_sidewalk_tiles" type="TileMap" parent="." index="0"]
 
@@ -126,28 +122,10 @@ rotation = 6.99382e-07
 
 [node name="car_blue1" parent="city_road_tiles/YSort" index="1" instance=ExtResource( 7 )]
 
-position = Vector2( 295.006, 655.351 )
+position = Vector2( 273.964, 653.598 )
+maintains_speed = 25.0
 
-[node name="chunk_left" type="Area2D" parent="." index="2"]
-
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-collision_layer = 0
-collision_mask = 184
-audio_bus_override = false
-audio_bus_name = "Master"
-_sections_unfolded = [ "Collision" ]
-
-[node name="collider" type="CollisionShape2D" parent="chunk_left" index="0"]
-
-position = Vector2( 50, 900 )
-shape = SubResource( 1 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="prop_positions" type="Node2D" parent="." index="3"]
+[node name="prop_positions" type="Node2D" parent="." index="2"]
 
 editor/display_folded = true
 _sections_unfolded = [ "Sort" ]
@@ -181,27 +159,24 @@ _sections_unfolded = [ "Transform" ]
 position = Vector2( 2300, 179.332 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="car_go_left_start" type="Position2D" parent="." index="4"]
+[node name="car_go_left_start" type="Position2D" parent="." index="3"]
 
 position = Vector2( 3200, 350 )
 _sections_unfolded = [ "Transform", "Z Index" ]
 
-[node name="car_go_right_start" type="Position2D" parent="." index="5"]
+[node name="car_go_right_start" type="Position2D" parent="." index="4"]
 
 position = Vector2( 0, 650 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="shout_maker" parent="." index="6" instance=ExtResource( 8 )]
+[node name="rebel_stage_bound" parent="." index="5" instance=ExtResource( 8 )]
 
-position = Vector2( 400, 350 )
-_sections_unfolded = [ "Transform" ]
+shout_location = Vector2( 350, 500 )
 
 [connection signal="finish_mount_moped" from="city_sidewalk_tiles/city_benches/rebel_on_foot" to="city_road_tiles/YSort/rebel_on_moped" method="_finish_mount_moped"]
 
 [connection signal="finish_unmount_moped" from="city_road_tiles/YSort/rebel_on_moped" to="city_sidewalk_tiles/city_benches/rebel_on_foot" method="_finish_unmount_moped"]
 
 [connection signal="started_jumping_curb" from="city_road_tiles/YSort/rebel_on_moped" to="." method="_change_moped_parent"]
-
-[connection signal="body_exited" from="chunk_left" to="." method="_body_left_screen_headed_left"]
 
 

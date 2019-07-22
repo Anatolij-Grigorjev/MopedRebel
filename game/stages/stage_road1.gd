@@ -1,12 +1,30 @@
-extends "stage_base.gd"
+extends Node2D
+
+var Logger = preload("res://globals/logger.gd")
+var LOG
+
+var stage_size = Vector2(3600, 900)
+
+enum REBEL_STATE {
+	ON_FOOT,
+	ON_MOPED
+}
+export(REBEL_STATE) var initial_rebel_state = REBEL_STATE.ON_MOPED
 
 func _ready():
 	LOG = Logger.new(self.name)
 	G.node_current_stage_root = self
 	#initialize node switch context
-	G.node_active_rebel = G.node_rebel_on_foot
-	G.node_rebel_on_moped.disable()
-	F.set_active_rebel_state(C.REBEL_STATES.ON_MOPED)
+	if (initial_rebel_state == REBEL_STATE.ON_MOPED):
+		G.node_active_rebel = G.node_rebel_on_foot
+		G.node_rebel_on_moped.disable()
+		F.set_active_rebel_state(C.REBEL_STATES.ON_MOPED)
+	elif (initial_rebel_state == REBEL_STATE.ON_FOOT):
+		G.node_active_rebel = G.node_rebel_on_foot
+		G.node_rebel_on_moped.disable()
+		F.set_active_rebel_state(C.REBEL_STATES.ON_FOOT)
+	else:
+		LOG.error("Unknown initial rebel state %s!", [initial_rebel_state])
 	
 	
 func _rebel_new_position_state_received(new_rebel_position, for_rebel_state):

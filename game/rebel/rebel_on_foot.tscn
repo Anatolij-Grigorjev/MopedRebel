@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://rebel/rebel_on_foot.gd" type="Script" id=1]
-[ext_resource path="res://rebel/rebel_on_foot_walk_sprites.png" type="Texture" id=2]
+[ext_resource path="res://rebel/fight/rebel_on_foot_attack_sprites.png" type="Texture" id=2]
 [ext_resource path="res://rebel/diss_positions.tscn" type="PackedScene" id=3]
-[ext_resource path="res://rebel/shout_maker.tscn" type="PackedScene" id=4]
+[ext_resource path="res://rebel/rebel_on_foot_walk_sprites.png" type="Texture" id=4]
+[ext_resource path="res://rebel/shout_maker.tscn" type="PackedScene" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -90,7 +91,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 2 ) ]
+"values": [ ExtResource( 4 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("sprite:frame")
@@ -128,9 +129,11 @@ _sections_unfolded = [ "Collision", "Transform" ]
 
 [node name="sprite" type="Sprite" parent="." index="0"]
 
+position = Vector2( 12, 0 )
 texture = ExtResource( 2 )
 vframes = 2
 hframes = 3
+frame = 3
 _sections_unfolded = [ "Animation", "Region", "Transform" ]
 
 [node name="camera" type="Camera2D" parent="." index="1"]
@@ -179,7 +182,7 @@ anims/mount_moped = SubResource( 2 )
 anims/walk_up = SubResource( 4 )
 blend_times = [  ]
 
-[node name="shout_maker" parent="." index="5" instance=ExtResource( 4 )]
+[node name="shout_maker" parent="." index="5" instance=ExtResource( 5 )]
 
 position = Vector2( 4.22842, -81.878 )
 

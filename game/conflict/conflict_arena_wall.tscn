@@ -7,7 +7,7 @@
 custom_solver_bias = 0.0
 extents = Vector2( 10, 200 )
 
-[node name="conflict_arena_wall" type="StaticBody2D" index="0"]
+[node name="conflict_arena_wall" type="StaticBody2D"]
 
 input_pickable = false
 collision_layer = 0

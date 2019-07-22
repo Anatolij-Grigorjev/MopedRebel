@@ -54,7 +54,8 @@ func _physics_process(delta):
 			LOG.info("new citizen collision: %s", [collision])
 			if (collider.has_node('conflict_collision_receiver')):
 				_use_collider_collision_receiver(collision)
-			start_conflict(collision.collider)
+			if (not is_in_conflict):
+				start_conflict(collision.collider)
 
 func _use_collider_collision_receiver(collision):
 	var collider = collision.collider
