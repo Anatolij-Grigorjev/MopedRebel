@@ -42,8 +42,6 @@ func _physics_process(delta):
 		#outside of conflict allow mounting moped
 			if Input.is_action_just_released('mount_moped'):
 				play_nointerrupt_anim('mount_moped')
-			
-		
 	
 	var collision = move_and_collide(velocity * delta)
 	if (collision):

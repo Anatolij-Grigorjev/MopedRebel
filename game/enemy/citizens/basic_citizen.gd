@@ -121,7 +121,12 @@ func _on_collision_with_rebel(collision_obj):
 		_finish_conflict_leave()
 	else:
 		should_move = false
+		_connect_rebel_attacks()
 		$anim.play('pre_conflict')
+
+func _connect_rebel_attacks():
+	
+	pass
 		
 func move_to_conflict_position(position_delta):
 	var conflict_start_position = global_position + position_delta
@@ -133,3 +138,6 @@ func move_to_conflict_position(position_delta):
 	)
 	LOG.info("moving from %s to %s in %s seconds for conflict!", [global_position, conflict_start_position, move_time])
 	$position_shift.start()
+	
+func receive_hit(attack_node, this_node):
+	pass
