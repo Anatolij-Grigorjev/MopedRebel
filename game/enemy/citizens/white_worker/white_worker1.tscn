@@ -183,7 +183,7 @@ tracks/5/keys = {
 } ]
 }
 
-[node name="white_worker1" type="KinematicBody2D" index="0" groups=[
+[node name="white_worker1" type="KinematicBody2D" groups=[
 "sidewalk_citizens",
 "enemy",
 ]]

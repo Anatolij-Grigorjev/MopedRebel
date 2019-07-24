@@ -135,7 +135,7 @@ tracks/2/keys = {
 custom_solver_bias = 0.0
 extents = Vector2( 15, 6 )
 
-[node name="rebel_on_foot" type="KinematicBody2D" index="0"]
+[node name="rebel_on_foot" type="KinematicBody2D"]
 
 input_pickable = false
 collision_layer = 72
@@ -214,10 +214,12 @@ gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+collision_layer = 72
+collision_mask = 128
 audio_bus_override = false
 audio_bus_name = "Master"
 script = ExtResource( 6 )
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Collision", "Transform" ]
 
 [node name="body" type="CollisionShape2D" parent="attack_bodies/slap1" index="0"]
 

@@ -7,6 +7,7 @@ var Logger = preload("res://globals/logger.gd")
 var LOG
 
 var rest_enemies_cache = []
+var conflict_enemies = []
 var current_arena
 
 func _ready():
@@ -22,6 +23,7 @@ func rebel_started_conflict_with(enemy_node):
 		)
 	
 	var current_rebel = G.node_active_rebel
+	conflict_enemies.append(enemy_node)
 	#create arena instance
 	var arena = ConflictArena.instance()
 	#place at conflict position
@@ -50,6 +52,7 @@ func end_active_conflict():
 	current_arena.queue_free()
 	current_arena = null
 	_restore_cached_enemies()
+	G.node_active_rebel.end_conflict()
 	
 func _restore_cached_enemies():
 	for cached_node_info in rest_enemies_cache:
@@ -59,5 +62,18 @@ func _restore_cached_enemies():
 		parent.add_child(node)
 		node.global_position = cached_position
 	rest_enemies_cache.clear()
+	
+func connect_rebel_attacks_to(enemy_node, receiver_name):
+	var current_rebel = G.node_active_rebel
+	#connect on foot rebel attacks
+	if (current_rebel == G.node_rebel_on_foot):
+		var attacks_node = current_rebel.get_node('attack_bodies')
+		for attack_node in attacks_node.get_children():
+			attack_node.connect("hit_enemy", enemy_node, receiver_name)
+			
+func remove_enemy_from_conflict(enemy_node):
+	conflict_enemies.erase(enemy_node)
+	if (conflict_enemies.empty()):
+		end_active_conflict()
 	
 	

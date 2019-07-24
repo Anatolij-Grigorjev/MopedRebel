@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+signal enemy_died(node)
+
 var Logger = preload("res://globals/logger.gd")
 var LOG
 
@@ -121,23 +123,32 @@ func _on_collision_with_rebel(collision_obj):
 		_finish_conflict_leave()
 	else:
 		should_move = false
-		_connect_rebel_attacks()
+		VS.connect_rebel_attacks_to(self, "receive_hit")
+		connect("enemy_died", VS, "remove_enemy_from_conflict")
 		$anim.play('pre_conflict')
-
-func _connect_rebel_attacks():
-	
-	pass
 		
 func move_to_conflict_position(position_delta):
 	var conflict_start_position = global_position + position_delta
 	var move_time = $anim.current_animation_length - $anim.current_animation_position
+	_start_interpolate_position(conflict_start_position, move_time)
+	
+func _start_interpolate_position(new_position, move_time):
 	$position_shift.interpolate_property(
 		self, 'global_position', #property location
-		global_position, conflict_start_position, #from-to values
+		global_position, new_position, #from-to values
 		move_time, Tween.TRANS_EXPO, Tween.EASE_OUT #transition props: duration/algo
 	)
-	LOG.info("moving from %s to %s in %s seconds for conflict!", [global_position, conflict_start_position, move_time])
+	LOG.info("moving from %s to %s in %s seconds!", [global_position, new_position, move_time])
 	$position_shift.start()
 	
 func receive_hit(attack_node, this_node):
+	var new_position = global_position + Vector2(50, -50)
+	_start_interpolate_position(new_position, 0.5)
+	$position_shift.connect("tween_completed", self, "finish_enemy")
 	pass
+	
+func finish_enemy(node, key_path):
+	should_move = false
+	$anim.play("post_conflict")
+	set_physics_process(false)
+	emit_signal("enemy_died", self)
