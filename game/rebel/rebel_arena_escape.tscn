@@ -14,8 +14,8 @@ gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-collision_layer = 344
-collision_mask = 0
+collision_layer = 0
+collision_mask = 512
 audio_bus_override = false
 audio_bus_name = "Master"
 script = ExtResource( 1 )
@@ -32,5 +32,9 @@ process_mode = 1
 wait_time = 1.0
 one_shot = true
 autostart = false
+
+[connection signal="body_entered" from="." to="." method="_start_touch_arena_wall"]
+
+[connection signal="body_exited" from="." to="." method="_stop_touch_arena_wall"]
 
 

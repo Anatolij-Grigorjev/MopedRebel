@@ -67,6 +67,7 @@ func _count_dissing_tally():
 	
 	if (total_gained_sc > 0):
 		var new_tally = TallyText.instance()
+		new_tally.text_type = TallyText.INFO_TYPE.POSITIVE
 		var diss_zone_extents = $shape.shape.extents
 		new_tally.rect_global_position = global_position + Vector2(15, -diss_zone_extents.y)
 		new_tally.text = "+%d SC" % total_gained_sc

@@ -2,7 +2,7 @@
 
 [ext_resource path="res://common/tally_text.gd" type="Script" id=1]
 
-[node name="tally_text" type="Label"]
+[node name="tally_text" type="Label" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -28,6 +28,7 @@ lines_skipped = 0
 max_lines_visible = -1
 script = ExtResource( 1 )
 _sections_unfolded = [ "Rect", "custom_colors" ]
+text_type = null
 
 [node name="text_anim" type="Tween" parent="." index="0"]
 

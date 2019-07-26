@@ -3,6 +3,7 @@ extends Node
 const NODE_NAME = 'VS'
 
 var ConflictArena = preload("res://conflict/conflict_arena.tscn")
+var RebelArenaEscape = preload("res://rebel/rebel_arena_escape.tscn")
 var Logger = preload("res://globals/logger.gd")
 var LOG
 
@@ -34,6 +35,15 @@ func rebel_started_conflict_with(enemy_node):
 	var rest_stage_enemies = get_tree().get_nodes_in_group(C.GROUP_ENEMY)
 	rest_stage_enemies.erase(enemy_node)
 	_cache_enemies(rest_stage_enemies)
+	#attach arena escape node to rebel
+	var rebel_arena_escape = RebelArenaEscape.instance()
+	rebel_arena_escape.delivery_time_penalty = (
+		enemy_node.get_node('type_props').escape_delay_sec)
+	current_rebel.add_child(rebel_arena_escape)
+	rebel_arena_escape.connect("rebel_escaped", current_rebel, "escaped_conflict")
+	for wall in arena.get_children():
+		rebel_arena_escape.connect("rebel_start_escape", wall, "_rebel_start_escape")
+		rebel_arena_escape.connect("rebel_stop_escape", wall, "_rebel_stop_escape")
 	
 func _cache_enemies(enemies_list):
 	#save data for re-insertion after conflict done

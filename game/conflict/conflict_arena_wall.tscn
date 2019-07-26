@@ -7,10 +7,10 @@
 custom_solver_bias = 0.0
 extents = Vector2( 10, 200 )
 
-[node name="conflict_arena_wall" type="StaticBody2D"]
+[node name="conflict_arena_wall" type="StaticBody2D" index="0"]
 
 input_pickable = false
-collision_layer = 0
+collision_layer = 512
 collision_mask = 504
 constant_linear_velocity = Vector2( 0, 0 )
 constant_angular_velocity = 0.0
@@ -19,11 +19,21 @@ bounce = 0.0
 script = ExtResource( 1 )
 _sections_unfolded = [ "Collision", "Transform", "Visibility" ]
 fadein_start_distance = 250
+fadein_done_distance = 50
 
 [node name="body" type="CollisionShape2D" parent="." index="0"]
 
 modulate = Color( 0.120209, 0.0535954, 0.90625, 1 )
 shape = SubResource( 1 )
 _sections_unfolded = [ "Visibility" ]
+
+[node name="escape_color_modulate" type="Tween" parent="." index="1"]
+
+repeat = false
+playback_process_mode = 1
+playback_speed = 1.0
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
 
 

@@ -9,6 +9,8 @@ signal started_conflict_with(enemy_node)
 var Logger = preload("res://globals/logger.gd")
 var LOG
 
+var TallyText = preload("res://common/tally_text.tscn")
+
 var low_position
 var camera
 var active_sprite
