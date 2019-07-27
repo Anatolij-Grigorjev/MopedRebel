@@ -72,10 +72,12 @@ func end_conflict():
 	
 func escaped_conflict(escape_penalty):
 	var penalty_tally_text = TallyText.instance()
-	penalty_tally_text.info_type = TallyText.INFO_TYPE.NEGATIVE
+	penalty_tally_text.text_type = C.INFO_TYPE.NEGATIVE
+	penalty_tally_text.air_time = 2.0
 	penalty_tally_text.text = "-%s sec." % escape_penalty
-	#TODO: sprite extents
+	#TODO: sprite extents insteado f hardcoded distance
 	penalty_tally_text.rect_global_position = global_position + Vector2(50, -50)
 	G.node_current_stage_root.add_child(penalty_tally_text)
+	emit_signal("escaped_conflict")
 	pass
 

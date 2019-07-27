@@ -11,7 +11,7 @@
 custom_solver_bias = 0.0
 extents = Vector2( 62, 12 )
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=2]
 
 resource_name = "crash_obstacle"
 length = 0.6
@@ -54,9 +54,8 @@ tracks/2/keys = {
 "values": [ Vector2( 0.45, 0.45 ), Vector2( 0.2, 0.45 ), Vector2( 0.45, 0.45 ) ]
 }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=3]
 
-resource_name = "crash_transport"
 length = 1.5
 loop = false
 step = 0.1
@@ -121,9 +120,8 @@ tracks/4/keys = {
 "values": [ Vector2( 0.4, 0.4 ), Vector2( 0.2, 0.2 ), Vector2( 0.4, 0.4 ) ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=4]
 
-resource_name = "flip_moped"
 length = 0.6
 loop = false
 step = 0.1
@@ -154,7 +152,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=5]
 
 resource_name = "moped_jump_curb"
 length = 1.5
@@ -223,9 +221,8 @@ tracks/4/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=6]
 
-resource_name = "moped_swerve_down"
 length = 0.25
 loop = false
 step = 0.05
@@ -278,7 +275,7 @@ tracks/3/keys = {
 "values": [ Vector2( 0.4, 0.4 ), Vector2( 0.3, 0.3 ) ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=7]
 
 resource_name = "moped_swerve_down_grinding"
 length = 0.2
@@ -333,9 +330,8 @@ tracks/3/keys = {
 "values": [ Vector2( 0.3, 0.3 ) ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=8]
 
-resource_name = "moped_swerve_up"
 length = 0.25
 loop = false
 step = 0.05
@@ -443,7 +439,7 @@ tracks/3/keys = {
 "values": [ Vector2( 0.3, 0.3 ) ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=10]
 
 length = 1.0
 loop = false
@@ -533,7 +529,7 @@ drag_margin_bottom = 0.2
 editor_draw_screen = true
 editor_draw_limits = false
 editor_draw_drag_margin = false
-_sections_unfolded = [ "Limit" ]
+_sections_unfolded = [ "Drag Margin", "Editor", "Limit" ]
 
 [node name="diss_positions" parent="." index="3" instance=ExtResource( 3 )]
 
@@ -555,15 +551,15 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/crash_obstacle = SubResource( 10 )
-anims/crash_transport = SubResource( 2 )
-anims/flip_moped = SubResource( 3 )
-anims/moped_jump_curb = SubResource( 7 )
-anims/moped_swerve_down = SubResource( 4 )
-anims/moped_swerve_down_grinding = SubResource( 8 )
-anims/moped_swerve_up = SubResource( 5 )
+anims/crash_obstacle = SubResource( 2 )
+anims/crash_transport = SubResource( 3 )
+anims/flip_moped = SubResource( 4 )
+anims/moped_jump_curb = SubResource( 5 )
+anims/moped_swerve_down = SubResource( 6 )
+anims/moped_swerve_down_grinding = SubResource( 7 )
+anims/moped_swerve_up = SubResource( 8 )
 anims/moped_swerve_up_grinding = SubResource( 9 )
-anims/unmount_moped = SubResource( 6 )
+anims/unmount_moped = SubResource( 10 )
 blend_times = [  ]
 
 [node name="dropshadow" parent="." index="6" instance=ExtResource( 4 )]

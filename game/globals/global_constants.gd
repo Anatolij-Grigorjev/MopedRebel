@@ -1,5 +1,10 @@
 extends Node
 
+const COLOR_MASK_R = int(pow(2, 24))
+const COLOR_MASK_G = int(pow(2, 16))
+const COLOR_MASK_B = int(pow(2, 8))
+const COLOR_MASK_A = int(pow(2, 1))
+
 ## GAME
 enum FACING {
 	RIGHT = 1,
@@ -23,6 +28,11 @@ enum LOG_LEVELS {
 	INFO = 1,
 	WARN = 2,
 	ERROR = 3
+}
+enum INFO_TYPE {
+	NEGATIVE = 255 * COLOR_MASK_R,
+	INFO = 255 * COLOR_MASK_B,
+	POSITIVE = 255 * COLOR_MASK_G
 }
 const Z_COEF = sin(deg2rad(45))
 const GRAVITY = 98.5

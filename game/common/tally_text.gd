@@ -1,22 +1,12 @@
 extends Label
 
-enum INFO_TYPE {
-	NEGATIVE = -1,
-	INFO = 0,
-	POSITIVE = 1
-}
-
-export(INFO_TYPE) var text_type = INFO
-
-var color_by_type = {
-	INFO_TYPE.NEGATIVE: Color(1.0, 0.0, 0.0),
-	INFO_TYPE.INFO: Color(0.0, 1.0, 0.0),
-	INFO_TYPE.POSITIVE: Color(0.0, 0.0, 1.0)
-}
+var text_type = C.INFO_TYPE.INFO
+var air_time
 
 func _ready():
 	
-	add_color_override("font_color", color_by_type[text_type])
+	var info_color = Color(text_type)
+	add_color_override("font_color", info_color)
 	
 	$text_anim.interpolate_property(self, 
 		'rect_scale', 
@@ -35,6 +25,7 @@ func _ready():
 		Tween.EASE_OUT,
 		0.05
 	)
-	
-	F.invoke_later(self, 'queue_free', 0.1 + $text_anim.get_runtime())
+	if (not air_time):
+		air_time = 0.1 + $text_anim.get_runtime()
+	F.invoke_later(self, 'queue_free', air_time)
 	$text_anim.start()

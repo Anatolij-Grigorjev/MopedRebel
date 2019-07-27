@@ -19,10 +19,12 @@ func _ready():
 		G.node_active_rebel = G.node_rebel_on_foot
 		G.node_rebel_on_moped.disable()
 		F.set_active_rebel_state(C.REBEL_STATES.ON_MOPED)
+		G.node_rebel_on_moped.enable()
 	elif (initial_rebel_state == REBEL_STATE.ON_FOOT):
 		G.node_active_rebel = G.node_rebel_on_foot
 		G.node_rebel_on_moped.disable()
 		F.set_active_rebel_state(C.REBEL_STATES.ON_FOOT)
+		G.node_rebel_on_foot.get_node('camera').make_current()
 	else:
 		LOG.error("Unknown initial rebel state %s!", [initial_rebel_state])
 	

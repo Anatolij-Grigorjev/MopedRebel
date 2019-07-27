@@ -135,7 +135,7 @@ tracks/2/keys = {
 custom_solver_bias = 0.0
 extents = Vector2( 15, 6 )
 
-[node name="rebel_on_foot" type="KinematicBody2D" index="0"]
+[node name="rebel_on_foot" type="KinematicBody2D"]
 
 input_pickable = false
 collision_layer = 72
@@ -157,7 +157,7 @@ _sections_unfolded = [ "Animation", "Region", "Transform" ]
 
 anchor_mode = 1
 rotating = false
-current = true
+current = false
 zoom = Vector2( 1, 1 )
 limit_left = 0
 limit_top = 0
@@ -175,9 +175,9 @@ drag_margin_top = 0.2
 drag_margin_right = 0.2
 drag_margin_bottom = 0.2
 editor_draw_screen = true
-editor_draw_limits = true
-editor_draw_drag_margin = true
-_sections_unfolded = [ "Editor", "Limit" ]
+editor_draw_limits = false
+editor_draw_drag_margin = false
+_sections_unfolded = [ "Editor", "Limit", "Offset" ]
 
 [node name="diss_positions" parent="." index="2" instance=ExtResource( 3 )]
 
@@ -204,6 +204,8 @@ blend_times = [  ]
 position = Vector2( 4.22842, -81.878 )
 
 [node name="attack_bodies" type="Node2D" parent="." index="6"]
+
+editor/display_folded = true
 
 [node name="slap1" type="Area2D" parent="attack_bodies" index="0"]
 

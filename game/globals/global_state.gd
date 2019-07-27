@@ -8,12 +8,11 @@ var LOG
 ###GENERAL REBEL STATE###
 var rebel_total_street_cred = 50
 var rebel_total_money = 200.7
-var rebel_current_stage_chunk_idx = 0
 ########
 ##FOOT##
 ########
 var node_rebel_on_foot 
-var foot_config_walk_speed = 50
+var foot_config_walk_speed = 150
 
 #########
 ##MOPED##

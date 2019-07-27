@@ -43,11 +43,9 @@ func _process(delta):
 				move_destination = null
 
 	
-func _finish_conflict_leave():
-	should_move = false
+func finish_diss_leave():
 	diss_receiver.finish_being_dissed()
-	$anim.play("post_conflict")
-	set_physics_process(false)
+	leave()
 
 func _start_diss_response():
 	$check_rebel_direction_timer.start()
@@ -120,10 +118,11 @@ func get_current_rebel_diss_gain():
 
 func _on_collision_with_rebel(collision_obj):
 	if (F.is_rebel_cooler_than(self)):
-		_finish_conflict_leave()
+		finish_diss_leave()
 	else:
 		should_move = false
 		VS.connect_rebel_attacks_to(self, "receive_hit")
+		G.node_active_rebel.connect("escaped_conflict", self, "leave")
 		connect("enemy_died", VS, "remove_enemy_from_conflict")
 		$anim.play('pre_conflict')
 		
@@ -144,11 +143,16 @@ func _start_interpolate_position(new_position, move_time):
 func receive_hit(attack_node, this_node):
 	var new_position = global_position + Vector2(50, -50)
 	_start_interpolate_position(new_position, 0.5)
-	$position_shift.connect("tween_completed", self, "finish_enemy")
+	#wait for hit boucne to finish
+	yield($position_shift, "tween_completed")
+	finish_conflict_leave()
 	pass
 	
-func finish_enemy(node, key_path):
+func finish_conflict_leave():
+	emit_signal("enemy_died", self)
+	leave()
+	
+func leave():
 	should_move = false
 	$anim.play("post_conflict")
 	set_physics_process(false)
-	emit_signal("enemy_died", self)
