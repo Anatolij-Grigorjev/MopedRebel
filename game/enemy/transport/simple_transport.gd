@@ -122,8 +122,10 @@ func _on_collision_with_rebel(collision_obj):
 	if (F.is_rebel_cooler_than(self)):
 		diss_receiver.shutdown_receiver()
 		velocity_tween.stop_all()
-		$anim.play("crash")
 		set_physics_process(false)
+		$anim.play("crash")
+		yield($anim, "animation_finished")
+		queue_free()
 	else:
 		var animation_name = "crash_light"
 		var anim_length = $anim.get_animation(animation_name).length

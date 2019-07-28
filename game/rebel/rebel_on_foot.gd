@@ -41,7 +41,18 @@ func _physics_process(delta):
 		else:	
 		#outside of conflict allow mounting moped
 			if Input.is_action_just_released('mount_moped'):
+				#TODO: needs to be anim with taking moped through street
 				play_nointerrupt_anim('mount_moped')
+				
+				yield($anim, "animation_finished")
+				emit_signal("finish_mount_moped", C.MOPED_GROUND_TYPES.ROAD)
+			if Input.is_action_just_released('mount_in_place'):
+				#TODO: mount moped in place
+				play_nointerrupt_anim('mount_moped')
+				
+				yield($anim, "animation_finished")
+				emit_signal("finish_mount_moped", C.MOPED_GROUND_TYPES.SIDEWALK)
+				
 	
 	var collision = move_and_collide(velocity * delta)
 	if (collision):
@@ -59,9 +70,6 @@ func _use_collider_collision_receiver(collision):
 	var collider = collision.collider
 	var collision_receiver = collider.conflict_collision_receiver
 	collision_receiver.react_collision(collision)
-	
-func _finish_mount_moped():
-	emit_signal("finish_mount_moped")
 	
 func start_conflict(enemy_node):
 	is_in_conflict = true

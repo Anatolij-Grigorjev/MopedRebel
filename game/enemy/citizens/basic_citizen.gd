@@ -120,11 +120,17 @@ func _on_collision_with_rebel(collision_obj):
 	if (F.is_rebel_cooler_than(self)):
 		finish_diss_leave()
 	else:
-		should_move = false
-		VS.connect_rebel_attacks_to(self, "receive_hit")
-		G.node_active_rebel.connect("escaped_conflict", self, "leave")
-		connect("enemy_died", VS, "remove_enemy_from_conflict")
-		$anim.play('pre_conflict')
+		_prepare_conflict()
+
+func _prepare_conflict():
+	should_move = false
+	VS.connect_rebel_attacks_to(self, "receive_hit")
+	G.node_active_rebel.connect("escaped_conflict", self, "leave")
+	connect("enemy_died", VS, "remove_enemy_from_conflict")
+	$moped_detect_area.queue_free()
+	$anim.play('pre_conflict')
+	yield($anim, "animation_finished")
+	$diss_receiver.queue_free()
 		
 func move_to_conflict_position(position_delta):
 	var conflict_start_position = global_position + position_delta
@@ -154,5 +160,7 @@ func finish_conflict_leave():
 	
 func leave():
 	should_move = false
-	$anim.play("post_conflict")
 	set_physics_process(false)
+	$anim.play("post_conflict")
+	yield($anim, "animation_finished")
+	queue_free()

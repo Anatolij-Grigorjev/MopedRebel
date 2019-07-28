@@ -285,7 +285,9 @@ func get_facing_for_velocity(velocity):
 		return sign(velocity.x)
 	else: 
 		return sign(velocity)
-		
+
+#add facing postfix (_left or _right) for a given string
+#for creating disparate animations
 func add_facing_to_string(facing, prefix_string):
 	var result = prefix_string
 	if (facing == C.FACING.RIGHT):
@@ -294,6 +296,8 @@ func add_facing_to_string(facing, prefix_string):
 		result += "_left"
 	return result
 	
+#prase text file that contains a valid JSON array or object
+#into a var and return the parsed data structure
 func parse_json_file_as_var(filepath):
 	#also sanity-checks string internally
 	assert_file_exists(filepath)
@@ -331,8 +335,8 @@ func get_node_name_id(node):
 	#dont return closing brace in form
 	return id_half.substr(0, id_half.length() - 1)
 	
-#log formatted with timestamp, avoid using directly since 
-#logger.gd is a thing!
+#log formatted with timestamp
+#Logger instances should be with every script
 func logf(format, args_list = []):
 	var log_statement = format % args_list
 	#print log date in utc

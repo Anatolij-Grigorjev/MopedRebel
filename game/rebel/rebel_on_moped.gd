@@ -37,9 +37,18 @@ func _ready():
 	G.track_action_press_release('accelerate_left')
 	reset_velocity()
 	
-func _finish_mount_moped():
+func _finish_mount_moped(moped_ground_type):
 	F.set_active_rebel_state(C.REBEL_STATES.ON_MOPED)
 	global_position.x = G.node_rebel_on_foot.global_position.x
+	match(moped_ground_type):
+		C.MOPED_GROUND_TYPES.ROAD:
+			pass
+		C.MOPED_GROUND_TYPES.SIDEWALK:
+			global_position.y = G.node_rebel_on_foot.global_position.y
+			pass
+		_: LOG.error("unsupported type of surface for moped %s", [moped_ground_type])
+	self.moped_ground_type = moped_ground_type
+	_set_moped_ground_layers()
 	
 func reduce_velocity(factor):
 	current_speed = clamp(current_speed * factor, G.moped_config_min_speed, G.moped_config_max_speed)
@@ -130,6 +139,11 @@ func _physics_process(delta):
 					var animation_length = anim.get_animation(animation_name).length
 					play_nointerrupt_anim(animation_name)
 					_start_new_swerve_tween(0, animation_length * swerve_length_coef)
+					yield($anim, "animation_finished")
+					match(animation_name):
+						"unmount_moped": _finish_unmounting()
+						"moped_jump_curb": _finish_jumping()
+						_: pass
 			elif (collider.is_in_group(C.GROUP_BENCHES)):
 				if (abs(collision.normal.x) > 0.4):
 					LOG.info("collision bench: %s", [collision.normal])
@@ -276,15 +290,16 @@ func _handle_facing_direction():
 	var double_tap_direction = (Input.is_action_pressed(brake_action) 
 		and G.PRESSED_ACTIONS_TRACKER[brake_action].last_released_time < C.DOUBLE_TAP_LIMIT)
 	
-	var relevant_anim = "flip_moped"
+	var flip_moped_anim_name = "flip_moped"
 	
 	if (
 		(double_tap_direction 
 		or Input.is_action_just_released('turn_around'))
-		and _not_playing_anim(relevant_anim)
+		and _not_playing_anim(flip_moped_anim_name)
 	):
-		reset_velocity()
-		play_nointerrupt_anim(relevant_anim)
+		play_nointerrupt_anim(flip_moped_anim_name)
+		yield($anim, "animation_finished")
+		_turn_around_moped()
 		
 func _not_playing_anim(animation_name):
 	return (not anim.is_playing() 
@@ -304,7 +319,6 @@ func _turn_around_moped():
 		"POST facing: %s, scale: %s, sprite scale: %s", 
 		[facing_direction, scale.x, active_sprite.scale.x])
 	emit_signal("changed_facing", facing_direction)	
-	
 	reset_velocity()
 
 func _handle_swerve_control():
